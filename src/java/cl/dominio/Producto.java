@@ -6,7 +6,6 @@
 package cl.dominio;
 
 import java.io.Serializable;
-import java.sql.Blob;
 
 /**
  *
@@ -17,16 +16,14 @@ public class Producto implements Serializable{
     private String descripcion;
     private String modelo;
     private int stock;
-    private Blob imagen;
     private int idCategoria;
     private int idMarca;
 
-    public Producto(int idProducto, String descripcion, String modelo, int stock, Blob imagen, int idCategoria, int idMarca) {
+    public Producto(int idProducto, String descripcion, String modelo, int stock, int idCategoria, int idMarca) {
         this.idProducto = idProducto;
         this.descripcion = descripcion;
         this.modelo = modelo;
         this.stock = stock;
-        this.imagen = imagen;
         this.idCategoria = idCategoria;
         this.idMarca = idMarca;
     }
@@ -64,14 +61,6 @@ public class Producto implements Serializable{
 
     public void setStock(int stock) {
         this.stock = stock;
-    }
-
-    public Blob getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Blob imagen) {
-        this.imagen = imagen;
     }
 
     public int getIdCategoria() {
