@@ -13,5 +13,8 @@
     </head>
     <body>
         <h1>Hello World!</h1>
+        <form name="upload" action="index.jsp" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" value="" width="20" />
+        </form>
     </body>
 </html>

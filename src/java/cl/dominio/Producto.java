@@ -5,13 +5,14 @@
  */
 package cl.dominio;
 
+import java.io.Serializable;
 import java.sql.Blob;
 
 /**
  *
  * @author cristian
  */
-public class Producto {
+public class Producto implements Serializable{
     private int idProducto;
     private String descripcion;
     private String modelo;

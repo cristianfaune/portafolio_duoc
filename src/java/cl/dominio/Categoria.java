@@ -5,11 +5,13 @@
  */
 package cl.dominio;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cristian
  */
-public class Categoria {
+public class Categoria implements Serializable{
     private int idCategoria;
     private String descripcion;
 

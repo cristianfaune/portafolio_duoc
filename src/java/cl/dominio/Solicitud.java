@@ -5,13 +5,14 @@
  */
 package cl.dominio;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  *
  * @author cristian
  */
-public class Solicitud {
+public class Solicitud implements Serializable{
     private int idSolicitud;
     private Timestamp fechaSolicitud;
     private byte activa = 1;

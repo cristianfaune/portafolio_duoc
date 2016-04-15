@@ -14,7 +14,12 @@ and open the template in the editor.
 }
 
 #logo{
-    width: 20%;
-    height: 40%;
+    width: 15%;
+    height: 30%;
+}
+
+#p {
+    font-family: Roboto;
+    font-size: medium;
 }
 

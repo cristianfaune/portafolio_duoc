@@ -5,13 +5,14 @@
  */
 package cl.dominio;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author cristian
  */
-public class Usuario {
+public class Usuario implements Serializable{
     private String rut;
     private String nombres;
     private String apellidos;

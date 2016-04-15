@@ -5,11 +5,13 @@
  */
 package cl.dominio;
 
+import java.io.Serializable;
+
 /**
  *
  * @author cristian
  */
-public class Perfil {
+public class Perfil implements Serializable{
     private int idPerfil;
     private String descripcion;
 
