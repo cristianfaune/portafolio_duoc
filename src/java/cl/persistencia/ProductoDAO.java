@@ -28,7 +28,7 @@ public class ProductoDAO {
         ArrayList<Producto> lista = new ArrayList<>();
         Producto producto;
 
-        String sql = "select * from Producto";
+        String sql = "select * from producto";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql);
                 ResultSet rs = pstmt.executeQuery();) {
@@ -37,9 +37,11 @@ public class ProductoDAO {
                 producto = new Producto();
 
                 producto.setIdProducto(rs.getInt("idProducto"));
-                producto.setDescripcion(rs.getString("descripcion"));
+                producto.setNombre(rs.getString("nombre"));
                 producto.setModelo(rs.getString("modelo"));
+                producto.setDescripcion(rs.getString("descripcion"));
                 producto.setStock(rs.getInt("stock"));
+                producto.setRutaImagen(rs.getString("rutaImagen"));
                 producto.setIdCategoria(rs.getInt("idCategoria"));
                 producto.setIdMarca(rs.getInt("idMarca"));
 
@@ -47,9 +49,10 @@ public class ProductoDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error en la búsqueda de todos los procedimientos", e);
+            throw new RuntimeException("Error en la búsqueda de todos los productos", e);
         }
 
         return lista;
     }
+        
 }

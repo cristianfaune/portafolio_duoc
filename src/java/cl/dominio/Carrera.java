@@ -11,26 +11,24 @@ import java.io.Serializable;
  *
  * @author cristian
  */
-public class Marca implements Serializable{
-    private int idMarca;
+public class Carrera implements Serializable{
+    private int idCarrera;
     private String descripcion;
-    private int idCategoria;
 
-    public Marca(int idMarca, String descripcion, int idCategoria) {
-        this.idMarca = idMarca;
+    public Carrera(int idCarrera, String descripcion) {
+        this.idCarrera = idCarrera;
         this.descripcion = descripcion;
-        this.idCategoria = idCategoria;
     }
 
-    public Marca() {
+    public Carrera() {
     }
 
-    public int getIdMarca() {
-        return idMarca;
+    public int getIdCarrera() {
+        return idCarrera;
     }
 
-    public void setIdMarca(int idMarca) {
-        this.idMarca = idMarca;
+    public void setIdCarrera(int idCarrera) {
+        this.idCarrera = idCarrera;
     }
 
     public String getDescripcion() {
@@ -41,19 +39,10 @@ public class Marca implements Serializable{
         this.descripcion = descripcion;
     }
 
-    
-    public int getIdCategoria() {
-        return idCategoria;
-    }
-
-    public void setIdCategoria(int idCategoria) {
-        this.idCategoria = idCategoria;
-    }
-    
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + this.idMarca;
+        hash = 23 * hash + this.idCarrera;
         return hash;
     }
 
@@ -68,11 +57,12 @@ public class Marca implements Serializable{
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Marca other = (Marca) obj;
-        if (this.idMarca != other.idMarca) {
+        final Carrera other = (Carrera) obj;
+        if (this.idCarrera != other.idCarrera) {
             return false;
         }
         return true;
     }
+    
     
 }

@@ -13,17 +13,21 @@ import java.io.Serializable;
  */
 public class Producto implements Serializable{
     private int idProducto;
+    private String nombre;
     private String descripcion;
     private String modelo;
     private int stock;
+    private String rutaImagen;
     private int idCategoria;
     private int idMarca;
 
-    public Producto(int idProducto, String descripcion, String modelo, int stock, int idCategoria, int idMarca) {
+    public Producto(int idProducto, String nombre, String descripcion, String modelo, int stock, String rutaImagen, int idCategoria, int idMarca) {
         this.idProducto = idProducto;
+        this.nombre = nombre;
         this.descripcion = descripcion;
         this.modelo = modelo;
         this.stock = stock;
+        this.rutaImagen = rutaImagen;
         this.idCategoria = idCategoria;
         this.idMarca = idMarca;
     }
@@ -37,6 +41,14 @@ public class Producto implements Serializable{
 
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
+    }
+    
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -61,6 +73,14 @@ public class Producto implements Serializable{
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+    
+    public String getRutaImagen() {
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public int getIdCategoria() {
@@ -102,7 +122,5 @@ public class Producto implements Serializable{
             return false;
         }
         return true;
-    }
-    
-    
+    }  
 }

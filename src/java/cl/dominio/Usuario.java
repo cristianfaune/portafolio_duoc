@@ -22,10 +22,10 @@ public class Usuario implements Serializable{
     private String email;
     private String password;
     private byte activo = 1;
-    private String carrera;
     private int idPerfil;
+    private int idCarrera;
 
-    public Usuario(String rut, String nombres, String apellidos, int telefono, int celular, String direccion, String email, String password, String carrera, int idPerfil) {
+    public Usuario(String rut, String nombres, String apellidos, int telefono, int celular, String direccion, String email, String password, int idPerfil, int idCarrera) {
         this.rut = rut;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -34,8 +34,8 @@ public class Usuario implements Serializable{
         this.direccion = direccion;
         this.email = email;
         this.password = password;
-        this.carrera = carrera;
         this.idPerfil = idPerfil;
+        this.idCarrera = idCarrera;
     }
 
     public Usuario() {
@@ -113,20 +113,21 @@ public class Usuario implements Serializable{
         this.activo = activo;
     }
 
-    public String getCarrera() {
-        return carrera;
-    }
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
-
     public int getIdPerfil() {
         return idPerfil;
     }
 
     public void setIdPerfil(int idPerfil) {
         this.idPerfil = idPerfil;
+    }
+    
+    
+    public int getIdCarrera() {
+        return idCarrera;
+    }
+
+    public void setIdCarrera(int idCarrera) {
+        this.idCarrera = idCarrera;
     }
 
     @Override

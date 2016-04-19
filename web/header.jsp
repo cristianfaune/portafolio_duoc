@@ -16,7 +16,6 @@
         <header id="header">
             <div id="logo">
                 <img src="imagenes/logoDuoc.png" width="300" height="110" alt="logoDuoc"/>
-                <p id="p">Sistema de administración pañol</p>
             </div>
         </header>
     </body>
