@@ -24,10 +24,10 @@
             <tbody>
                 <c:forEach var="dato" items="${lstProductos}">
                 <tr>
-                    <td><img src="${dato.rutaImagen}" width="100" height="80"></td>
-                    <td><c:out value="${dato.idProducto}"/></td>
-                    <td><c:out value="${dato.nombre}"/></td>
-                    <td><c:out value="${dato.stock}"/></td>
+                    <td><img src="${dato.producto.rutaImagen}" width="100" height="80"></td>
+                    <td><c:out value="${dato.producto.idProducto}"/></td>
+                    <td><c:out value="${dato.producto.nombre}"/></td>
+                    <td><c:out value="${dato.producto.stock}"/></td>
                     <td><a href="#">agregar item</td>
                     <td><a href="#">modificar</td>
                 </tr>

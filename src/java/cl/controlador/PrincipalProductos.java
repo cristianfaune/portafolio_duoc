@@ -44,17 +44,18 @@ public class PrincipalProductos extends HttpServlet {
         
 
                 try (Connection con = ds.getConnection()){
+            
             //Class.forName("oracle.jdbc.driver.OracleDriver");
             //Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "portafolio", "portafolio");
      
             Servicio servicio = new Servicio(con);
             
-            ArrayList<Producto> listaProductos = servicio.TodosLosProductos();
+            ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosConMarca();
             
             request.setAttribute("lstProductos", listaProductos);
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
-            }catch (Exception e) {
+            }catch (SQLException e) {
                     throw new RuntimeException("Error en la conexion bd", e);
         }
     }

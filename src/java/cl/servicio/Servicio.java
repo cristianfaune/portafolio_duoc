@@ -17,6 +17,7 @@ import java.util.ArrayList;
  * @author cristian
  */
 public class Servicio {
+
     ProductoDAO productoDAO;
     ConsultaDAO consultaDAO;
 
@@ -24,13 +25,13 @@ public class Servicio {
         productoDAO = new ProductoDAO(con);
         consultaDAO = new ConsultaDAO(con);
     }
-    
-        public ArrayList<Producto> TodosLosProductos() {
+
+    public ArrayList<Producto> TodosLosProductos() {
         return productoDAO.buscarTodosLosProductos();
     }
-        
-        public ArrayList<ProductoMarcaDTO> productosConMarca(){
+
+    public ArrayList<ProductoMarcaDTO> productosConMarca() {
         return consultaDAO.ProductosConMarca();
-        }
-        
+    }
+
 }

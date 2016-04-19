@@ -19,28 +19,19 @@ import java.util.ArrayList;
  * @author cristian
  */
 public class ConsultaDAO {
-    
-        Connection con;
-    
-        public ConsultaDAO(Connection con) {
+
+    Connection con;
+
+    public ConsultaDAO(Connection con) {
         this.con = con;
     }
-        
-        public ArrayList<ProductoMarcaDTO> ProductosConMarca() {
+
+    public ArrayList<ProductoMarcaDTO> ProductosConMarca() {
         ArrayList<ProductoMarcaDTO> lista = new ArrayList<>();
         Producto producto;
         Marca marca;
 
-        String sql = "SELECT p.IDPRODUCTO as idproducto,\n" +
-                     "p.NOMBRE as nombre,\n" +
-                     "p.modelo as modelo,\n" +
-                     "p.descripcion as productodescripcion,\n" +
-                     "p.stock as stock,\n" +
-                     "p.RUTAIMAGEN as rutaimagen,\n" +
-                     "p.IDCATEGORIA as productoidcategoria,\n" +
-                     "p.IDMARCA as productoidmarca,\n" +
-                     "m.DESCRIPCION as marcadescripcion\n" +
-                     "FROM producto p join marca m on p.IDMARCA = m.IDMARCA;";
+        String sql = "SELECT * FROM PRODUCTO p JOIN MARCA m ON p.IDMARCA = m.IDMARCA";
 
         try (PreparedStatement pstmt = con.prepareStatement(sql);
                 ResultSet rs = pstmt.executeQuery();) {
@@ -48,22 +39,22 @@ public class ConsultaDAO {
             while (rs.next()) {
                 producto = new Producto();
 
-                producto.setIdProducto(rs.getInt("idproducto"));
-                producto.setNombre(rs.getString("nombre"));
-                producto.setModelo(rs.getString("modelo"));
-                producto.setDescripcion(rs.getString("productodescripcion"));
-                producto.setStock(rs.getInt("stock"));
-                producto.setRutaImagen(rs.getString("rutaImagen"));
-                producto.setIdCategoria(rs.getInt("productoidcategoria"));
-                producto.setIdMarca(rs.getInt("productoidmarca"));
-                
-                marca = new Marca();
-                
-                marca.setIdMarca(rs.getInt("productoidmarca"));
-                marca.setDescripcion(rs.getString("marcadescripcion"));
-                marca.setIdCategoria(rs.getInt("productoidcategoria"));
+                producto.setIdProducto(rs.getInt("p.idProducto"));
+                producto.setNombre(rs.getString("p.nombre"));
+                producto.setModelo(rs.getString("p.modelo"));
+                producto.setDescripcion(rs.getString("p.descripcion"));
+                producto.setStock(rs.getInt("p.stock"));
+                producto.setRutaImagen(rs.getString("p.rutaImagen"));
+                producto.setIdCategoria(rs.getInt("p.idCategoria"));
+                producto.setIdMarca(rs.getInt("p.idMarca"));
 
-                lista.add(new ProductoMarcaDTO(producto,marca));
+                marca = new Marca();
+
+                marca.setIdMarca(rs.getInt("m.idMarca"));
+                marca.setDescripcion(rs.getString("m.descripcion"));
+                marca.setIdCategoria(rs.getInt("m.idCategoria"));
+
+                lista.add(new ProductoMarcaDTO(producto, marca));
             }
 
         } catch (SQLException e) {
@@ -72,5 +63,5 @@ public class ConsultaDAO {
 
         return lista;
     }
-    
+
 }
