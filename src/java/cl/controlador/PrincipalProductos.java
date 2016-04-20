@@ -6,7 +6,9 @@
 package cl.controlador;
 
 import cl.dominio.Producto;
+import cl.dominio.Usuario;
 import cl.dto.ProductoMarcaDTO;
+import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.recursos.ConexionOracle;
 import cl.servicio.Servicio;
 import java.io.IOException;
@@ -30,41 +32,36 @@ import javax.sql.DataSource;
  *
  * @author cristian
  */
-
 @WebServlet(name = "PrincipalProductos", urlPatterns = {"/PrincipalProductos"})
 public class PrincipalProductos extends HttpServlet {
-   
+
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
 
-                try (Connection con = ds.getConnection()){
-            
+        try (Connection con = ds.getConnection()) {
+
             //Class.forName("oracle.jdbc.driver.OracleDriver");
             //Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "portafolio", "portafolio");
-     
             Servicio servicio = new Servicio(con);
-            
-            ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosConMarca();
-            
+
+            ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
+
             request.setAttribute("lstProductos", listaProductos);
             request.getRequestDispatcher("index.jsp").forward(request, response);
 
-            }catch (SQLException e) {
-                    throw new RuntimeException("Error en la conexion bd", e);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la conexion bd", e);
         }
     }
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
-       
-    }
+
+}

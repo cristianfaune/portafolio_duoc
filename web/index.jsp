@@ -19,15 +19,17 @@
             <div class="row">
   <div class="col-md-3"></div>
   <div class="col-md-6">
-      <h1>Productos</h1>
+      <h3 class="text-center">Productos</h3>
       <table class="table">
             <tbody>
                 <c:forEach var="dato" items="${lstProductos}">
                 <tr>
-                    <td><img src="${dato.producto.rutaImagen}" width="100" height="80"></td>
+                    <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
                     <td><c:out value="${dato.producto.idProducto}"/></td>
                     <td><c:out value="${dato.producto.nombre}"/></td>
-                    <td><c:out value="${dato.producto.stock}"/></td>
+                    <td><c:out value="${dato.producto.modelo}"/></td>
+                    <td><c:out value="${dato.marca.descripcion}"/></td>
+                    <td><c:out value="${dato.producto.descripcion}"/></td>
                     <td><a href="#">agregar item</td>
                     <td><a href="#">modificar</td>
                 </tr>
