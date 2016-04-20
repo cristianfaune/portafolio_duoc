@@ -22,6 +22,16 @@
       <h3 class="text-center">Productos</h3>
       <table class="table">
             <tbody>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Id</th>
+                    <th>producto</th>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Descripción</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
                 <c:forEach var="dato" items="${lstProductos}">
                 <tr>
                     <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
@@ -30,6 +40,7 @@
                     <td><c:out value="${dato.producto.modelo}"/></td>
                     <td><c:out value="${dato.marca.descripcion}"/></td>
                     <td><c:out value="${dato.producto.descripcion}"/></td>
+                    <td><c:out value="${dato.producto.stock}"/></td>
                     <td><a href="#">agregar item</td>
                     <td><a href="#">modificar</td>
                 </tr>
