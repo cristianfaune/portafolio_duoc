@@ -33,7 +33,7 @@ import javax.sql.DataSource;
  * @author cristian
  */
 @WebServlet(name = "PrincipalProductos", urlPatterns = {"/PrincipalProductos"})
-public class PrincipalProductos extends HttpServlet {
+public class AdminProductosServlet extends HttpServlet {
 
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
@@ -51,7 +51,7 @@ public class PrincipalProductos extends HttpServlet {
             ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
 
             request.setAttribute("lstProductos", listaProductos);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("AdminProductos.jsp").forward(request, response);
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion bd", e);

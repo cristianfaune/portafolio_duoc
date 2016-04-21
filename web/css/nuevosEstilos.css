@@ -16,10 +16,19 @@ and open the template in the editor.
 #logo{
     width: 15%;
     height: 30%;
+    margin-left: 100px;
 }
 
 #p {
     font-family: Roboto;
     font-size: medium;
+}
+
+#fecha {
+    font-family: Roboto;
+    font-size: 15px;
+    margin-right: 30px;
+    margin-top: 2cm;
+    color: white;
 }
 
