@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -16,6 +17,8 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
+            <c:set var="now" value="<%=new java.util.Date()%>" />
+            <h6 class="text-right"><fmt:formatDate value="${now}" type="date"></fmt:formatDate></h6>
             <div class="row">
   <div class="col-md-3"></div>
   <div class="col-md-6">
