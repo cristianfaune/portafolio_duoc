@@ -13,6 +13,8 @@ import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -57,6 +59,8 @@ public class RegistroItemServlet extends HttpServlet {
 
         String nroSerie = request.getParameter("nroserie");
         int idProducto = parseInt(request.getParameter("idProducto"));
+        Map<String, String> mapMensaje = new HashMap<>();
+        String error;
         Item item = new Item();
         
         try (Connection con = ds.getConnection()){
@@ -65,7 +69,12 @@ public class RegistroItemServlet extends HttpServlet {
             
             try {
                 
-            item.setNroSerie(nroSerie);
+                if (!nroSerie.isEmpty()) {
+                    item.setNroSerie(nroSerie);
+                }else{
+                   mapMensaje.put("errorNroSerie", "Debe ingresar el Nro de serie"); 
+                }
+            
             item.setActivo((byte)1);
             item.setIdProducto(idProducto);
             
@@ -75,10 +84,14 @@ public class RegistroItemServlet extends HttpServlet {
                 throw new RuntimeException("Error registrar item", e);
             }
             
+            ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosPorId(idProducto);
+            request.setAttribute("mapMensaje", mapMensaje);
+            request.setAttribute("lstProductos", listaProductos);
+            request.getRequestDispatcher("RegistroItem.jsp").forward(request, response);
+            
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion bd", e);
         }
-
     }
 
 

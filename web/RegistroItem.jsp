@@ -22,7 +22,7 @@
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">
-                            <input class="form-control input-lg" type="number" name="nroserie"/>
+                            <input class="form-control input-lg" type="text" name="nroserie"/>
                         </div>
                         <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
                                             <table class="table">
