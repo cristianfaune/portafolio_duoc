@@ -51,4 +51,8 @@ public class Servicio {
     public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera(){
         return consultaDAO.usuarioPerfilCarrera();
     }
+    
+        public ArrayList<ProductoMarcaDTO> productosPorId(int idProducto) {
+        return consultaDAO.productosPorId(idProducto);
+    }
 }

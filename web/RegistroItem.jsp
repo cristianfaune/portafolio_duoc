@@ -25,7 +25,30 @@
                             <input class="form-control input-lg" type="text" name="nroserie"/>
                         </div>
                         <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
-                    </form>
+                                            <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Id</th>
+                                <th>producto</th>
+                                <th>Modelo</th>
+                                <th>Marca</th>
+                                <th>Descripción</th>
+                                <th>Stock</th>
+                            </tr>
+                            <c:forEach var="dato" items="${lstProductos}">
+                                <tr>
+                                    <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                    <td><c:out value="${dato.producto.idProducto}"/></td>
+                                    <td><c:out value="${dato.producto.nombre}"/></td>
+                                    <td><c:out value="${dato.producto.modelo}"/></td>
+                                    <td><c:out value="${dato.marca.descripcion}"/></td>
+                                    <td><c:out value="${dato.producto.descripcion}"/></td>
+                                    <td><c:out value="${dato.producto.stock}"/></td>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    </form>  
                 </div>
                 <div class="col-md-3"></div>
             </div>

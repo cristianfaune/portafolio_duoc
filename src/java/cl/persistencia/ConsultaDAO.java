@@ -72,7 +72,55 @@ public class ConsultaDAO {
             }
             
         } catch (SQLException e) {
-            throw new RuntimeException("Error en el procedimiento almacenado",e);
+            throw new RuntimeException("Error en el procedimiento producto marca",e);
+        }
+                return lista;
+    }
+    
+    public ArrayList<ProductoMarcaDTO> productosPorId(int idProducto) {
+        ArrayList<ProductoMarcaDTO> lista = new ArrayList<>();
+        Producto producto;
+        Marca marca;
+
+        String sql = "{call producto_por_id(?,?)}";
+
+        CallableStatement cs = null;      
+        
+        try {
+            
+            cs = con.prepareCall(sql);
+            
+            cs.setInt(1, idProducto);
+            
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+            
+            cs.executeQuery();
+            
+            ResultSet rs = (ResultSet)cs.getObject(2);
+            
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setModelo(rs.getString(3));
+                producto.setDescripcion(rs.getString(4));
+                producto.setStock(rs.getInt(5));
+                producto.setRutaImagen(rs.getString(6));
+                producto.setIdCategoria(rs.getInt(7));
+                producto.setIdMarca(rs.getInt(8));
+
+                marca = new Marca();
+
+                marca.setIdMarca(rs.getInt(9));
+                marca.setDescripcion(rs.getString(10));
+                marca.setIdCategoria(rs.getInt(11));
+
+                lista.add(new ProductoMarcaDTO(producto, marca));
+            }
+            
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento producto por ID",e);
         }
                 return lista;
     }

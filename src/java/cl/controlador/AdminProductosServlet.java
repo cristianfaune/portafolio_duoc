@@ -13,6 +13,7 @@ import cl.recursos.ConexionOracle;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -61,6 +62,7 @@ public class AdminProductosServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
 
     }
 
