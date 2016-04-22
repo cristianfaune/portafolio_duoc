@@ -15,6 +15,20 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
-        <h4 class="text-center">Registro Productos Inventario</h4>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h4 class="text-center">Registro Productos Inventario</h4>
+                    <form action="AdminProductos.jsp" method="post">
+                        <div class="col-xs-6">
+                            <input class="form-control input-lg" type="text" name="nroserie"/>
+                        </div>
+                        <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
     </body>
 </html>
