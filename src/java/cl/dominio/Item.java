@@ -6,17 +6,18 @@
 package cl.dominio;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
  * @author cristian
  */
 public class Item implements Serializable{
-    private int nroSerie;
+    private String nroSerie;
     private byte activo;
     private int idProducto;
 
-    public Item(int nroSerie, byte activo, int idProducto) {
+    public Item(String nroSerie, byte activo, int idProducto) {
         this.nroSerie = nroSerie;
         this.activo = activo;
         this.idProducto = idProducto;
@@ -25,11 +26,11 @@ public class Item implements Serializable{
     public Item() {
     }
 
-    public int getNroSerie() {
+    public String getNroSerie() {
         return nroSerie;
     }
 
-    public void setNroSerie(int nroSerie) {
+    public void setNroSerie(String nroSerie) {
         this.nroSerie = nroSerie;
     }
 
@@ -51,8 +52,8 @@ public class Item implements Serializable{
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 89 * hash + this.nroSerie;
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.nroSerie);
         return hash;
     }
 

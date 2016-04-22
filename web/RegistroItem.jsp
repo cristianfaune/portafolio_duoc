@@ -20,9 +20,9 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <h4 class="text-center">Registro Productos Inventario</h4>
-                    <form action="AdminProductos.jsp" method="post">
+                    <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">
-                            <input class="form-control input-lg" type="text" name="nroserie"/>
+                            <input class="form-control input-lg" type="number" name="nroserie"/>
                         </div>
                         <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
                                             <table class="table">
@@ -40,6 +40,7 @@
                                 <tr>
                                     <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
                                     <td><c:out value="${dato.producto.idProducto}"/></td>
+                                    <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
                                     <td><c:out value="${dato.producto.nombre}"/></td>
                                     <td><c:out value="${dato.producto.modelo}"/></td>
                                     <td><c:out value="${dato.marca.descripcion}"/></td>

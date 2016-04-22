@@ -5,10 +5,10 @@
  */
 package cl.controlador;
 
+import cl.dominio.Item;
 import cl.dto.ProductoMarcaDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
-import java.io.PrintWriter;
 import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -35,13 +35,7 @@ public class RegistroItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-         try (Connection con = ds.getConnection()){
+            try (Connection con = ds.getConnection()){
             
             int idProducto =  parseInt(request.getParameter("idProducto"));
             
@@ -52,6 +46,35 @@ public class RegistroItemServlet extends HttpServlet {
             request.setAttribute("lstProductos", listaProductos);
             request.getRequestDispatcher("RegistroItem.jsp").forward(request, response);
                     
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la conexion bd", e);
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String nroSerie = request.getParameter("nroserie");
+        int idProducto = parseInt(request.getParameter("idProducto"));
+        Item item = new Item();
+        
+        try (Connection con = ds.getConnection()){
+            
+            Servicio servicio = new Servicio(con);
+            
+            try {
+                
+            item.setNroSerie(nroSerie);
+            item.setActivo((byte)1);
+            item.setIdProducto(idProducto);
+            
+            servicio.registrarItem(item);
+            
+            } catch (Exception e) {
+                throw new RuntimeException("Error registrar item", e);
+            }
+            
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion bd", e);
         }

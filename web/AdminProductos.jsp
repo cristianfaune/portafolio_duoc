@@ -43,13 +43,13 @@
                                     <td><c:out value="${dato.producto.descripcion}"/></td>
                                     <td><c:out value="${dato.producto.stock}"/></td>
                                     <td>
-                                        <form action="<c:url value="/RegistroItemServlet"/>" method="post">
+                                        <form action="<c:url value="/RegistroItemServlet"/>" method="get">
                                             <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
                                             <input class="btn btn-primary btn-xs" type="submit" value="Agregar Item"/>
                                         </form>
                                     </td>
                                     <td>
-                            <form action="<c:url value="/RegistroItemServlet"/>" method="post">
+                            <form action="<c:url value="/AdminProductosServlet"/>" method="get">
                                 <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
                                 <input class="btn btn-primary btn-xs" type="submit" value="Modificar"/>
                             </form>
