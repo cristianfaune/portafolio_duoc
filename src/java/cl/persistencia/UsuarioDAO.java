@@ -63,7 +63,7 @@ public class UsuarioDAO {
         return lista;
     }
 
-    public ArrayList<Usuario> UsuariosProcedimiento() {
+    public ArrayList<Usuario> listarUsuarios() {
         ArrayList<Usuario> lista = new ArrayList<>();
         Usuario usuario;
 

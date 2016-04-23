@@ -60,25 +60,28 @@ public class RegistroItemServlet extends HttpServlet {
         String nroSerie = request.getParameter("nroserie");
         int idProducto = parseInt(request.getParameter("idProducto"));
         Map<String, String> mapMensaje = new HashMap<>();
-        String error;
         Item item = new Item();
+        ArrayList<Item> listaItem = new ArrayList<>();
         
         try (Connection con = ds.getConnection()){
             
             Servicio servicio = new Servicio(con);
             
+            listaItem = servicio.itemPorId(nroSerie);
+            
             try {
                 
-                if (!nroSerie.isEmpty()) {
-                    item.setNroSerie(nroSerie);
+                if (nroSerie.isEmpty()) {
+                    mapMensaje.put("mensaje", "Debe ingresar el Nro de serie");
+                }else if(!listaItem.isEmpty()){
+                    mapMensaje.put("mensaje", "El elemento ya existe en inventario");
                 }else{
-                   mapMensaje.put("errorNroSerie", "Debe ingresar el Nro de serie"); 
+                    item.setNroSerie(nroSerie);                         
+                    item.setActivo((byte)1);
+                    item.setIdProducto(idProducto);
+                    mapMensaje.put("mensaje", "El elemento fue exitosamente registrado");
+                    servicio.registrarItem(item);
                 }
-            
-            item.setActivo((byte)1);
-            item.setIdProducto(idProducto);
-            
-            servicio.registrarItem(item);
             
             } catch (Exception e) {
                 throw new RuntimeException("Error registrar item", e);

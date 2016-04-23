@@ -5,35 +5,27 @@
  */
 package cl.controlador;
 
-import cl.dominio.Producto;
-import cl.dominio.Usuario;
+
 import cl.dto.ProductoMarcaDTO;
-import cl.dto.UsuarioPerfilCarreraDTO;
-import cl.recursos.ConexionOracle;
 import cl.servicio.Servicio;
 import java.io.IOException;
-import java.io.PrintWriter;
-import static java.lang.Integer.parseInt;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
  *
  * @author cristian
  */
-@WebServlet(name = "PrincipalProductos", urlPatterns = {"/PrincipalProductos"})
+@WebServlet(name = "AdminProductosServlet", urlPatterns = {"/AdminProductosServlet"})
 public class AdminProductosServlet extends HttpServlet {
 
     @Resource(mappedName = "jdbc/portafolio")
