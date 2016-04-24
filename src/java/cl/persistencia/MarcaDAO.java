@@ -58,4 +58,40 @@ public class MarcaDAO {
         }
         return lista;
     }
+    
+    public ArrayList<Marca> MarcasPorId(int idCategoria) {
+        ArrayList<Marca> lista = new ArrayList<>();
+        Marca marca;
+
+        String sql = "{call marcas_por_categoria(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+            
+            cs.setInt(1, idCategoria);
+
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                marca = new Marca();
+                
+                marca.setIdMarca(rs.getInt("idMarca"));
+                marca.setDescripcion(rs.getString("descripcion"));
+                marca.setIdCategoria(rs.getInt("idCategoria"));
+
+                lista.add(marca);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento marcas por id", e);
+        }
+        return lista;
+    }
 }

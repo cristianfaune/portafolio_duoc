@@ -43,10 +43,6 @@ public class Servicio {
         marcaDAO = new MarcaDAO(con);
     }
 
-    public ArrayList<Producto> TodosLosProductos() {
-        return productoDAO.buscarTodosLosProductos();
-    }
-
     public ArrayList<ProductoMarcaDTO> productosMarcaCursor() {
         return consultaDAO.ProductosMarcaCursor();
     }
@@ -81,5 +77,9 @@ public class Servicio {
 
     public ArrayList<Item> itemPorId(String nroSerie) {
         return itemDAO.itemPorId(nroSerie);
+    }
+
+    public ArrayList<Marca> marcaPorId(int idCategoria) {
+        return marcaDAO.MarcasPorId(idCategoria);
     }
 }

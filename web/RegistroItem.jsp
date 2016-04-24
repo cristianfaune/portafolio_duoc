@@ -4,7 +4,6 @@
     Author     : cristian
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +21,7 @@
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">
-                            <input class="form-control input-lg" type="text" name="nroserie"/>
+                            <input class="form-control input-lg" type="text" name="nroserie" placeholder="Ingrese el número de serie"/>
                         </div>
                         <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
                                             <table class="table">

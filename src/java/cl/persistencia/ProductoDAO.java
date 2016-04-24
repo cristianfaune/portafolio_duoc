@@ -6,11 +6,9 @@
 package cl.persistencia;
 
 import cl.dominio.Producto;
+import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  *
@@ -24,35 +22,28 @@ public class ProductoDAO {
         this.con = con;
     }
         
-        public ArrayList<Producto> buscarTodosLosProductos() {
-        ArrayList<Producto> lista = new ArrayList<>();
-        Producto producto;
+    public void registroProducto(Producto producto) {
 
-        String sql = "select * from producto";
+        String sql = "{call registrar_producto(?,?,?,?,?,?,?)}";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql);
-                ResultSet rs = pstmt.executeQuery();) {
+        CallableStatement cs = null;
 
-            while (rs.next()) {
-                producto = new Producto();
+        try {
 
-                producto.setIdProducto(rs.getInt("idProducto"));
-                producto.setNombre(rs.getString("nombre"));
-                producto.setModelo(rs.getString("modelo"));
-                producto.setDescripcion(rs.getString("descripcion"));
-                producto.setStock(rs.getInt("stock"));
-                producto.setRutaImagen(rs.getString("rutaImagen"));
-                producto.setIdCategoria(rs.getInt("idCategoria"));
-                producto.setIdMarca(rs.getInt("idMarca"));
+            cs = con.prepareCall(sql);
 
-                lista.add(producto);
-            }
+            cs.setString(1, producto.getNombre());
+            cs.setString(2, producto.getDescripcion());
+            cs.setString(3, producto.getModelo());
+            cs.setInt(4, producto.getStock());
+            cs.setString(5, producto.getRutaImagen());
+            cs.setInt(6, producto.getIdCategoria());
+            cs.setInt(7, producto.getIdMarca());
+
+            cs.executeQuery();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error en la búsqueda de todos los productos", e);
+            throw new RuntimeException("Error en ingresar un nuevo producto", e);
         }
-
-        return lista;
     }
-        
 }
