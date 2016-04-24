@@ -47,7 +47,7 @@ public class DropdownCategoriaServlet extends HttpServlet {
             ArrayList<Marca> lstMarcas = servicio.marcaPorId(idCategoria);           
             
             out.print("<select class='form-control' id='seleccionMarca' name='seleccionMarca'>");
-            out.print("<option value = ''>--Seleccione una marca--</option>");
+            out.print("<option value = '0'>--Seleccione una marca--</option>");
             for (Marca temp : lstMarcas) {
                 out.print(" <option value ='" + temp.getIdMarca() + "'>" + temp.getDescripcion() + "</option>");
             }

@@ -104,4 +104,38 @@ public class UsuarioDAO {
         }
         return lista;
     }
+    
+    public Usuario buscarUsuarioRut(String rut) {
+        Usuario usuario = null;
+
+        String sql = "select * from usuario where rut = ?";
+                   //"select rut from usuario"
+
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+            pstmt.setString(1, rut);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                if (rs.next()) {
+                    usuario = new Usuario();
+                    usuario.setRut(rs.getString("rut"));
+                    usuario.setNombres(rs.getString("nombres"));
+                    usuario.setApellidos(rs.getString("apellidos"));
+                    usuario.setTelefono(rs.getInt("telefono"));
+                    usuario.setCelular(rs.getInt("celular"));
+                    usuario.setDireccion(rs.getString("direccion"));
+                    usuario.setEmail(rs.getString("email"));
+                    usuario.setPassword(rs.getString("password"));
+                    usuario.setActivo(rs.getByte("activo"));
+                    usuario.setIdPerfil(rs.getInt("idPerfil"));
+                    usuario.setIdCarrera(rs.getInt("idCarrera"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la búsqueda de usuario por rut");
+        }
+
+        return usuario;
+    }
 }

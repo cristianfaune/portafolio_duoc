@@ -82,4 +82,16 @@ public class Servicio {
     public ArrayList<Marca> marcaPorId(int idCategoria) {
         return marcaDAO.MarcasPorId(idCategoria);
     }
+
+    public Usuario buscarUsuarioRut(String rut) {
+        return usuarioDAO.buscarUsuarioRut(rut);
+    }
+
+    public void registrarProducto(Producto producto) {
+        productoDAO.registroProducto(producto);
+    }
+
+    public ArrayList<Producto> listarProductos() {
+        return productoDAO.listarProductos();
+    }
 }

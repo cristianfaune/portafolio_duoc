@@ -19,7 +19,7 @@
         <title>Registro Productos</title>
     </head>
     <script type="text/javascript">
-      function marcas() {
+        function marcas() {
             $(document).ready(function () {
                 var idCategoria = $('#seleccionCategoria').val();
 
@@ -32,7 +32,7 @@
                 });
             });
         }
-        </script>
+    </script>
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
@@ -44,8 +44,8 @@
                     <form action="<c:url value="/RegistroProductoServlet"/>" method="post">
                         <div class="form-group col-xs-6">
                             <label>Categoría:</label>
-                            <select class="form-control" id="seleccionCategoria" name="seleccioncCategoria" onchange="marcas()">
-                                <option>--Seleccione una categoría--</option>
+                            <select class="form-control" id="seleccionCategoria" name="seleccionCategoria" onchange="marcas()">
+                                <option value="0">--Seleccione una categoría--</option>
                                 <c:forEach var="dato" items="${lstCategorias}">
                                     <option value="${dato.idCategoria}">
                                         <c:out value="${dato.descripcion}"/>
@@ -56,9 +56,9 @@
                         <div class="form-group col-xs-6">
                             <label>Marca:</label>
                             <div id="opcion">
-                            <select class="form-control" id="seleccionMarca" name="seleccionMarca">
-                                    <option value="">--Seleccione una marca--</option>
-                            </select>
+                                <select class="form-control" id="seleccionMarca" name="seleccionMarca">
+                                    <option value="0">--Seleccione una marca--</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group col-xs-6">
@@ -79,14 +79,15 @@
                             <p class="help-block">Example block-level help text here.</p>
                         </div>
                         <div class="col-xs-6">
-                        <button type="submit" class="btn btn-default">Registrar</button>
+                            <button type="submit" class="btn btn-default">Registrar</button>
                         </div>
                     </form>
                 </div>
                 <div class="col-md-3"></div>
             </div> 
+            <h5 class="text-danger text-center"><c:out value="${mapMensaje['mensaje']}"/></h5>
         </div>
-        
+
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     </body>
 </html>
