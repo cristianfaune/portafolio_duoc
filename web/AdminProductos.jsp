@@ -49,9 +49,9 @@
                                         </form>
                                     </td>
                                     <td>
-                            <form action="<c:url value="/AdminProductosServlet"/>" method="get">
+                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="get">
                                 <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
-                                <input class="btn btn-primary btn-xs" type="submit" value="Modificar"/>
+                                <input class="btn btn-primary btn-xs" type="submit" value="Activar/Desactivar item"/>
                             </form>
                             </td>
                         </c:forEach>

@@ -16,7 +16,7 @@
         <script src="js/jquery.blockUI.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-        <title>Registro Productos</title>
+        <title>Administración de Inventario</title>
     </head>
     <script type="text/javascript">
         function marcas() {

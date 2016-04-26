@@ -69,7 +69,12 @@ public class ValidarIngreso extends HttpServlet {
             if (mapMensajePass.isEmpty() && mapMensajeRut.isEmpty()) {
 
                 session.setAttribute("usuario", usuario);
-                request.getRequestDispatcher("AdminProductos.jsp").forward(request, response);
+
+                if (usuario.getIdPerfil() == 100) {
+                    request.getRequestDispatcher("HomeAlumnosDocentes.jsp").forward(request, response);
+                } else {
+                    request.getRequestDispatcher("AdminProductos.jsp").forward(request, response);
+                }
 
             } else {
                 request.setAttribute("mapMensajePass", mapMensajePass);

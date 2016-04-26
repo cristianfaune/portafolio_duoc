@@ -81,4 +81,40 @@ public class ItemDAO {
         }
         return lista;
     }
+    
+    public ArrayList<Item> itemPorIdProducto(int idProducto) {
+        Item item;
+        ArrayList<Item> lista = new ArrayList<>();
+
+        String sql = "{call items_por_idproducto(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idProducto);
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                item = new Item();
+
+                item.setNroSerie(rs.getString(1));
+                item.setActivo(rs.getByte(2));
+                item.setIdProducto(rs.getInt(3));
+
+                lista.add(item);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento item por id producto", e);
+        }
+        return lista;
+    }
 }

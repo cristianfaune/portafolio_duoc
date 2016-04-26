@@ -24,35 +24,35 @@
                             <input class="form-control input-lg" type="text" name="nroserie" placeholder="Ingrese el número de serie"/>
                         </div>
                         <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
-                                            <table class="table">
-                        <tbody>
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Id</th>
-                                <th>producto</th>
-                                <th>Modelo</th>
-                                <th>Marca</th>
-                                <th>Descripción</th>
-                                <th>Stock</th>
-                            </tr>
-                            <c:forEach var="dato" items="${lstProductos}">
+                        <table class="table">
+                            <tbody>
                                 <tr>
-                                    <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
-                                    <td><c:out value="${dato.producto.idProducto}"/></td>
-                                    <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
-                                    <td><c:out value="${dato.producto.nombre}"/></td>
-                                    <td><c:out value="${dato.producto.modelo}"/></td>
-                                    <td><c:out value="${dato.marca.descripcion}"/></td>
-                                    <td><c:out value="${dato.producto.descripcion}"/></td>
-                                    <td><c:out value="${dato.producto.stock}"/></td>
-                        </c:forEach>
-                        </tbody>
-                    </table>
+                                    <th>Imagen</th>
+                                    <th>Id</th>
+                                    <th>producto</th>
+                                    <th>Modelo</th>
+                                    <th>Marca</th>
+                                    <th>Descripción</th>
+                                    <th>Stock</th>
+                                </tr>
+                                <c:forEach var="dato" items="${lstProductos}">
+                                    <tr>
+                                        <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                        <td><c:out value="${dato.producto.idProducto}"/></td>
+                                <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
+                                <td><c:out value="${dato.producto.nombre}"/></td>
+                                <td><c:out value="${dato.producto.modelo}"/></td>
+                                <td><c:out value="${dato.marca.descripcion}"/></td>
+                                <td><c:out value="${dato.producto.descripcion}"/></td>
+                                <td><c:out value="${dato.producto.stock}"/></td>
+                            </c:forEach>
+                            </tbody>
+                        </table>
                     </form>  
                 </div>
                 <div class="col-md-3"></div>
             </div>
-                    <h5><c:out value="${mapMensaje['mensaje']}"/></h5>
+            <h5 class="text-center text-success"><c:out value="${mapMensaje['mensaje']}"/></h5>
         </div>
     </body>
 </html>

@@ -79,6 +79,10 @@ public class Servicio {
         return itemDAO.itemPorId(nroSerie);
     }
 
+    public ArrayList<Item> itemPorIdProducto(int idProducto) {
+        return itemDAO.itemPorIdProducto(idProducto);
+    }
+
     public ArrayList<Marca> marcaPorId(int idCategoria) {
         return marcaDAO.MarcasPorId(idCategoria);
     }

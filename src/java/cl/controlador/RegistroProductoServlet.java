@@ -3,6 +3,7 @@ package cl.controlador;
 import cl.dominio.Categoria;
 import cl.dominio.Marca;
 import cl.dominio.Producto;
+import cl.dto.ProductoMarcaDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.sql.Connection;
@@ -115,7 +116,7 @@ public class RegistroProductoServlet extends HttpServlet {
                     break;
                 }
             }
-            
+
             if (cont > 0) {
                 mapMensaje.put("mensaje", "El producto ya está registrado");
             }
@@ -123,6 +124,9 @@ public class RegistroProductoServlet extends HttpServlet {
             if (mapMensaje.isEmpty()) {
                 servicio.registrarProducto(producto);
                 mapMensaje.put("mensaje", "Producto registrado con éxito");
+                ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
+                request.setAttribute("lstProductos", listaProductos);
+                request.getRequestDispatcher("/AdminProductos.jsp").forward(request, response);
             }
 
             request.setAttribute("mapMensaje", mapMensaje);
