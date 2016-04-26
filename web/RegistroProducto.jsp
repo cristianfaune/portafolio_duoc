@@ -63,7 +63,8 @@
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Nombre artículo:</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre"/>
+                            <input type="text" class="form-control" id="nombre" 
+                                   name="nombre" placeholder="cámara, notebook, proyector..."/>
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Modelo:</label>
@@ -71,7 +72,9 @@
                         </div>
                         <div class="form-group col-md-12">
                             <label>Descripción:</label>
-                            <textarea type="text" class="form-control" id="descripcion" name="descripcion" rows="6"></textarea>
+                            <textarea type="text" class="form-control" id="descripcion" 
+                                      name="descripcion" rows="6"
+                                      placeholder="Detalla las características del producto..."></textarea>
                         </div>
                         <div class="form-group col-xs-12">
                             <label>Imagen:</label>

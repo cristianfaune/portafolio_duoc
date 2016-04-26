@@ -117,4 +117,25 @@ public class ItemDAO {
         }
         return lista;
     }
+    
+    public void ModificarEstadoItem(String nroSerie, byte activo) {
+
+        String sql = "{call modificar_estado_item(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setString(1, nroSerie);
+            cs.setByte(2, activo);
+
+            cs.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en modificar estado item", e);
+        }
+    }
+
 }

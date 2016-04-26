@@ -20,67 +20,72 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <h3 class="text-center" id="p">Administrar de Recursos Pañol</h3>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th>Imagen</th>
-                                <th>Id Producto</th>
-                                <th>Producto</th>
-                                <th>Modelo</th>
-                                <th>Marca</th>
-                                <th>Descripción</th>
-                                <th>Stock Disponible</th>
-                            </tr>
-                            <c:forEach var="dato" items="${lstProductos}">
-                                <tr>
-                                    <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
-                                    <td><c:out value="${dato.producto.idProducto}"/></td>
-                                    <td><c:out value="${dato.producto.nombre}"/></td>
-                                    <td><c:out value="${dato.producto.modelo}"/></td>
-                                    <td><c:out value="${dato.marca.descripcion}"/></td>
-                                    <td><c:out value="${dato.producto.descripcion}"/></td>
-                                    <td><c:out value="${dato.producto.stock}"/></td>
-                                </c:forEach>
-                        </tbody>
-                    </table>
+                    <h3 class="text-center" id="p">Administrar Recursos Pañol</h3>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr class="bg-primary">
+                                    <th></th>
+                                    <th class="text-center">Id Producto</th>
+                                    <th class="text-center">Producto</th>
+                                    <th class="text-center">Marca</th>
+                                    <th class="text-center">Modelo</th>
+                                    <th class="text-center">Descripción</th>
+                                    <th class="text-center">Stock Disponible</th>
+                                </tr>
+                                <c:forEach var="dato" items="${lstProductos}">
+                                    <c:set var="idProducto" value="${dato.producto.idProducto}"/>
+                                    <tr>
+                                        <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                        <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
+                                        <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
+                                        <td class="text-center"><c:out value="${dato.marca.descripcion}"/></td>
+                                        <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
+                                        <td class="text-center"><c:out value="${dato.producto.descripcion}"/></td>
+                                        <td class="text-center"><c:out value="${dato.producto.stock}"/></td>
+                                    </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                     <br>
-                    <br>
-                    <h4 class="text-center">Recursos por producto</h4>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th>Nro Serie</th>
-                                <th>Estado</th>
-                                <th>Activar/Desactivar</th>
-                            </tr>
-                            <c:forEach var="dato" items="${lstItem}">
+                    <h4 class="text-center bg-primary">Detalle recursos por producto</h4>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
                                 <tr>
-                                    <td><c:out value="${dato.nroSerie}"/></td>
-                                    <c:choose>
-                                        <c:when test="${dato.activo == 1}">
-                                            <td><c:out value="Activo"/></td>  
-                                        </c:when>
-                                        <c:otherwise>
-                                            <td><c:out value="Inactivo"/></td> 
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <td>
-                                        <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="post">
-                                            <input type="hidden" name="idProducto" value="${dato.nroSerie}"/>
-                                            <c:choose>
-                                                <c:when test="${dato.activo == 1}">
-                                                    <input class="btn btn-danger btn-xs" type="submit" value="Desactivar"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <input class="btn btn-success btn-xs" type="submit" value="Activar"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </form>
-                                    </td>
-                                </c:forEach>
-                        </tbody>
-                    </table>
+                                    <th class="text-center">Nro Serie</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Activar/Desactivar</th>
+                                </tr>
+                                <c:forEach var="dato" items="${lstItem}">
+                                    <tr>
+                                        <td class="text-center"><c:out value="${dato.nroSerie}"/></td>
+                                        <c:choose>
+                                            <c:when test="${dato.activo == 1}">
+                                                <td class="text-center"><c:out value="Activo"/></td>  
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td class="text-center"><c:out value="Inactivo"/></td> 
+                                            </c:otherwise>
+                                        </c:choose>
+                                        <td class="text-center">
+                                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="post">
+                                                <input type="hidden" name="nroSerie" value="${dato.nroSerie}"/>
+                                                <input type="hidden" name="idProducto" value="${idProducto}"/>
+                                                <c:choose>
+                                                    <c:when test="${dato.activo == 1}">
+                                                        <input class="btn btn-danger btn-xs" name="activo" type="submit" value="desactivar"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input class="btn btn-success btn-xs" name="activo" type="submit" value="activar"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </form>
+                                        </td>
+                                    </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col-md-2"></div>
             </div>

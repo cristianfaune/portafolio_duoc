@@ -21,9 +21,14 @@
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">
-                            <input class="form-control input-lg" type="text" name="nroserie" placeholder="Ingrese el número de serie"/>
+                            <input class="form-control input-lg" type="text" 
+                                   style="text-transform: uppercase" name="nroserie" 
+                                   placeholder="Ej.   XD23455A6789"/>
                         </div>
-                        <input class="btn-default btn-group btn-lg" type="submit" value="Registrar"/>
+                        <input class="btn-default btn-group btn-lg" id="btnRegistrar" 
+                               type="submit" value="Registrar"/>
+                        <br>
+                        <h6 class="text-warning">** Ingrese el nro de serie sin puntos ni guiones **</h6>
                         <table class="table">
                             <tbody>
                                 <tr>
@@ -37,7 +42,8 @@
                                 </tr>
                                 <c:forEach var="dato" items="${lstProductos}">
                                     <tr>
-                                        <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                        <td><img src="${dato.producto.rutaImagen}" 
+                                                 width="100" height="100"></td>
                                         <td><c:out value="${dato.producto.idProducto}"/></td>
                                 <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
                                 <td><c:out value="${dato.producto.nombre}"/></td>
@@ -52,7 +58,8 @@
                 </div>
                 <div class="col-md-3"></div>
             </div>
-            <h5 class="text-center text-success"><c:out value="${mapMensaje['mensaje']}"/></h5>
+            <h5 class="text-center text-success">
+                <c:out value="${mapMensaje['mensaje']}"/></h5>
         </div>
     </body>
 </html>

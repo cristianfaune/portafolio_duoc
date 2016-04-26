@@ -18,30 +18,30 @@
         <%@include file="header.jsp" %>
         <div class="container">
             <div class="row">
-                <div class="col-md-3"></div>
-                <div class="col-md-6">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
                     <h3 class="text-center" id="p">Administración de Inventario</h3>
                     <table class="table">
                         <tbody>
                             <tr>
-                                <th>Imagen</th>
-                                <th>Id</th>
-                                <th>producto</th>
-                                <th>Modelo</th>
-                                <th>Marca</th>
-                                <th>Descripción</th>
-                                <th>Stock</th>
-                                <th>Acciones</th>
+                                <th class="text-center">Imagen</th>
+                                <th class="text-center">Id</th>
+                                <th class="text-center">producto</th>
+                                <th class="text-center">Modelo</th>
+                                <th class="text-center">Marca</th>
+                                <th class="text-center">Descripción</th>
+                                <th class="text-center">Stock</th>
+                                <th class="text-center">Acciones</th>
                             </tr>
                             <c:forEach var="dato" items="${lstProductos}">
                                 <tr>
                                     <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
-                                    <td><c:out value="${dato.producto.idProducto}"/></td>
-                                    <td><c:out value="${dato.producto.nombre}"/></td>
-                                    <td><c:out value="${dato.producto.modelo}"/></td>
-                                    <td><c:out value="${dato.marca.descripcion}"/></td>
-                                    <td><c:out value="${dato.producto.descripcion}"/></td>
-                                    <td><c:out value="${dato.producto.stock}"/></td>
+                                    <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
+                                    <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
+                                    <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
+                                    <td class="text-center"><c:out value="${dato.marca.descripcion}"/></td>
+                                    <td class="text-center"><c:out value="${dato.producto.descripcion}"/></td>
+                                    <td class="text-center"><c:out value="${dato.producto.stock}"/></td>
                                     <td>
                                         <form action="<c:url value="/RegistroItemServlet"/>" method="get">
                                             <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
@@ -58,7 +58,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-3"></div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </body>

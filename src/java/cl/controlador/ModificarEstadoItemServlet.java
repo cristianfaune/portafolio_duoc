@@ -27,30 +27,29 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "ModificarEstadoItemServlet", urlPatterns = {"/ModificarEstadoItemServlet"})
 public class ModificarEstadoItemServlet extends HttpServlet {
-    
+
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        try (Connection con = ds.getConnection()){
-            
+
+        try (Connection con = ds.getConnection()) {
+
             Servicio servicio = new Servicio(con);
-            
+
             int idProducto = Integer.parseInt(request.getParameter("idProducto"));
-            
+
             ArrayList<ProductoMarcaDTO> lstProductos = servicio.productosPorId(idProducto);
             ArrayList<Item> lstItem = servicio.itemPorIdProducto(idProducto);
-            
+
             request.setAttribute("lstProductos", lstProductos);
             request.setAttribute("lstItem", lstItem);
             request.getRequestDispatcher("/ModificarEstadoItem.jsp").forward(request, response);
-            
-            
+
         } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd",e);
+            throw new RuntimeException("Error en la conexión a bd", e);
         }
 
     }
@@ -58,7 +57,35 @@ public class ModificarEstadoItemServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
+        String activo = request.getParameter("activo");
+        String nroSerie = request.getParameter("nroSerie");
+        int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+        byte activar;
+
+        try (Connection con = ds.getConnection()) {
+
+            Servicio servicio = new Servicio(con);
+
+            if (activo.equals("activar")) {
+                activar = 1;
+            } else {
+                activar = 0;
+            }
+
+            servicio.modificarEstadoItem(nroSerie, activar);
+
+            ArrayList<ProductoMarcaDTO> lstProductos = servicio.productosPorId(idProducto);
+            ArrayList<Item> lstItem = servicio.itemPorIdProducto(idProducto);
+
+            request.setAttribute("lstProductos", lstProductos);
+            request.setAttribute("lstItem", lstItem);
+            request.getRequestDispatcher("/ModificarEstadoItem.jsp").forward(request, response);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la conexión a la bd", e);
+        }
+
     }
 
 }

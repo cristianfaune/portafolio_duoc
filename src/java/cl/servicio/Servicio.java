@@ -26,14 +26,14 @@ import java.util.ArrayList;
  * @author cristian
  */
 public class Servicio {
-
+    
     ProductoDAO productoDAO;
     ConsultaDAO consultaDAO;
     UsuarioDAO usuarioDAO;
     ItemDAO itemDAO;
     MarcaDAO marcaDAO;
     CategoriaDAO categoriaDAO;
-
+    
     public Servicio(Connection con) {
         productoDAO = new ProductoDAO(con);
         consultaDAO = new ConsultaDAO(con);
@@ -42,59 +42,63 @@ public class Servicio {
         categoriaDAO = new CategoriaDAO(con);
         marcaDAO = new MarcaDAO(con);
     }
-
+    
     public ArrayList<ProductoMarcaDTO> productosMarcaCursor() {
         return consultaDAO.ProductosMarcaCursor();
     }
-
+    
     public ArrayList<Usuario> todosLosUsuarios() {
         return usuarioDAO.buscarTodosLosUsuarios();
     }
-
+    
     public ArrayList<Usuario> listarUsuarios() {
         return usuarioDAO.listarUsuarios();
     }
-
+    
     public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera() {
         return consultaDAO.usuarioPerfilCarrera();
     }
-
+    
     public ArrayList<ProductoMarcaDTO> productosPorId(int idProducto) {
         return consultaDAO.productosPorId(idProducto);
     }
-
+    
     public void registrarItem(Item item) {
         itemDAO.registroItem(item);
     }
-
+    
     public ArrayList<Marca> listarMarcas() {
         return marcaDAO.listarMarcas();
     }
-
+    
     public ArrayList<Categoria> listarCategorias() {
         return categoriaDAO.listarCategorias();
     }
-
+    
     public ArrayList<Item> itemPorId(String nroSerie) {
         return itemDAO.itemPorId(nroSerie);
     }
-
+    
     public ArrayList<Item> itemPorIdProducto(int idProducto) {
         return itemDAO.itemPorIdProducto(idProducto);
     }
-
+    
+    public void modificarEstadoItem(String nroSerie, byte activo) {
+        itemDAO.ModificarEstadoItem(nroSerie, activo);
+    }
+    
     public ArrayList<Marca> marcaPorId(int idCategoria) {
         return marcaDAO.MarcasPorId(idCategoria);
     }
-
+    
     public Usuario buscarUsuarioRut(String rut) {
         return usuarioDAO.buscarUsuarioRut(rut);
     }
-
+    
     public void registrarProducto(Producto producto) {
         productoDAO.registroProducto(producto);
     }
-
+    
     public ArrayList<Producto> listarProductos() {
         return productoDAO.listarProductos();
     }
