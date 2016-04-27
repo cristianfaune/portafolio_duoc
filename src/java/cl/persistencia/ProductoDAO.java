@@ -18,13 +18,13 @@ import oracle.jdbc.OracleTypes;
  * @author cristian
  */
 public class ProductoDAO {
-    
+
     Connection con;
-    
-        public ProductoDAO(Connection con) {
+
+    public ProductoDAO(Connection con) {
         this.con = con;
     }
-        
+
     public void registroProducto(Producto producto) {
 
         String sql = "{call registrar_producto(?,?,?,?,?,?,?)}";
@@ -49,7 +49,7 @@ public class ProductoDAO {
             throw new RuntimeException("Error en ingresar un nuevo producto", e);
         }
     }
-    
+
     public ArrayList<Producto> listarProductos() {
         Producto producto;
         ArrayList<Producto> lista = new ArrayList<>();
@@ -79,7 +79,7 @@ public class ProductoDAO {
                 producto.setRutaImagen(rs.getString(6));
                 producto.setIdCategoria(rs.getInt(7));
                 producto.setIdMarca(rs.getInt(8));
-                
+
                 lista.add(producto);
             }
 

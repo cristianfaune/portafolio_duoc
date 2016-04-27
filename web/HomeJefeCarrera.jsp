@@ -16,15 +16,18 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
+            <div class="text-right">
+                <a href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
+            </div>  
             <h4 class="text-center">Administración sistema Pañol</h4>
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
             <div class="row col-lg-offset-1">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <ul class="nav nav-tabs">
-                        <li role="presentation" class="active"><a href="HomeJefeCarrera.jsp">Home</a></li>
                         <li role="presentation"><a href="#">Administrar Usuarios</a></li>
                         <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
+                        <li role="presentation"><a href="#">Reportes</a></li>
                     </ul>
                     <br>
                     <h3>Bienvenido al home de Jefe de Carrera</h3>

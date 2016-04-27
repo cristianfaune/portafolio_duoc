@@ -61,7 +61,6 @@ public class RegistroProductoServlet extends HttpServlet {
         String modelo = request.getParameter("modelo");
         String descripcion = request.getParameter("descripcion");
         Map<String, String> mapMensaje = new HashMap<>();
-        int cont = 0;
 
         try (Connection con = ds.getConnection()) {
 
@@ -109,21 +108,19 @@ public class RegistroProductoServlet extends HttpServlet {
                 producto.setIdMarca(idMarca);
             }
 
-            for (Producto lstProducto : lstProductos) {
-                if (lstProducto.getIdMarca() == producto.getIdMarca()
-                        && producto.getModelo().equals(lstProducto.getModelo())) {
-                    cont++;
-                    break;
+            if (!modelo.isEmpty() && !String.valueOf(idMarca).isEmpty()) {
+                ArrayList<ProductoMarcaDTO> lista = servicio.existeProducto(idMarca, modelo);
+
+                if (lista.size() > 0) {
+                    mapMensaje.put("mensaje", "El producto ya está registrado");
                 }
             }
 
-            if (cont > 0) {
-                mapMensaje.put("mensaje", "El producto ya está registrado");
-            }
-
             if (mapMensaje.isEmpty()) {
+
                 servicio.registrarProducto(producto);
                 mapMensaje.put("mensaje", "Producto registrado con éxito");
+
                 ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
                 request.setAttribute("lstProductos", listaProductos);
                 request.getRequestDispatcher("/AdminProductos.jsp").forward(request, response);

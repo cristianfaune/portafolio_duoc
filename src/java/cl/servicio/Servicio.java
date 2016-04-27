@@ -102,4 +102,8 @@ public class Servicio {
     public ArrayList<Producto> listarProductos() {
         return productoDAO.listarProductos();
     }
+    
+    public ArrayList<ProductoMarcaDTO> existeProducto(int idMarca, String modelo){
+        return consultaDAO.existeProducto(idMarca, modelo);
+    }
 }

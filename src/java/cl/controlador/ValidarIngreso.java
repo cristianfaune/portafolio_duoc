@@ -70,11 +70,11 @@ public class ValidarIngreso extends HttpServlet {
 
                 session.setAttribute("usuario", usuario);
 
-                if (usuario.getIdPerfil() == 100) {
+                if (usuario.getIdPerfil() == 100 && usuario.getActivo()== 1) {
                     request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
                 }
                 
-                if (usuario.getIdPerfil() == 120) {
+                if (usuario.getIdPerfil() == 120 && usuario.getActivo() == 1) {
                     request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
                 }
                 

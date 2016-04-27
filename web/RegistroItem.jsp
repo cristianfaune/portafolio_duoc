@@ -14,17 +14,28 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
+        <div class="text-right">
+            <a href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
+        </div>   
         <div class="container">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <div class="col-lg-offset-3">
                         <ul class="nav nav-tabs">
-                            <li role="presentation"><a href="HomeJefeCarrera.jsp">Inicio</a></li>
+                            <c:choose>
+                                <c:when test="${usuario.idPerfil == 100}">
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    </c:when>
+                                    <c:when test="${usuario.idPerfil == 120}">
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
+                                    </c:when>
+                                </c:choose>
                             <li role="presentation"><a href="#">Administrar Usuarios</a></li>
                             <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         </ul>
                     </div>
+                    <c:out value="${mapMensaje['mensaje']}"/></h5>
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">
@@ -66,7 +77,6 @@
                 <div class="col-md-3"></div>
             </div>
             <h5 class="text-center text-success">
-                <c:out value="${mapMensaje['mensaje']}"/></h5>
         </div>
     </body>
 </html>

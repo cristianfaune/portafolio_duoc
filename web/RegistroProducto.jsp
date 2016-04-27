@@ -36,12 +36,22 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
+            <div class="text-right">
+                <a href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
+            </div>   
             <div>
                 <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-6">
                         <ul class="nav nav-tabs">
-                            <li role="presentation"><a href="HomeJefeCarrera.jsp">Home</a></li>
+                            <c:choose>
+                                <c:when test="${usuario.idPerfil == 100}">
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    </c:when>
+                                    <c:when test="${usuario.idPerfil == 120}">
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
+                                    </c:when>
+                                </c:choose>
                             <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario Existente</a></li>
                             <li role="presentation" class="active"><a href="<c:url value="/RegistroProducto"/>">Registro Nuevo Producto</a></li>
                         </ul>
@@ -52,6 +62,7 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
+                    <h5 class="text-danger text-center"><c:out value="${mapMensaje['mensaje']}"/></h5>
                     <h3 class="text-center" id="p">Registro de productos</h3>
                     <br>
                     <form action="<c:url value="/RegistroProductoServlet"/>" method="post">
@@ -81,7 +92,8 @@
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Modelo:</label>
-                            <input type="text" class="form-control" id="modelo" name="modelo"/>
+                            <input type="text" class="form-control" id="modelo" name="modelo"
+                                   style="text-transform: uppercase"/>
                         </div>
                         <div class="form-group col-md-12">
                             <label>Descripción:</label>
@@ -92,7 +104,7 @@
                         <div class="form-group col-xs-12">
                             <label>Imagen:</label>
                             <input type="file" id="imagen" name="imagen">
-                            <p class="help-block">Example block-level help text here.</p>
+                            <p class="help-block">**No implementado aún**</p>
                         </div>
                         <div class="col-xs-6">
                             <button type="submit" class="btn btn-default">Registrar</button>
@@ -101,7 +113,6 @@
                 </div>
                 <div class="col-md-3"></div>
             </div> 
-            <h5 class="text-danger text-center"><c:out value="${mapMensaje['mensaje']}"/></h5>
         </div>
 
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
