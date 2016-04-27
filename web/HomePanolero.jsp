@@ -1,6 +1,6 @@
 <%-- 
-    Document   : HomeJefeCarrera
-    Created on : 26-abr-2016, 1:41:57
+    Document   : HomePanolero
+    Created on : 26-abr-2016, 21:45:58
     Author     : cristian
 --%>
 
@@ -11,7 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <title>Home - Jefe de Carrera</title>
+        <title>Home - Pañolero</title>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -22,15 +22,15 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <ul class="nav nav-tabs">
-                        <li role="presentation" class="active"><a href="HomeJefeCarrera.jsp">Home</a></li>
-                        <li role="presentation"><a href="#">Administrar Usuarios</a></li>
+                        <li role="presentation" class="active"><a href="#">Inicio</a></li>
+                        <li role="presentation"><a href="#">Administrar Solicitudes</a></li>
                         <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                     </ul>
                     <br>
-                    <h3>Bienvenido al home de Jefe de Carrera</h3>
+                    <h3>Bienvenido al home de Pañolero</h3>
                     <br>
                     <p>
-                        En este sitio podrás realizar todas las funcionalidades
+                        En tu sitio podrás realizar todas las funcionalidades
                         necesarias para la administración de los recursos del 
                         pañol de la escuela.
                     </p>

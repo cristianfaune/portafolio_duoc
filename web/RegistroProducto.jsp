@@ -36,6 +36,19 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
+            <div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"><a href="HomeJefeCarrera.jsp">Home</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario Existente</a></li>
+                            <li role="presentation" class="active"><a href="<c:url value="/RegistroProducto"/>">Registro Nuevo Producto</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div> 
+            </div>
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">

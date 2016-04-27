@@ -20,6 +20,13 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
+                    <div class="col-lg-offset-3">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"><a href="HomeJefeCarrera.jsp">Inicio</a></li>
+                            <li role="presentation"><a href="#">Administrar Usuarios</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
+                        </ul>
+                    </div>
                     <h3 class="text-center" id="p">Administrar Recursos Pañol</h3>
                     <div class="table-responsive">
                         <table class="table">

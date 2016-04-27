@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4"></div>
-                <h1 align="center">Ingreso a sistema Pañol</h1>
+                <h1 align="center">Ingreso a sistema de administración de pañol</h1>
                 <h4 align="center">Escuela de comunicaciones - Sede Viña del Mar</h4>
                 <div class="col-md-4 col-md-offset-4">
                     <form class="form-horizontal" action="<c:url value="/ValidarIngreso"/>" method="post">
@@ -27,7 +27,8 @@
                             <div class="form-group form-control-static col-lg-12">
                                 <label class="control-label" for="inputSuccess1">Rut:</label>
                                 <input type="text" class="form-control" id="inputSuccess1" 
-                                       name="rut" aria-describedby="helpBlock2" placeholder="Ingrese su Rut" autofocus="true">
+                                       name="rut" aria-describedby="helpBlock2" 
+                                       placeholder="Ingrese su Rut -- sin puntos ni guion" autofocus="true" maxlength="9">
                                 <span id="helpBlock2" class="help-block"></span>
                             </div>
                         </c:if>
@@ -35,14 +36,15 @@
                             <div class="form-group has-error col-lg-12">
                                 <label class="control-label" for="inputError1"><c:out value="${mapMensajeRut['errorRut']}"/></label>
                                 <input type="text" class="form-control" 
-                                       id="inputError1" name="rut" placeholder="Ingrese su rut" autofocus="true">
+                                       id="inputError1" name="rut" 
+                                       placeholder="Ingrese su Rut -- sin puntos ni guion" autofocus="true"  maxlength="9">
                             </div>
                         </c:if>
                         <c:if test="${empty mapMensajePass}">
                             <div class="form-group form-control-static col-lg-12">
                                 <label class="control-label" for="inputSuccess2">Password:</label>
                                 <input type="password" class="form-control" id="inputSuccess1" 
-                                       name="password" aria-describedby="helpBlock2" placeholder="Ingrese su Password">
+                                       name="password" aria-describedby="helpBlock2" placeholder="Ingrese su password">
                                 <span id="helpBlock2" class="help-block"></span>
                             </div>
                         </c:if>
@@ -50,7 +52,7 @@
                             <div class="form-group has-error col-lg-12">
                                 <label class="control-label" for="inputError2"><c:out value="${mapMensajePass['errorPass']}"/></label>
                                 <input type="password" class="form-control" 
-                                       id="inputError1" name="password" placeholder="Ingrese su Password">
+                                       id="inputError1" name="password" placeholder="Ingrese su password">
                             </div>
                         </c:if>
                         <div class="form-group">

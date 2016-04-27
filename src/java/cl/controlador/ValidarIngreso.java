@@ -71,16 +71,18 @@ public class ValidarIngreso extends HttpServlet {
                 session.setAttribute("usuario", usuario);
 
                 if (usuario.getIdPerfil() == 100) {
-                    request.getRequestDispatcher("HomeAlumnosDocentes.jsp").forward(request, response);
-                } else {
-                    request.getRequestDispatcher("AdminProductos.jsp").forward(request, response);
+                    request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
                 }
-
+                
+                if (usuario.getIdPerfil() == 120) {
+                    request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+                }
+                
             } else {
-                request.setAttribute("mapMensajePass", mapMensajePass);
-                request.setAttribute("mapMensajeRut", mapMensajeRut);
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
-            }
+                    request.setAttribute("mapMensajePass", mapMensajePass);
+                    request.setAttribute("mapMensajeRut", mapMensajeRut);
+                    request.getRequestDispatcher("/index.jsp").forward(request, response);
+                }
 
         } catch (SQLException e) {
             throw new RuntimeException("error en la conexion", e);

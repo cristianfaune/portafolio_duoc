@@ -18,6 +18,13 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
+                    <div class="col-lg-offset-3">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"><a href="HomeJefeCarrera.jsp">Inicio</a></li>
+                            <li role="presentation"><a href="#">Administrar Usuarios</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
+                        </ul>
+                    </div>
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">

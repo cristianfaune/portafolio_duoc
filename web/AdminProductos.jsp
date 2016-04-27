@@ -17,6 +17,21 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
+            <div>
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <ul class="nav nav-tabs">
+                            <li role="presentation"><a href="HomeJefeCarrera.jsp">Home</a></li>
+                            <li role="presentation" class="active"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario Existente</a></li>
+                            <li role="presentation"><a href="<c:url value="/RegistroProductoServlet"/>">Registro Nuevo Producto</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3"></div>
+                </div> 
+            </div>
+            <br>
+            <br>
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
@@ -49,12 +64,12 @@
                                         </form>
                                     </td>
                                     <td>
-                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="get">
-                                <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
-                                <input class="btn btn-primary btn-xs" type="submit" value="Activar/Desactivar item"/>
-                            </form>
-                            </td>
-                        </c:forEach>
+                                        <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="get">
+                                            <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
+                                            <input class="btn btn-primary btn-xs" type="submit" value="Activar/Desactivar item"/>
+                                        </form>
+                                    </td>
+                                </c:forEach>
                         </tbody>
                     </table>
                 </div>
