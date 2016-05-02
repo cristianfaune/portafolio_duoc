@@ -17,7 +17,7 @@ public class Usuario implements Serializable {
     private String rut;
     private String nombres;
     private String apellidos;
-    private String telefono;
+    private int telefono;
     private String direccion;
     private String email;
     private String password;
@@ -26,7 +26,7 @@ public class Usuario implements Serializable {
     private int idCarrera;
     private int celular;
 
-    public Usuario(String rut, String nombres, String apellidos, String telefono, String direccion, String email, String password, int idPerfil, int idCarrera, int celular) {
+    public Usuario(String rut, String nombres, String apellidos, int telefono, String direccion, String email, String password, int idPerfil, int idCarrera, int celular) {
         this.rut = rut;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -66,11 +66,11 @@ public class Usuario implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public String getTelefono() {
+    public int getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setTelefono(int telefono) {
         this.telefono = telefono;
     }
 

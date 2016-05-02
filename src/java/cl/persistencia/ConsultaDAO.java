@@ -151,7 +151,7 @@ public class ConsultaDAO {
                 usuario.setRut(rs.getString(1));
                 usuario.setNombres(rs.getString(2));
                 usuario.setApellidos(rs.getString(3));
-                usuario.setTelefono(rs.getString(4));
+                usuario.setTelefono(rs.getInt(4));
                 usuario.setDireccion(rs.getString(5));
                 usuario.setEmail(rs.getString(6));
                 usuario.setPassword(rs.getString(7));

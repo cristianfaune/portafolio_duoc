@@ -25,7 +25,7 @@
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <ul class="nav nav-tabs">
-                        <li role="presentation"><a href="#">Administrar Usuarios</a></li>
+                        <li role="presentation"><a href="<c:url value="/MostrarUsuarioServlet"/>">Administrar Usuarios</a></li>
                         <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         <li role="presentation"><a href="#">Reportes</a></li>
                     </ul>

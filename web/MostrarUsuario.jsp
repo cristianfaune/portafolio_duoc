@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
         <title>Home - Jefe de Carrera</title>
     </head>
     <body>
@@ -22,43 +23,60 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-7">
                     <ul class="nav nav-tabs">
-                        <li role="presentation"><a href="<c:url value="#"/>">Buscar Usuario</a></li>
+                        <li role="presentation"><a href="<c:url value="/HomeJefeCarrera.jsp"/>">Home</a></li>
+                        <li role="presentation"><a href="<c:url value="MostrarUsuarioServlet"/>">Buscar Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="/RegistroUsuario.jsp"/>">Ingresar Nuevo Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Listar Usuarios</a></li>
-                        <li role="presentation"><a href="<c:url value="/HomeJefeCarrera.jsp"/>">Volver</a></li>
-
                     </ul>
                     <br>
-                    <h3>Búsqueda de Usuario</h3>
-                    <br>
                     <p>
-                    <form action="<c:url value="/MostrarUsuarioServlet"/>" method="POST" name="form">
-                        <p>Ingrese Rut de Usuario:</p> <input type="text" name="rut"/>
-                        <input type="submit" value="Buscar" name="buscar"/>
-                    </form>
-                    <form action="<c:url value="/ModificarUsuarioServlet"/>" method="post">
-                    <br>
-                    Nombres:   <input type="text" name="nombre" value="${nombre}"/>
-                    <br>
-                    <br>
-                    Apellidos: <input type="text" name="apellido" value="${apellido}"/>
-                    <br>
-                    <br>
-                    Telefono:  <input type="text" name="telefono" value=" ${telefo}"/>
-                    <br>
-                    <br>
-                    Celular:   <input type="text" name="celular" value="${celular}"/>
-                    <br>
-                    <br>
-                    Dirección: <input type="text" name="direccion" value=" ${direccion}"/>
-                    <br>
-                    <br>
-                    Email:     <input type="text" name="email" value="${email}"/>
-                    <br>
-                    <br>
-                    <input type="hidden" name="rut" value="${rut}"/>
-                    <input type="submit" value="Modificar"/>
-                    </form>
+                    <div class="col-md-7 col-lg-offset-3">
+                        <form action="<c:url value="/MostrarUsuarioServlet"/>" method="POST">
+                            <label>Ingrese Rut para búsqueda:</label>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" name="rut" maxlength="9"/>
+                            </div>
+                            <div>
+                                <input class="btn btn-default" type="submit" name="buscar" value="Buscar"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-7">
+                        <br>
+                        <h4>Datos usuario:</h4>
+                        <form action="<c:url value="/ModificarUsuarioServlet"/>" method="post">
+                            <br>
+                            <div>
+                                <label>Nombres:</label>
+                                <input class="form-control" type="text" name="nombre" value="${nombre}"/>
+                            </div>
+                            <br>
+                            <div>
+                                <label>Apellidos:</label>
+                                <input class="form-control" type="text" name="apellidos" value="${apellido}"/>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Teléfono / celular:</label><br>
+                                    <input class="form-control" type="number" name="telefo" value="${telefo}"/>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <label>Dirección:</label>
+                                <input class="form-control" type="text" name="direccion" value="${direccion}"/>
+                            </div>
+                            <br>
+                            <div>
+                                <label>Email:</label>
+                                <input class="form-control" type="email" name="email" value="${email}"/>
+                            </div>
+                            <br>
+                            <input type="hidden" name="rut" value="${rut}"/>
+                            <input class="btn btn-default" type="submit" value="Actualizar"/>
+                        </form>
+                    </div>
                 </div>
                 <h3><c:out value="${mapMensajeRut['errorRut']}"/></h3>
                 <div class="col-md-3"></div>
