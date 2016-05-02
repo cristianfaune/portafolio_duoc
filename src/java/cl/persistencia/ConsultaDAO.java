@@ -151,24 +151,23 @@ public class ConsultaDAO {
                 usuario.setRut(rs.getString(1));
                 usuario.setNombres(rs.getString(2));
                 usuario.setApellidos(rs.getString(3));
-                usuario.setTelefono(rs.getInt(4));
-                usuario.setCelular(rs.getInt(5));
-                usuario.setDireccion(rs.getString(6));
-                usuario.setEmail(rs.getString(7));
-                usuario.setPassword(rs.getString(8));
-                usuario.setActivo(rs.getByte(9));
-                usuario.setIdPerfil(rs.getInt(10));
-                usuario.setIdCarrera(rs.getInt(11));
+                usuario.setTelefono(rs.getString(4));
+                usuario.setDireccion(rs.getString(5));
+                usuario.setEmail(rs.getString(6));
+                usuario.setPassword(rs.getString(7));
+                usuario.setActivo(rs.getByte(8));
+                usuario.setIdPerfil(rs.getInt(9));
+                usuario.setIdCarrera(rs.getInt(10));
 
                 perfil = new Perfil();
                 
-                perfil.setIdPerfil(rs.getInt(12));
-                perfil.setDescripcion(rs.getString(13));
+                perfil.setIdPerfil(rs.getInt(11));
+                perfil.setDescripcion(rs.getString(12));
                 
                 carrera = new Carrera();
                 
-                carrera.setIdCarrera(rs.getInt(14));
-                carrera.setDescripcion(rs.getString(15));
+                carrera.setIdCarrera(rs.getInt(13));
+                carrera.setDescripcion(rs.getString(14));
 
                 lista.add(new UsuarioPerfilCarreraDTO(usuario,perfil,carrera));
             }

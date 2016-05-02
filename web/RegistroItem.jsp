@@ -35,7 +35,11 @@
                             <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         </ul>
                     </div>
-                    <c:out value="${mapMensaje['mensaje']}"/></h5>
+                    <c:if test="${not empty mapMensaje['mensaje']}">
+                        <div id="danger-box" class="bg-danger">
+                            <h5 class="text-center text-danger"><c:out value="${mapMensaje['mensaje']}"/></h5>
+                        </div>
+                    </c:if>
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">

@@ -83,6 +83,12 @@
                                                         <input class="btn btn-primary btn-xs" type="submit" value="Activar/Desactivar item"/>
                                                     </form>
                                                 </td>
+                                                 <td>
+                                                    <form action="<c:url value="/ModificarProductoServlet"/>" method="get">
+                                                        <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
+                                                        <input class="btn btn-primary btn-xs" type="submit" value="Modificar"/>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:when>
                                         <c:otherwise>
@@ -104,6 +110,12 @@
                                                     <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="get">
                                                         <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
                                                         <input class="btn btn-primary btn-xs" type="submit" value="Activar/Desactivar item"/>
+                                                    </form>
+                                                </td>
+                                                <td>
+                                                    <form action="<c:url value="/ModificarProductoServlet"/>" method="get">
+                                                        <input type="hidden" name="idProducto" value="${dato.producto.idProducto}"/>
+                                                        <input class="btn btn-primary btn-xs" type="submit" value="Modificar"/>
                                                     </form>
                                                 </td>
                                             </tr>

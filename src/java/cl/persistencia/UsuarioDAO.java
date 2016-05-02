@@ -44,8 +44,7 @@ public class UsuarioDAO {
                 usuario.setRut(rs.getString("rut"));
                 usuario.setNombres(rs.getString("nombres"));
                 usuario.setApellidos(rs.getString("apellidos"));
-                usuario.setTelefono(rs.getInt("telefono"));
-                usuario.setCelular(rs.getInt("celular"));
+                usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -87,8 +86,7 @@ public class UsuarioDAO {
                 usuario.setRut(rs.getString("rut"));
                 usuario.setNombres(rs.getString("nombres"));
                 usuario.setApellidos(rs.getString("apellidos"));
-                usuario.setTelefono(rs.getInt("telefono"));
-                usuario.setCelular(rs.getInt("celular"));
+                usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -122,8 +120,7 @@ public class UsuarioDAO {
                     usuario.setRut(rs.getString("rut"));
                     usuario.setNombres(rs.getString("nombres"));
                     usuario.setApellidos(rs.getString("apellidos"));
-                    usuario.setTelefono(rs.getInt("telefono"));
-                    usuario.setCelular(rs.getInt("celular"));
+                    usuario.setTelefono(rs.getString("telefono"));
                     usuario.setDireccion(rs.getString("direccion"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));

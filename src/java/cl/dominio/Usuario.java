@@ -12,30 +12,31 @@ import java.util.Objects;
  *
  * @author cristian
  */
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
+
     private String rut;
     private String nombres;
     private String apellidos;
-    private int telefono;
-    private int celular;
+    private String telefono;
     private String direccion;
     private String email;
     private String password;
     private byte activo = 1;
     private int idPerfil;
     private int idCarrera;
+    private int celular;
 
-    public Usuario(String rut, String nombres, String apellidos, int telefono, int celular, String direccion, String email, String password, int idPerfil, int idCarrera) {
+    public Usuario(String rut, String nombres, String apellidos, String telefono, String direccion, String email, String password, int idPerfil, int idCarrera, int celular) {
         this.rut = rut;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.telefono = telefono;
-        this.celular = celular;
         this.direccion = direccion;
         this.email = email;
         this.password = password;
         this.idPerfil = idPerfil;
         this.idCarrera = idCarrera;
+        this.celular = celular;
     }
 
     public Usuario() {
@@ -65,20 +66,12 @@ public class Usuario implements Serializable{
         this.apellidos = apellidos;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public int getCelular() {
-        return celular;
-    }
-
-    public void setCelular(int celular) {
-        this.celular = celular;
     }
 
     public String getDireccion() {
@@ -120,14 +113,21 @@ public class Usuario implements Serializable{
     public void setIdPerfil(int idPerfil) {
         this.idPerfil = idPerfil;
     }
-    
-    
+
     public int getIdCarrera() {
         return idCarrera;
     }
 
     public void setIdCarrera(int idCarrera) {
         this.idCarrera = idCarrera;
+    }
+
+    public int getCelular() {
+        return celular;
+    }
+
+    public void setCelular(int celular) {
+        this.celular = celular;
     }
 
     @Override
@@ -154,6 +154,5 @@ public class Usuario implements Serializable{
         }
         return true;
     }
-    
-    
+
 }

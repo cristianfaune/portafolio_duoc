@@ -50,3 +50,9 @@ and open the template in the editor.
   }
 }
 
+#danger-box{
+    height: 50px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+

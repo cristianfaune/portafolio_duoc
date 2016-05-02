@@ -31,6 +31,33 @@ public class DropdownCategoriaServlet extends HttpServlet {
     
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
+    
+     @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        response.setContentType("text/html; charset=iso-8859-1");
+        PrintWriter out = response.getWriter();
+        try (Connection con = ds.getConnection()) {
+
+            int idCategoria = Integer.parseInt(request.getParameter("seleccionCategoria"));
+
+            Servicio servicio = new Servicio(con);
+            
+            ArrayList<Marca> lstMarcas = servicio.marcaPorId(idCategoria);           
+            
+            out.print("<select class='form-control' id='seleccionMarca' name='seleccionMarca'>");
+            out.print("<option value = '0'>--Seleccione una marca--</option>");
+            for (Marca temp : lstMarcas) {
+                out.print(" <option value ='" + temp.getIdMarca() + "'>" + temp.getDescripcion() + "</option>");
+            }
+            out.print("</select>");
+           
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en dropdown ajax", e);
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

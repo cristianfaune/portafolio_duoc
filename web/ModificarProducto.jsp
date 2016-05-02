@@ -1,6 +1,6 @@
 <%-- 
-    Document   : RegistroProducto
-    Created on : 23-abr-2016, 18:00:58
+    Document   : ModificarProducto
+    Created on : 28-abr-2016, 20:06:27
     Author     : cristian
 --%>
 
@@ -16,7 +16,6 @@
         <script src="js/jquery.blockUI.js"></script>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
         <title>Administración de Inventario</title>
     </head>
     <script type="text/javascript">
@@ -24,7 +23,7 @@
             $(document).ready(function () {
                 var idCategoria = $('#seleccionCategoria').val();
 
-                $.post('DropdownCategoriaServlet', {
+                $.get('DropdownCategoriaServlet', {
                     seleccionCategoria: idCategoria
 
                 }, function (responseText) {
@@ -63,18 +62,14 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <c:if test="${not empty mapMensaje['mensaje']}">
-                    <div id="danger-box" class="bg-danger">
-                        <h5 class="text-center text-danger"><c:out value="${mapMensaje['mensaje']}"/></h5>
-                    </div>
-                    </c:if>
-                    <h3 class="text-center" id="p">Registro de productos</h3>
+                    <h5 class="text-danger text-center"><c:out value="${mapMensaje['mensaje']}"/></h5>
+                    <h3 class="text-center" id="p">Modificar productos</h3>
                     <br>
                     <form action="<c:url value="/RegistroProductoServlet"/>" method="post">
                         <div class="form-group col-xs-6">
                             <label>Categoría:</label>
                             <select class="form-control" id="seleccionCategoria" name="seleccionCategoria" onchange="marcas()">
-                                <option value="0">--Seleccione una categoría--</option>
+                                <option value="0">--Seleccione una categoría</option>
                                 <c:forEach var="dato" items="${lstCategorias}">
                                     <option value="${dato.idCategoria}">
                                         <c:out value="${dato.descripcion}"/>
@@ -93,18 +88,22 @@
                         <div class="form-group col-xs-6">
                             <label>Nombre artículo:</label>
                             <input type="text" class="form-control" id="nombre" 
-                                   name="nombre" placeholder="cámara, notebook, proyector..."/>
+                                   name="nombre" placeholder="cámara, notebook, proyector..."
+                                   value="<c:out value="${producto.producto.nombre}"/>"/>
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Modelo:</label>
                             <input type="text" class="form-control" id="modelo" name="modelo"
-                                   style="text-transform: uppercase"/>
+                                   style="text-transform: uppercase"
+                                   value="<c:out value="${producto.producto.modelo}"/>"/>
                         </div>
                         <div class="form-group col-md-12">
                             <label>Descripción:</label>
                             <textarea type="text" class="form-control" id="descripcion" 
                                       name="descripcion" rows="6"
-                                      placeholder="Detalla las características del producto..."></textarea>
+                                      placeholder="Detalla las características del producto..."/>
+                            <c:out value="${producto.producto.descripcion}"/>
+                            </textarea>
                         </div>
                         <div class="form-group col-xs-12">
                             <label>Imagen:</label>
