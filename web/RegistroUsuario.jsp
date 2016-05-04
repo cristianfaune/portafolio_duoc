@@ -35,123 +35,126 @@
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
             <div class="row col-lg-offset-1">
                 <div class="col-md-2"></div>
-                <div class="col-md-7">
-                    <ul class="nav nav-tabs">
-                        <li role="presentation"><a href="<c:url value="/MostrarUsuario.js"/>">Buscar Usuario</a></li>
+                <div class="col-md-8">
+                    <ul class="nav nav-pills">
+                        <c:choose>
+                            <c:when test="${usuarioSesion.idPerfil == 100}">
+                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                </c:when>
+                                <c:when test="${usuarioSesion.idPerfil == 120}">
+                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                </c:when>
+                                <c:when test="${usuarioSesion.idPerfil == 110}">
+                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li role="presentation"><a href="<c:url value="/MostrarUsuarioServlet"/>">Buscar Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="#"/>">Ingresar Nuevo Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Mostrar Usuarios</a></li>
-                        <li role="presentation"><a href="<c:url value="/HomeJefeCarrera.jsp"/>">Volver</a></li>
 
                     </ul>
                     <br>
-                    <c:if test="${not empty mapMensaje['mensaje']}">
-                        <div id="danger-box" class="bg-danger">
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorRut']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorNombre']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorApellidos']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorTelefono']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorCelular']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorDireccion']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorEmail']}"/></p>
-                            <p class="text-danger text-center"><c:out value="${mapMensaje['errorPassword']}"/></p>
+                    <c:if test="${not empty mapMensajeExito}">
+                        <div class="bg-success" id="danger-box">
+                            <h5 class="text-center text-success"><c:out value="${mapMensajeExito['mensaje']}"/></h5>
                         </div>
                     </c:if>
                     <h3>Registro de Usuario</h3>
                     <br>
                     <p>
                     <form class="form-horizontal" action="<c:url value="/RegistroUsuarioServlet"/>" method="post">
-                        <div class="form-group">
-                            **Ingrese su rut sin puntos ni guion**
-                            <label for="inputRut" class="col-sm-2 control-label">Rut:</label>
+                        <div class="row">
                             <div class="col-md-4">
+                                <label for="inputRut" class="control-label">Rut:</label>
                                 <input type="text" class="form-control" id="rut" name="rut" 
                                        value="<c:out value="${param.rut}"/>" 
-                                       placeholder="Ingrese su Rut" autofocus="true" maxlength="9">           
+                                       placeholder="Ingrese su Rut" autofocus="true" maxlength="9">   
+                                <p id="info-form">**Ingrese su rut sin puntos ni guion**</p>
+                                <p id="error-form"><c:out value="${mapMensaje['errorRut']}"/></p>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputNombre" class="col-sm-2 control-label">Nombres: </label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" id="nombre" name="nombre" 
-                                       value="<c:out value="${param.nombre}"/>" placeholder="Ingrese nombres">
+                                <label>Perfil:</label>
+                                <select class="form-control" id="seleccionCategoria" name="seleccionPerfil">
+                                    <option value="0">--Seleccione--</option>
+                                    <c:forEach var="dat1" items="${lstPerfiles}">
+                                        <option value="${dat1.idPerfil}">
+                                            <c:out value="${dat1.descripcion}"/>
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                                <p id="error-form"><c:out value="${mapMensaje['errorPerfil']}"/></p>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputApellidos" class="col-sm-2 control-label">Apellidos: </label>
-                            <div class="col-xs-6">
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" 
-                                       value="<c:out value="${param.apellidos}"/>" placeholder="Ingrese sus apellidos">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputTelefono" class="col-sm-2 control-label">Teléfono: </label>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" id="telefono" name="telefono" 
-                                       value="<c:out value="${param.telefono}"/>" 
-                                       placeholder="Ingrese su teléfono" maxlength="10">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputCelular" class="col-sm-2 control-label">Celular </label>
-                            <div class="col-md-4">
-                                <input type="text" class="form-control" id="telefono" name="celular" 
-                                       value="<c:out value="${param.telefono}"/>" placeholder="Ingrese su teléfono Móvil">
-
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputDireccion" class="col-sm-2 control-label">Dirección: </label>
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" id="direccion" name="direccion" 
-                                       value="<c:out value="${param.direccion}"/>" placeholder="Ingrese su dirección">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail" class="col-sm-2 control-label">Email: </label>
-                            <div class="col-md-8">
-                                <input type="email" class="form-control" id="direccion" name="email" 
-                                       value="<c:out value="${param.email}"/>" placeholder="Ingrese un email">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputPassword" class="col-sm-2 control-label">Password: </label>
-                            <div class="col-md-8">
-                                <input type="password" class="form-control" id="direccion" name="password" 
-                                       value="<c:out value="${param.password}"/>" placeholder="Ingrese contraseña">
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <label>Perfil:</label>
-                            <select class="form-control" id="seleccionCategoria" name="seleccionPerfil">
-                                <option value="0">--Seleccione una categoría--</option>
-                                <c:forEach var="dat1" items="${lstPerfiles}">
-                                    <option value="${dat1.idPerfil}">
-                                        <c:out value="${dat1.descripcion}"/>
-                                    </option>
-                                </c:forEach>
-                            </select>
-                            <div class="form-group">
                                 <label>Carrera:</label>
                                 <select class="form-control" id="seleccionCategoria" name="seleccionCarrera" >
-                                    <option value="0">--Seleccione una categoría--</option>
+                                    <option value="0">--Seleccione--</option>
                                     <c:forEach var="dat2" items="${lstCarreras}">
                                         <option value="${dat2.idCarrera}">
                                             <c:out value="${dat2.descripcion}"/>
                                         </option>
                                     </c:forEach>
                                 </select>
+                                <p id="info-form">**Ingresar solo si aplica**</p>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="inputNombre" class="control-label">Nombres: </label>
+                                <input type="text" class="form-control" id="nombre" name="nombres" 
+                                       value="<c:out value="${param.nombre}"/>" placeholder="Ingrese nombres">
+                                <p id="error-form"><c:out value="${mapMensaje['errorNombre']}"/></p>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="inputApellidos" class="control-label">Apellidos: </label>
+                                <input type="text" class="form-control" id="apellidos" name="apellidos" 
+                                       value="<c:out value="${param.apellidos}"/>" placeholder="Ingrese sus apellidos">
+                                <p id="error-form"><c:out value="${mapMensaje['errorApellidos']}"/></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="inputDireccion" class="control-label">Dirección: </label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" 
+                                       value="<c:out value="${param.direccion}"/>" placeholder="Ingrese su dirección">
+                                <p id="error-form"><c:out value="${mapMensaje['errorDireccion']}"/></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="inputTelefono" class="control-label">Teléfono: </label>
+                                <input type="text" class="form-control" id="telefono" name="telefono" 
+                                       value="<c:out value="${param.telefono}"/>" 
+                                       placeholder="Ingrese su teléfono" maxlength="10">
+                                <p id="error-form"><c:out value="${mapMensaje['errorTelefono']}"/></p>
+                            </div>
                             <div class="col-md-8">
-                                <input type="submit" class="btn btn-default" value="Grabar"/>
+                                <label for="inputEmail" class="control-label">Email: </label>
+                                <input type="email" class="form-control" id="direccion" name="email" 
+                                       value="<c:out value="${param.email}"/>" placeholder="Ingrese un email">
+                                <p id="error-form"><c:out value="${mapMensaje['errorEmail']}"/></p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="inputPassword" class="control-label">Password: </label>
+                                <input type="password" class="form-control" id="direccion" name="password" 
+                                       value="<c:out value="${param.password}"/>" placeholder="Ingrese contraseña">
+                                <p id="info-form">**Máximo 10 caractéres**</p>
+                                <p id="error-form"><c:out value="${mapMensaje['errorPassword']}"/></p>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="col-lg-offset-10">
+                                <input type="submit" class="btn btn-default btn-primary" value="Guardar"/>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="col-md-3"></div>
-            </div> 
-        </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div> 
     </body>
 </html>

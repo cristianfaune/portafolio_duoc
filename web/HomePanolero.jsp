@@ -15,16 +15,13 @@
     </head>
     <body>
         <%@include file="header.jsp" %>
-        <div class="container">
-            <div class="text-right">
-                <a href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
-            </div>   
+        <div class="container">  
             <h4 class="text-center">Administración sistema Pañol</h4>
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
             <div class="row col-lg-offset-1">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-pills">
                         <li role="presentation"><a href="#">Administrar Solicitudes</a></li>
                         <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         <li role="presentation"><a href="#">Préstamos</a></li>

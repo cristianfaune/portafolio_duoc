@@ -53,4 +53,37 @@ public class PerfilDAO {
         }
         return list;
     }
+
+    public ArrayList<Perfil> listarPerfilesFiltro(int idPerfil) {
+        ArrayList<Perfil> list = new ArrayList<>();
+        Perfil perfil;
+
+        String sql = "{call listar_perfiles_filtro(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+            cs = con.prepareCall(sql);
+            
+            cs.setInt(1, idPerfil);
+            
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+            
+            cs.executeQuery();
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+
+                perfil = new Perfil();
+
+                perfil.setIdPerfil(rs.getInt("idPerfil"));
+                perfil.setDescripcion(rs.getString("descripcion"));
+
+                list.add(perfil);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al buscar los perfiles con filtro de perfil", e);
+        }
+        return list;
+    }
 }

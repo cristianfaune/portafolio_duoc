@@ -5,6 +5,7 @@
  */
 package cl.controlador;
 
+import cl.dominio.Usuario;
 import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -26,45 +28,30 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "ListarUsuariosServlet", urlPatterns = {"/ListarUsuariosServlet"})
 public class ListarUsuariosServlet extends HttpServlet {
-    
+
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
         try (Connection con = ds.getConnection()) {
 
-            //Class.forName("oracle.jdbc.driver.OracleDriver");
-            //Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "portafolio", "portafolio");
             Servicio servicio = new Servicio(con);
 
-            ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera();
-            
+            ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera(usuarioS.getIdPerfil());
+
             request.setAttribute("lstUsuarios", listaUsuarios);
             request.getRequestDispatcher("/ListarUsuario.jsp").forward(request, response);
 
@@ -73,28 +60,10 @@ public class ListarUsuariosServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

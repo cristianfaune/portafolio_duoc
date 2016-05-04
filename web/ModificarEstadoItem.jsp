@@ -15,21 +15,18 @@
         <title>Administración de Inventario</title>
     </head>
     <body>
-        <%@include file="header.jsp" %>
-        <div class="text-right">
-            <a href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
-        </div>   
+        <%@include file="header.jsp" %> 
         <div class="container">
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <div class="col-lg-offset-3">
-                        <ul class="nav nav-tabs">
+                        <ul class="nav nav-pills">
                             <c:choose>
-                                <c:when test="${usuario.idPerfil == 100}">
+                                <c:when test="${usuariosesion.idPerfil == 100}">
                                     <li role="presentation" class="active"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
                                     </c:when>
-                                    <c:when test="${usuario.idPerfil == 120}">
+                                    <c:when test="${usuariosesion.idPerfil == 120}">
                                     <li role="presentation" class="active"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>

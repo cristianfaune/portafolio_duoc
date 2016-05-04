@@ -63,8 +63,8 @@ public class Servicio {
         return usuarioDAO.listarUsuarios();
     }
 
-    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera() {
-        return consultaDAO.usuarioPerfilCarrera();
+    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera(int idPerfil) {
+        return consultaDAO.usuarioPerfilCarrera(idPerfil);
     }
 
     public ArrayList<ProductoMarcaDTO> productosPorId(int idProducto) {
@@ -119,12 +119,16 @@ public class Servicio {
         usuarioDAO.ModificarEstadoUsuario(rut, activar);
     }
 
-    public void modificarUsuario(String rut, String nombre, String apellido, int telefono, int celular, String direccion, String email) {
-        usuarioDAO.ModificarUsuario(rut, nombre, apellido, telefono, celular, direccion, email);
+    public void modificarUsuario(Usuario usuario) {
+        usuarioDAO.ModificarUsuario(usuario);
     }
 
     public ArrayList<Perfil> listarPerfiles() {
         return perfilDAO.listarPerfiles();
+    }
+
+    public ArrayList<Perfil> listarPerfilesFiltro(int idPerfil) {
+        return perfilDAO.listarPerfilesFiltro(idPerfil);
     }
 
     public ArrayList<Carrera> listarCarreras() {

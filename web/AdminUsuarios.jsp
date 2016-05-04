@@ -21,7 +21,7 @@
             <div class="row col-lg-offset-1">
                 <div class="col-md-2"></div>
                 <div class="col-md-7">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-pills">
                         <li role="presentation"><a href="<c:url value="/MostrarUsuario.jsp"/>">Buscar Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Listar Usuarios</a></li>

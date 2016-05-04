@@ -125,13 +125,13 @@ public class ConsultaDAO {
                 return lista;
     }
     
-    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera(){
+    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera(int idPerfil){
         ArrayList<UsuarioPerfilCarreraDTO> lista = new ArrayList<UsuarioPerfilCarreraDTO>();
         Usuario usuario;
         Perfil perfil;
         Carrera carrera;
         
-        String sql = "{call usuario_perfil_carrera(?)}";
+        String sql = "{call usuario_perfil_carrera(?,?)}";
 
         CallableStatement cs = null;      
         
@@ -139,11 +139,13 @@ public class ConsultaDAO {
             
             cs = con.prepareCall(sql);
             
-            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.setInt(1, idPerfil);
+            
+            cs.registerOutParameter(2,OracleTypes.CURSOR);
             
             cs.executeQuery();
             
-            ResultSet rs = (ResultSet)cs.getObject(1);
+            ResultSet rs = (ResultSet)cs.getObject(2);
             
             while (rs.next()) {
                 usuario = new Usuario();
@@ -151,7 +153,7 @@ public class ConsultaDAO {
                 usuario.setRut(rs.getString(1));
                 usuario.setNombres(rs.getString(2));
                 usuario.setApellidos(rs.getString(3));
-                usuario.setTelefono(rs.getInt(4));
+                usuario.setTelefono(rs.getString(4));
                 usuario.setDireccion(rs.getString(5));
                 usuario.setEmail(rs.getString(6));
                 usuario.setPassword(rs.getString(7));

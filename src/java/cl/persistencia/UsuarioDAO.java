@@ -44,7 +44,7 @@ public class UsuarioDAO {
                 usuario.setRut(rs.getString("rut"));
                 usuario.setNombres(rs.getString("nombres"));
                 usuario.setApellidos(rs.getString("apellidos"));
-                usuario.setTelefono(rs.getInt("telefono"));
+                usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -74,7 +74,7 @@ public class UsuarioDAO {
 
             cs = con.prepareCall(sql);
 
-            cs.registerOutParameter(1,OracleTypes.CURSOR);
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             cs.executeQuery();
 
@@ -86,7 +86,7 @@ public class UsuarioDAO {
                 usuario.setRut(rs.getString("rut"));
                 usuario.setNombres(rs.getString("nombres"));
                 usuario.setApellidos(rs.getString("apellidos"));
-                usuario.setTelefono(rs.getInt("telefono"));
+                usuario.setTelefono(rs.getString("telefono"));
                 usuario.setDireccion(rs.getString("direccion"));
                 usuario.setEmail(rs.getString("email"));
                 usuario.setPassword(rs.getString("password"));
@@ -102,12 +102,12 @@ public class UsuarioDAO {
         }
         return lista;
     }
-    
+
     public Usuario buscarUsuarioRut(String rut) {
         Usuario usuario = null;
 
         String sql = "select * from usuario where rut = ?";
-                   //"select rut from usuario"
+        //"select rut from usuario"
 
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
 
@@ -120,7 +120,7 @@ public class UsuarioDAO {
                     usuario.setRut(rs.getString("rut"));
                     usuario.setNombres(rs.getString("nombres"));
                     usuario.setApellidos(rs.getString("apellidos"));
-                    usuario.setTelefono(rs.getInt("telefono"));
+                    usuario.setTelefono(rs.getString("telefono"));
                     usuario.setDireccion(rs.getString("direccion"));
                     usuario.setEmail(rs.getString("email"));
                     usuario.setPassword(rs.getString("password"));
@@ -135,7 +135,7 @@ public class UsuarioDAO {
 
         return usuario;
     }
-    
+
     public void ModificarEstadoUsuario(String rut, byte activar) {
 
         String sql = "{call modificar_estado_usuario(?,?)}";
@@ -154,34 +154,33 @@ public class UsuarioDAO {
             throw new RuntimeException("Error en modificar estado usuario", e);
         }
     }
-    
-    public void ModificarUsuario(String rut, String nombre, String apellido, int telefono, int celular, String direccion, String email) {
 
-        String sql = "{call modificar_usuario(?,?,?,?,?,?,?)}";
+    public void ModificarUsuario(Usuario usuario) {
+
+        String sql = "{call modificar_usuario(?,?,?,?,?,?)}";
 
         CallableStatement cs = null;
 
         try {
 
             cs = con.prepareCall(sql);
-            cs.setString(1, rut);
-            cs.setString(2, nombre);
-            cs.setString(3, apellido);
-            cs.setInt(4, telefono);
-            cs.setInt(5, celular);
-            cs.setString(6, direccion);
-            cs.setString(7, email);
-            
+            cs.setString(1, usuario.getRut());
+            cs.setString(2, usuario.getNombres());
+            cs.setString(3, usuario.getApellidos());
+            cs.setString(4, usuario.getTelefono());
+            cs.setString(5, usuario.getDireccion());
+            cs.setString(6, usuario.getEmail());
+
             cs.executeQuery();
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en modificar usuario", e);
         }
     }
-    
-        public void registroUsuario(Usuario usuario) {
 
-        String sql = "{call registrar_usuario(?,?,?,?,?,?,?,?,?,?,?)}";
+    public void registroUsuario(Usuario usuario) {
+
+        String sql = "{call registrar_usuario(?,?,?,?,?,?,?,?,?,?)}";
 
         CallableStatement cs = null;
 
@@ -192,15 +191,14 @@ public class UsuarioDAO {
             cs.setString(1, usuario.getRut());
             cs.setString(2, usuario.getNombres());
             cs.setString(3, usuario.getApellidos());
-            cs.setInt(4, usuario.getTelefono());
-            cs.setInt(5, usuario.getCelular());
-            cs.setString(6, usuario.getDireccion());
-            cs.setString(7, usuario.getEmail());
-            cs.setString(8, usuario.getPassword());
-            cs.setByte(9, usuario.getActivo());
-            cs.setInt(10, usuario.getIdPerfil());
-            cs.setInt(11, usuario.getIdCarrera());
-            
+            cs.setString(4, usuario.getTelefono());
+            cs.setString(5, usuario.getDireccion());
+            cs.setString(6, usuario.getEmail());
+            cs.setString(7, usuario.getPassword());
+            cs.setByte(8, usuario.getActivo());
+            cs.setInt(9, usuario.getIdPerfil());
+            cs.setInt(10, usuario.getIdCarrera());
+
             cs.executeQuery();
 
         } catch (SQLException e) {

@@ -24,12 +24,26 @@
             </div>
             <div class="container">
                 <div class="text-right">
-                    <c:set var="now" value="<%=new java.util.Date()%>" />
-                    <h6 class="text-right" id="fecha"><fmt:formatDate value="${now}" type="date"></fmt:formatDate></h6>
-                    </div>   
-                </div>
-            </header>
-        </div>
+                    <!--<c:set var="now" value="<%=new java.util.Date()%>" />
+                    <h6 class="text-right" id="fecha"><fmt:formatDate value="${now}" type="date"></fmt:formatDate></h6>-->
+                    </div>
+                <c:if test="${usuarioSesion != null}">
+                    <div class="row">
+                        <div class="col-lg-5 col-lg-offset-7">
+                            <h4 class="text-right" id="usuario-sesion">
+                                <span class="glyphicon glyphicon-user" id="usuario-sesion" aria-hidden="true"></span>
+                                <c:out value="${usuarioSesion.nombres} ${usuarioSesion.apellidos}"/>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="glyphicon glyphicon-log-out" id="usuario-sesion" aria-hidden="true"></span>
+                        <a id="cerrar-sesion" href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
+                    </div> 
+                </c:if>
+            </div>
+        </header>
     </div>
+</div>
 </body>
 </html>
