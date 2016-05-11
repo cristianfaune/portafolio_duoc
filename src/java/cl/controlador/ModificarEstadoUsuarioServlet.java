@@ -6,7 +6,9 @@
 package cl.controlador;
 
 import cl.dominio.Item;
+import cl.dominio.Usuario;
 import cl.dto.ProductoMarcaDTO;
+import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -37,23 +40,26 @@ public class ModificarEstadoUsuarioServlet extends HttpServlet {
 
     }
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         
+
     }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
         Byte activo = Byte.parseByte(request.getParameter("activo"));
         String rut = request.getParameter("rut");
         byte activar = 0;
 
         try (Connection con = ds.getConnection()) {
+
             Servicio servicio = new Servicio(con);
 
             if (activo == activar) {
@@ -65,18 +71,15 @@ public class ModificarEstadoUsuarioServlet extends HttpServlet {
 
             servicio.modificarEstadoUsuario(rut, activar);
             
-request.getRequestDispatcher("/AdminUsuarios.jsp").forward(request, response);
+            ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera(usuarioS.getIdPerfil());
 
+            request.setAttribute("lstUsuarios", listaUsuarios);
+            request.getRequestDispatcher("/ListarUsuario.jsp").forward(request, response);
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexión a la bd", e);
         }
-        
-    }
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+    }
 
 }

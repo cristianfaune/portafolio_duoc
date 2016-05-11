@@ -94,7 +94,21 @@ public class RegistroUsuarioServlet extends HttpServlet {
             Servicio servicio = new Servicio(con);
             ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
             ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
-            Usuario usuarioExiste = servicio.buscarUsuarioRut(rut);
+            ArrayList<Usuario> lista= servicio.buscarUsuarioRut(rut);
+            Usuario usuarioExiste = new Usuario();
+            
+            for (Usuario usuario : lista) {
+                usuarioExiste.setRut(usuario.getRut());
+                usuarioExiste.setNombres(usuario.getNombres());
+                usuarioExiste.setApellidos(usuario.getApellidos());
+                usuarioExiste.setTelefono(usuario.getTelefono());
+                usuarioExiste.setDireccion(usuario.getDireccion());
+                usuarioExiste.setEmail(usuario.getEmail());
+                usuarioExiste.setPassword(usuario.getPassword());
+                usuarioExiste.setActivo(usuario.getActivo());
+                usuarioExiste.setIdPerfil(usuario.getIdPerfil());
+                usuarioExiste.setIdCarrera(usuario.getIdCarrera());
+            }
 
             Usuario usuario = new Usuario();
 
@@ -139,7 +153,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
             } else {
                 usuario.setDireccion(direccion);
             }
-            
+
             if (email.isEmpty()) {
                 mapMensaje.put("errorEmail", "**Debe ingresar email**");
             } else if (!email.isEmpty() && email.length() > 50) {
@@ -166,17 +180,19 @@ public class RegistroUsuarioServlet extends HttpServlet {
             if (!carrera.equals("0")) {
                 int idCarrera = Integer.parseInt(carrera);
                 usuario.setIdCarrera(idCarrera);
-            }else{
+            } else {
                 usuario.setIdCarrera(0);
             }
-            
-            usuario.setActivo((byte)1);
+
+            usuario.setActivo((byte) 1);
 
             if (mapMensaje.isEmpty()) {
 
                 servicio.registrarUsuario(usuario);
                 mapMensajeExito.put("mensaje", "El usuario fue registrado con éxito");
                 request.setAttribute("mapMensajeExito", mapMensajeExito);
+                request.setAttribute("lstPerfiles", lstPerfiles);
+                request.setAttribute("lstCarreras", lstCarreras);
                 request.getRequestDispatcher("/RegistroUsuario.jsp").forward(request, response);
             } else {
                 request.setAttribute("mapMensaje", mapMensaje);

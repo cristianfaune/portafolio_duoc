@@ -5,10 +5,7 @@
  */
 package cl.persistencia;
 
-import cl.dominio.Marca;
-import cl.dominio.Producto;
 import cl.dominio.Usuario;
-import cl.dto.ProductoMarcaDTO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -103,39 +100,94 @@ public class UsuarioDAO {
         return lista;
     }
 
-    public Usuario buscarUsuarioRut(String rut) {
-        Usuario usuario = null;
+    public ArrayList<Usuario> buscarUsuarioRut(String rut) {
+        ArrayList<Usuario> lista = new ArrayList<>();
+        Usuario usuario;
 
-        String sql = "select * from usuario where rut = ?";
-        //"select rut from usuario"
+        String sql = "{call usuario_rut(?,?)}";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        CallableStatement cs = null;
 
-            pstmt.setString(1, rut);
+        try {
 
-            try (ResultSet rs = pstmt.executeQuery()) {
+            cs = con.prepareCall(sql);
 
-                if (rs.next()) {
-                    usuario = new Usuario();
-                    usuario.setRut(rs.getString("rut"));
-                    usuario.setNombres(rs.getString("nombres"));
-                    usuario.setApellidos(rs.getString("apellidos"));
-                    usuario.setTelefono(rs.getString("telefono"));
-                    usuario.setDireccion(rs.getString("direccion"));
-                    usuario.setEmail(rs.getString("email"));
-                    usuario.setPassword(rs.getString("password"));
-                    usuario.setActivo(rs.getByte("activo"));
-                    usuario.setIdPerfil(rs.getInt("idPerfil"));
-                    usuario.setIdCarrera(rs.getInt("idCarrera"));
-                }
+            cs.setString(1, rut);
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                usuario = new Usuario();
+
+                usuario.setRut(rs.getString("rut"));
+                usuario.setNombres(rs.getString("nombres"));
+                usuario.setApellidos(rs.getString("apellidos"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setDireccion(rs.getString("direccion"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setPassword(rs.getString("password"));
+                usuario.setActivo(rs.getByte("activo"));
+                usuario.setIdPerfil(rs.getInt("idPerfil"));
+                usuario.setIdCarrera(rs.getInt("idCarrera"));
+
+                lista.add(usuario);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la búsqueda de usuario por rut");
-        }
 
-        return usuario;
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento buscar usuario rut", e);
+        }
+        return lista;
+    }
+    
+    public ArrayList<Usuario> buscarUsuarioRutFiltro(String rut, int idPerfil) {
+        ArrayList<Usuario> lista = new ArrayList<>();
+        Usuario usuario;
+
+        String sql = "{call buscar_usuario_rut_filtro(?,?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setString(1, rut);
+            cs.setInt(2, idPerfil);
+
+            cs.registerOutParameter(3, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(3);
+
+            while (rs.next()) {
+                usuario = new Usuario();
+
+                usuario.setRut(rs.getString("rut"));
+                usuario.setNombres(rs.getString("nombres"));
+                usuario.setApellidos(rs.getString("apellidos"));
+                usuario.setTelefono(rs.getString("telefono"));
+                usuario.setDireccion(rs.getString("direccion"));
+                usuario.setEmail(rs.getString("email"));
+                usuario.setPassword(rs.getString("password"));
+                usuario.setActivo(rs.getByte("activo"));
+                usuario.setIdPerfil(rs.getInt("idPerfil"));
+                usuario.setIdCarrera(rs.getInt("idCarrera"));
+
+                lista.add(usuario);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento buscar usuario rut filtro", e);
+        }
+        return lista;
     }
 
+    
     public void ModificarEstadoUsuario(String rut, byte activar) {
 
         String sql = "{call modificar_estado_usuario(?,?)}";
@@ -157,19 +209,22 @@ public class UsuarioDAO {
 
     public void ModificarUsuario(Usuario usuario) {
 
-        String sql = "{call modificar_usuario(?,?,?,?,?,?)}";
+        String sql = "{call modificar_usuario(?,?,?,?,?,?,?,?)}";
 
         CallableStatement cs = null;
 
         try {
 
             cs = con.prepareCall(sql);
+
             cs.setString(1, usuario.getRut());
             cs.setString(2, usuario.getNombres());
             cs.setString(3, usuario.getApellidos());
             cs.setString(4, usuario.getTelefono());
             cs.setString(5, usuario.getDireccion());
             cs.setString(6, usuario.getEmail());
+            cs.setInt(7, usuario.getIdPerfil());
+            cs.setInt(8, usuario.getIdCarrera());
 
             cs.executeQuery();
 

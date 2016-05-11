@@ -5,6 +5,7 @@ import cl.servicio.Servicio;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -45,40 +46,54 @@ public class ValidarIngreso extends HttpServlet {
         Map<String, String> mapMensajeRut = new HashMap<>();
         Map<String, String> mapMensajePass = new HashMap<>();
         HttpSession session = request.getSession();
+        Usuario usuarioSesion = new Usuario();
 
         try (Connection con = ds.getConnection()) {
 
             Servicio servicio = new Servicio(con);
 
-            Usuario usuario = servicio.buscarUsuarioRut(rut);
+            ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
+            
+            for (Usuario usuario : lista) {
+                usuarioSesion.setRut(usuario.getRut());
+                usuarioSesion.setNombres(usuario.getNombres());
+                usuarioSesion.setApellidos(usuario.getApellidos());
+                usuarioSesion.setTelefono(usuario.getTelefono());
+                usuarioSesion.setDireccion(usuario.getDireccion());
+                usuarioSesion.setEmail(usuario.getEmail());
+                usuarioSesion.setPassword(usuario.getPassword());
+                usuarioSesion.setActivo(usuario.getActivo());
+                usuarioSesion.setIdPerfil(usuario.getIdPerfil());
+                usuarioSesion.setIdCarrera(usuario.getIdCarrera());
+            }
 
             if (rut.isEmpty() || rut == null) {
                 mapMensajeRut.put("errorRut", "Debe ingresar su RUT");
-            } else if (usuario == null) {
+            } else if (usuarioSesion == null) {
                 mapMensajeRut.put("errorRut", "El usuario rut " + rut + " no existe");
             }
 
             if (password.isEmpty() || password == null) {
                 mapMensajePass.put("errorPass", "Debe ingresar su PASSWORD");
-            } else if (usuario != null) {
-                if (!usuario.getPassword().equals(password)) {
+            } else if (usuarioSesion != null) {
+                if (!usuarioSesion.getPassword().equals(password)) {
                     mapMensajePass.put("errorPass", "Su password no coincide con el registro");
                 }
             }
 
             if (mapMensajePass.isEmpty() && mapMensajeRut.isEmpty()) {
 
-                session.setAttribute("usuarioSesion", usuario);
+                session.setAttribute("usuarioSesion", usuarioSesion);
 
-                if (usuario.getIdPerfil() == 100 && usuario.getActivo() == 1) {
+                if (usuarioSesion.getIdPerfil() == 100 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
                 }
 
-                if (usuario.getIdPerfil() == 120 && usuario.getActivo() == 1) {
+                if (usuarioSesion.getIdPerfil() == 120 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
                 }
 
-                if (usuario.getIdPerfil() == 110 && usuario.getActivo() == 1) {
+                if (usuarioSesion.getIdPerfil() == 110 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
                 }
 

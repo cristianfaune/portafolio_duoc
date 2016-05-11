@@ -24,7 +24,17 @@
                 <div class="col-md-8">
                     <div>
                         <ul class="nav nav-pills col-lg-offset-1">
-                            <li role="presentation"><a href="<c:url value="/HomeJefeCarrera.jsp"/>">Home</a></li>
+                            <c:choose>
+                                <c:when test="${usuarioSesion.idPerfil == 100}">
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    </c:when>
+                                    <c:when test="${usuarioSesion.idPerfil == 120}">
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    </c:when>
+                                    <c:when test="${usuarioSesion.idPerfil == 110}">
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                    </c:when>
+                                </c:choose>
                             <li role="presentation"><a href="<c:url value="MostrarUsuarioServlet"/>">Buscar Usuario</a></li>
                             <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
                             <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Listar Usuarios</a></li>
@@ -59,6 +69,32 @@
                     </div>
                     <form action="<c:url value="/ModificarUsuarioServlet"/>" method="post">
                         <br>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label>Perfil:</label>
+                                <select class="form-control" id="seleccionCategoria" name="seleccionPerfil">
+                                    <option value="0">--Seleccione--</option>
+                                    <c:forEach var="dat1" items="${lstPerfiles}">
+                                        <option value="${dat1.idPerfil}" ${dat1.idPerfil == usuarioBusqueda.idPerfil ? 'selected="selected"' : ''}>
+                                            <c:out value="${dat1.descripcion}"/>
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                                <p id="error-form"><c:out value="${mapMensaje['errorPerfil']}"/></p>
+                            </div>
+                            <div class="col-md-5">
+                                <label>Carrera:</label>
+                                <select class="form-control" id="seleccionCategoria" name="seleccionCarrera" >
+                                    <option value="0">--Seleccione--</option>
+                                    <c:forEach var="dat2" items="${lstCarreras}">
+                                        <option value="${dat2.idCarrera}" ${dat2.idCarrera == usuarioBusqueda.idCarrera ? 'selected="selected"' : ''}>
+                                            <c:out value="${dat2.descripcion}"/>
+                                        </option>
+                                    </c:forEach>
+                                </select>
+                                <p id="info-form">**Ingresar solo si aplica**</p>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-4">
                                 <label>Nombres:</label>

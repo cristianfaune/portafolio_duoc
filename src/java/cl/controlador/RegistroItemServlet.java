@@ -79,6 +79,7 @@ public class RegistroItemServlet extends HttpServlet {
                     item.setNroSerie(nroSerie);                         
                     item.setActivo((byte)1);
                     item.setIdProducto(idProducto);
+                    item.setPrestamo((byte)0);
                     mapMensaje.put("mensaje", "El elemento fue exitosamente registrado");
                     servicio.registrarItem(item);
                 }

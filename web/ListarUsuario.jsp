@@ -19,12 +19,11 @@
             <h4 class="text-center">Administración sistema Pañol</h4>
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
             <br>
-            <br>
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
+                <div class="col-md-0"></div>
+                <div class="col-md-12">
                     <div>
-                        <ul class="nav nav-pills  col-lg-offset-3">
+                        <ul class="nav nav-pills  col-lg-offset-4">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
                                     <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -52,6 +51,7 @@
                                 <th class="text-center">Estado</th>
                                 <th class="text-center">Perfil</th>
                                 <th class="text-center">Carrera</th>
+                                <th class="text-center"></th>
                                 <th class="text-center">Acciones</th>
                             </tr>
                             <c:forEach var="dato" items="${lstUsuarios}">
@@ -96,7 +96,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-0"></div>
             </div>
         </div>
 

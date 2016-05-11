@@ -23,11 +23,14 @@
                     <div class="col-lg-offset-3">
                         <ul class="nav nav-pills">
                             <c:choose>
-                                <c:when test="${usuariosesion.idPerfil == 100}">
-                                    <li role="presentation" class="active"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                <c:when test="${usuarioSesion.idPerfil == 100}">
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
                                     </c:when>
-                                    <c:when test="${usuariosesion.idPerfil == 120}">
-                                    <li role="presentation" class="active"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
+                                    <c:when test="${usuarioSesion.idPerfil == 120}">
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    </c:when>
+                                    <c:when test="${usuarioSesion.idPerfil == 110}">
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="#">Administrar Usuarios</a></li>

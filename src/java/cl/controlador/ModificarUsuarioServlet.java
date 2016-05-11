@@ -5,12 +5,15 @@
  */
 package cl.controlador;
 
+import cl.dominio.Carrera;
+import cl.dominio.Perfil;
 import cl.dominio.Usuario;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -19,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -47,6 +51,10 @@ public class ModificarUsuarioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
         request.setCharacterEncoding("UTF-8");
 
         String rut = request.getParameter("rut");
@@ -55,6 +63,8 @@ public class ModificarUsuarioServlet extends HttpServlet {
         String telefono = request.getParameter("telefono");
         String direccion = request.getParameter("direccion");
         String email = request.getParameter("email");
+        String perfil = request.getParameter("seleccionPerfil");
+        String carrera = request.getParameter("seleccionCarrera");
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
@@ -63,13 +73,11 @@ public class ModificarUsuarioServlet extends HttpServlet {
             Servicio servicio = new Servicio(con);
             Usuario usuarioMod = new Usuario();
 
-            if (rut.isEmpty()) {
-                mapMensaje.put("errorRut", "**Debe ingresar rut**");
-            } else if (!rut.isEmpty() && rut.length() > 10) {
-                mapMensaje.put("errorRut", "**El valor es demasiado largo**");
-            } else {
+            ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
+
                 usuarioMod.setRut(rut);
-            }
+
 
             if (nombres.isEmpty()) {
                 mapMensaje.put("errorNombre", "**Debe ingresar nombre**");
@@ -102,6 +110,7 @@ public class ModificarUsuarioServlet extends HttpServlet {
             } else {
                 usuarioMod.setDireccion(direccion);
             }
+            
             if (email.isEmpty()) {
                 mapMensaje.put("errorEmail", "**Debe ingresar un email**");
             } else if (!email.isEmpty() && email.length() > 50) {
@@ -110,14 +119,30 @@ public class ModificarUsuarioServlet extends HttpServlet {
                 usuarioMod.setEmail(email);
             }
 
+            if (perfil.equals("0")) {
+                mapMensaje.put("errorPerfil", "**Debe ingresar un perfil**");
+            } else {
+                int idPerfil = Integer.parseInt(perfil);
+                usuarioMod.setIdPerfil(idPerfil);
+            }
+
+            if (!carrera.equals("0")) {
+                int idCarrera = Integer.parseInt(carrera);
+                usuarioMod.setIdCarrera(idCarrera);
+            } else {
+                usuarioMod.setIdCarrera(0);
+            }
+
             if (mapMensaje.isEmpty()) {
 
                 servicio.modificarUsuario(usuarioMod);
                 mapMensajeExito.put("mensajeExito", "El usuario fue modificado con éxito");
                 request.setAttribute("mapMensajeExito", mapMensajeExito);
                 request.getRequestDispatcher("/MostrarUsuario.jsp").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("mapMensaje", mapMensaje);
+                request.setAttribute("lstCarreras", lstCarreras);
+                request.setAttribute("lstPerfiles", lstPerfiles);
                 request.getRequestDispatcher("/MostrarUsuario.jsp").forward(request, response);
             }
 

@@ -12,15 +12,18 @@ import java.util.Objects;
  *
  * @author cristian
  */
-public class Item implements Serializable{
+public class Item implements Serializable {
+
     private String nroSerie;
     private byte activo;
     private int idProducto;
+    private byte prestamo;
 
-    public Item(String nroSerie, byte activo, int idProducto) {
+    public Item(String nroSerie, byte activo, int idProducto, byte prestamo) {
         this.nroSerie = nroSerie;
         this.activo = activo;
         this.idProducto = idProducto;
+        this.prestamo = prestamo;
     }
 
     public Item() {
@@ -50,6 +53,14 @@ public class Item implements Serializable{
         this.idProducto = idProducto;
     }
 
+    public byte getPrestamo() {
+        return prestamo;
+    }
+
+    public void setPrestamo(byte prestamo) {
+        this.prestamo = prestamo;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -74,6 +85,5 @@ public class Item implements Serializable{
         }
         return true;
     }
-    
-    
+
 }

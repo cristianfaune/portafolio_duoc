@@ -27,7 +27,7 @@ public class ItemDAO {
 
     public void registroItem(Item item) {
 
-        String sql = "{call registrar_item(?,?,?)}";
+        String sql = "{call registrar_item(?,?,?,?)}";
 
         CallableStatement cs = null;
 
@@ -38,6 +38,7 @@ public class ItemDAO {
             cs.setString(1, item.getNroSerie());
             cs.setByte(2, item.getActivo());
             cs.setInt(3, item.getIdProducto());
+            cs.setByte(4, item.getPrestamo());
 
             cs.executeQuery();
 
@@ -72,6 +73,7 @@ public class ItemDAO {
                 item.setNroSerie(rs.getString(1));
                 item.setActivo(rs.getByte(2));
                 item.setIdProducto(rs.getInt(3));
+                item.setPrestamo(rs.getByte(4));
 
                 lista.add(item);
             }
@@ -108,6 +110,7 @@ public class ItemDAO {
                 item.setNroSerie(rs.getString(1));
                 item.setActivo(rs.getByte(2));
                 item.setIdProducto(rs.getInt(3));
+                item.setPrestamo(rs.getByte(4));
 
                 lista.add(item);
             }

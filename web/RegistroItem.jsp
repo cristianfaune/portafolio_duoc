@@ -20,14 +20,17 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="col-lg-offset-3">
+                    <div class="col-lg-offset-2">
                         <ul class="nav nav-pills">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
                                     <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    </c:when>
+                                    <c:when test="${usuarioSesion.idPerfil == 110}">
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="#">Administrar Usuarios</a></li>
@@ -35,11 +38,12 @@
                         </ul>
                     </div>
                     <c:if test="${not empty mapMensaje['mensaje']}">
-                        <div id="danger-box" class="bg-danger">
-                            <h5 class="text-center text-danger"><c:out value="${mapMensaje['mensaje']}"/></h5>
+                        <div id="danger-box" class="bg-success">
+                            <h5 class="text-center text-success"><c:out value="${mapMensaje['mensaje']}"/></h5>
                         </div>
                     </c:if>
                     <h4 class="text-center">Registro Productos Inventario</h4>
+                    <br>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post">
                         <div class="col-xs-6">
                             <input class="form-control input-lg" type="text" 
@@ -49,7 +53,7 @@
                         <input class="btn-default btn-group btn-lg" id="btnRegistrar" 
                                type="submit" value="Registrar"/>
                         <br>
-                        <h6 class="text-warning">** Ingrese el nro de serie sin puntos ni guiones **</h6>
+                        <p id="info-form">--Ingrese el nro de serie sin puntos ni guiones--</p>
                         <table class="table">
                             <tbody>
                                 <tr>

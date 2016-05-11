@@ -19,12 +19,11 @@
         <div class="container">
             <h4 class="text-center">Administración sistema Pañol</h4>
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
-            <div class="container">
                 <div>
                     <div class="row">
-                        <div class="col-md-3"></div>
-                        <div class="col-md-6">
-                            <ul class="nav nav-pills">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+                            <ul class="nav nav-pills col-lg-offset-3">
                                 <c:choose>
                                     <c:when test="${usuarioSesion.idPerfil == 100}">
                                         <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -46,8 +45,8 @@
                 <br>
                 <br>
                 <div class="row">
-                    <div class="col-md-2"></div>
-                    <div class="col-md-8">
+                    <div class="col-md-0"></div>
+                    <div class="col-md-12">
                         <h3 class="text-center" id="p">Administración de Inventario</h3>
                         <table class="table">
                             <tbody>
@@ -127,9 +126,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-2"></div>
+                    <div class="col-md-0"></div>
                 </div>
-            </div>
         </div>
     </body>
 </html>

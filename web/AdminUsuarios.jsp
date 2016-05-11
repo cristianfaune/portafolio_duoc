@@ -22,11 +22,20 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-7">
                     <ul class="nav nav-pills">
+                        <c:choose>
+                            <c:when test="${usuarioSesion.idPerfil == 100}">
+                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                </c:when>
+                                <c:when test="${usuarioSesion.idPerfil == 120}">
+                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                </c:when>
+                                <c:when test="${usuarioSesion.idPerfil == 110}">
+                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                </c:when>
+                            </c:choose>
                         <li role="presentation"><a href="<c:url value="/MostrarUsuario.jsp"/>">Buscar Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
                         <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Listar Usuarios</a></li>
-                        <li role="presentation"><a href="<c:url value="/HomeJefeCarrera.jsp"/>">Volver</a></li>
-
                     </ul>
                     <br>
                     <br>

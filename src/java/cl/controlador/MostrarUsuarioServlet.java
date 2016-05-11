@@ -5,11 +5,14 @@
  */
 package cl.controlador;
 
+import cl.dominio.Carrera;
+import cl.dominio.Perfil;
 import cl.dominio.Usuario;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.annotation.Resource;
@@ -27,7 +30,7 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "MostrarUsuarioServlet", urlPatterns = {"/MostrarUsuarioServlet"})
 public class MostrarUsuarioServlet extends HttpServlet {
-    
+
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
 
@@ -43,57 +46,81 @@ public class MostrarUsuarioServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         try (Connection con = ds.getConnection()) {
-            
+
             request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
-            
+
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexión a la bd", e);
         }
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setCharacterEncoding("UTF-8");
+
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
         
+        request.setCharacterEncoding("UTF-8");
+
         String rut = request.getParameter("rut");
         Map<String, String> mapMensajeRut = new HashMap<>();
-        
+
         try (Connection con = ds.getConnection()) {
-            
+
             Servicio servicio = new Servicio(con);
+
+            ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
+
+            Usuario usuarioBusqueda = new Usuario();
+                    
+            ArrayList<Usuario> lista = servicio.buscarUsuarioRutFiltro(rut, usuarioS.getIdPerfil());
             
-            Usuario usuarioBusqueda = servicio.buscarUsuarioRut(rut);
-            
+            for (Usuario usuario : lista) {
+                usuarioBusqueda.setRut(usuario.getRut());
+                usuarioBusqueda.setNombres(usuario.getNombres());
+                usuarioBusqueda.setApellidos(usuario.getApellidos());
+                usuarioBusqueda.setTelefono(usuario.getTelefono());
+                usuarioBusqueda.setDireccion(usuario.getDireccion());
+                usuarioBusqueda.setEmail(usuario.getEmail());
+                usuarioBusqueda.setPassword(usuario.getPassword());
+                usuarioBusqueda.setActivo(usuario.getActivo());
+                usuarioBusqueda.setIdPerfil(usuario.getIdPerfil());
+                usuarioBusqueda.setIdCarrera(usuario.getIdCarrera());
+            }
+
             if (rut.isEmpty() || rut == null) {
                 mapMensajeRut.put("errorRut", "**Debe ingresar un rut**");
-            } else {
-                if (usuarioBusqueda == null) {
-                    mapMensajeRut.put("errorRut", "**El usuario no está registrado**");
-                }
+            } else if (lista.size()== 0) {
+                mapMensajeRut.put("errorRut", "**El usuario no está registrado o no poseee las credenciales"
+                        + " para modificarlo**");
             }
-            
+
             if (mapMensajeRut.isEmpty()) {
-                
+
+                request.setAttribute("lstCarreras", lstCarreras);
+                request.setAttribute("lstPerfiles", lstPerfiles);
                 request.setAttribute("usuarioBusqueda", usuarioBusqueda);
                 request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
             } else {
                 request.setAttribute("mapMensajeRut", mapMensajeRut);
                 request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
             }
-            
+
         } catch (SQLException e) {
             throw new RuntimeException("error en la conexion", e);
         }
-        
+
     }
 
     /**

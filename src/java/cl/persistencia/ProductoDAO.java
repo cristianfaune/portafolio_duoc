@@ -88,4 +88,29 @@ public class ProductoDAO {
         }
         return lista;
     }
+    
+    public void modificarProducto(Producto producto) {
+
+        String sql = "{call modificar_producto(?,?,?,?,?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, producto.getIdProducto());
+            cs.setInt(2, producto.getIdCategoria());
+            cs.setInt(3, producto.getIdMarca());
+            cs.setString(4, producto.getNombre());
+            cs.setString(5, producto.getModelo());
+            cs.setString(6, producto.getDescripcion());
+
+            cs.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en modificar producto", e);
+        }
+    }
+
 }

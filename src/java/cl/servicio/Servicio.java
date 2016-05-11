@@ -99,12 +99,20 @@ public class Servicio {
         return marcaDAO.MarcasPorId(idCategoria);
     }
 
-    public Usuario buscarUsuarioRut(String rut) {
+    public ArrayList<Usuario> buscarUsuarioRut(String rut) {
         return usuarioDAO.buscarUsuarioRut(rut);
+    }
+
+    public ArrayList<Usuario> buscarUsuarioRutFiltro(String rut, int idPerfil) {
+        return usuarioDAO.buscarUsuarioRutFiltro(rut, idPerfil);
     }
 
     public void registrarProducto(Producto producto) {
         productoDAO.registroProducto(producto);
+    }
+
+    public void modificarProducto(Producto producto) {
+        productoDAO.modificarProducto(producto);
     }
 
     public ArrayList<Producto> listarProductos() {

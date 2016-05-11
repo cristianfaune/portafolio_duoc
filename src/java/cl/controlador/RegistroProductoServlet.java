@@ -61,6 +61,7 @@ public class RegistroProductoServlet extends HttpServlet {
         String modelo = request.getParameter("modelo");
         String descripcion = request.getParameter("descripcion");
         Map<String, String> mapMensaje = new HashMap<>();
+        Map<String, String> mapMensajeExito = new HashMap<>();
 
         try (Connection con = ds.getConnection()) {
 
@@ -71,25 +72,25 @@ public class RegistroProductoServlet extends HttpServlet {
             Producto producto = new Producto();
 
             if (nombre.isEmpty()) {
-                mapMensaje.put("mensaje", "Todos los campos son obligatorios");
+                mapMensaje.put("errorNombre", "**Debe ingresar un nombre**");
             } else if (!nombre.isEmpty() && nombre.length() > 50) {
-                mapMensaje.put("mensaje", "El valor es demasiado largo");
+                mapMensaje.put("errorNombre", "**El valor es demasiado largo**");
             } else {
                 producto.setNombre(nombre);
             }
 
             if (modelo.isEmpty()) {
-                mapMensaje.put("mensaje", "Todos los campos son obligatorios");
+                mapMensaje.put("errorModelo", "**Debe ingresar modelo**");
             } else if (!modelo.isEmpty() && modelo.length() > 50) {
-                mapMensaje.put("mensaje", "El valor es demasiado largo");
+                mapMensaje.put("errorModelo", "**El valor es demasiado largo**");
             } else {
                 producto.setModelo(modelo);
             }
 
             if (descripcion.isEmpty()) {
-                mapMensaje.put("mensaje", "Todos los campos son obligatorios");
+                mapMensaje.put("errorDescripcion", "**Debe ingresar una descripción**");
             } else if (!descripcion.isEmpty() && descripcion.length() > 200) {
-                mapMensaje.put("mensaje", "Escriba una descripción más corta");
+                mapMensaje.put("errorDescripcion", "**Escriba una descripción más corta**");
             } else {
                 producto.setDescripcion(descripcion);
             }
@@ -97,13 +98,13 @@ public class RegistroProductoServlet extends HttpServlet {
             producto.setRutaImagen("imgProductos/imagenNoDisponible.png");
 
             if ((String.valueOf(idCategoria)).equals("0")) {
-                mapMensaje.put("mensaje", "Todos los campos son obligatorios");
+                mapMensaje.put("errorCategoria", "**Debe ingresar una categoria**");
             } else {
                 producto.setIdCategoria(idCategoria);
             }
 
             if ((String.valueOf(idMarca)).equals("0")) {
-                mapMensaje.put("mensaje", "Todos los campos son obligatorios");
+                mapMensaje.put("errorMarca", "**Debe ingresar una marca**");
             } else {
                 producto.setIdMarca(idMarca);
             }
@@ -112,24 +113,24 @@ public class RegistroProductoServlet extends HttpServlet {
                 ArrayList<ProductoMarcaDTO> lista = servicio.existeProducto(idMarca, modelo);
 
                 if (lista.size() > 0) {
-                    mapMensaje.put("mensaje", "El producto ya está registrado");
+                    mapMensaje.put("errorExiste", "**El producto ya está registrado**");
                 }
             }
 
             if (mapMensaje.isEmpty()) {
 
                 servicio.registrarProducto(producto);
-                mapMensaje.put("mensaje", "Producto registrado con éxito");
-
+                mapMensajeExito.put("mensaje", "Producto registrado con éxito");
                 ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
+                request.setAttribute("mensaje", mapMensajeExito);
                 request.setAttribute("lstProductos", listaProductos);
-                request.getRequestDispatcher("/AdminProductos.jsp").forward(request, response);
+                request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
+            } else {
+                request.setAttribute("mapMensaje", mapMensaje);
+                request.setAttribute("lstMarcas", lstMarcas);
+                request.setAttribute("lstCategorias", lstCategorias);
+                request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
             }
-
-            request.setAttribute("mapMensaje", mapMensaje);
-            request.setAttribute("lstMarcas", lstMarcas);
-            request.setAttribute("lstCategorias", lstCategorias);
-            request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexión a bd", e);
