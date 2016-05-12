@@ -12,6 +12,7 @@ import cl.dominio.Marca;
 import cl.dominio.Perfil;
 import cl.dominio.Producto;
 import cl.dominio.Usuario;
+import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.dto.ProductoMarcaDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.persistencia.CarreraDAO;
@@ -145,5 +146,9 @@ public class Servicio {
 
     public void registrarUsuario(Usuario usuario) {
         usuarioDAO.registroUsuario(usuario);
+    }
+    
+    public ArrayList<DetalleSolicitudPrUsCaDTO> buscarSolicitudId (int idSolicitud){
+        return consultaDAO.buscarSolicitudId(idSolicitud);
     }
 }

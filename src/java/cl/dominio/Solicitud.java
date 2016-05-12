@@ -15,11 +15,16 @@ import java.sql.Timestamp;
 public class Solicitud implements Serializable{
     private int idSolicitud;
     private Timestamp fechaSolicitud;
-    private byte activa = 1;
+    private byte activa;
+    private byte solicitudEspecial;
+    private int diasPrestamo;
 
-    public Solicitud(int idSolicitud, Timestamp fechaSolicitud) {
+    public Solicitud(int idSolicitud, Timestamp fechaSolicitud, byte activa, byte solicitudEspecial, int diasPrestamo) {
         this.idSolicitud = idSolicitud;
         this.fechaSolicitud = fechaSolicitud;
+        this.activa = activa;
+        this.solicitudEspecial = solicitudEspecial;
+        this.diasPrestamo = diasPrestamo;
     }
 
     public Solicitud() {
@@ -48,7 +53,23 @@ public class Solicitud implements Serializable{
     public void setActiva(byte activa) {
         this.activa = activa;
     }
+    
+    public byte getSolicitudEspecial() {
+        return solicitudEspecial;
+    }
 
+    public void setSolicitudEspecial(byte solicitudEspecial) {
+        this.solicitudEspecial = solicitudEspecial;
+    }
+
+    public int getDiasPrestamo() {
+        return diasPrestamo;
+    }
+
+    public void setDiasPrestamo(int diasPrestamo) {
+        this.diasPrestamo = diasPrestamo;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -73,6 +94,5 @@ public class Solicitud implements Serializable{
         }
         return true;
     }
-    
-    
+
 }

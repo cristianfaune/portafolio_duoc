@@ -9,7 +9,9 @@ import cl.dominio.Carrera;
 import cl.dominio.Marca;
 import cl.dominio.Perfil;
 import cl.dominio.Producto;
+import cl.dominio.Solicitud;
 import cl.dominio.Usuario;
+import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.dto.ProductoMarcaDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
 import java.sql.CallableStatement;
@@ -230,5 +232,93 @@ public class ConsultaDAO {
         
         return lista;
     }
+    
+    public ArrayList<DetalleSolicitudPrUsCaDTO> buscarSolicitudId(int idSolicitud) {
+        ArrayList<DetalleSolicitudPrUsCaDTO> lista = new ArrayList<>();
+        Producto producto;
+        Marca marca;
+        Usuario usuario;
+        DetalleSolicitud detalleSolicitud;
+        Carrera carrera;
+        Solicitud solicitud;
+
+        String sql = "{call solicitud_por_id(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idSolicitud);
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+            
+            ResultSet rs = (ResultSet)cs.getObject(2);
+            
+            while (rs.next()) {
+                solicitud = new Solicitud();
+                
+                solicitud.setIdSolicitud(rs.getInt(1));
+                solicitud.setFechaSolicitud(rs.getTimestamp(2));
+                solicitud.setActiva(rs.getByte(3));
+                solicitud.setSolicitudEspecial(rs.getByte(4));
+                solicitud.setDiasPrestamo(rs.getInt(5));
+                
+                detalleSolicitud = new DetalleSolicitud();
+                                
+                detalleSolicitud.setRut(rs.getString(6));
+                detalleSolicitud.setIdSolicitud(rs.getInt(7));
+                detalleSolicitud.setIdProducto(rs.getInt(8));
+                detalleSolicitud.setCantidad(rs.getInt(9));
+                
+                usuario = new Usuario();
+                
+                usuario.setRut(rs.getString(10));
+                usuario.setNombres(rs.getString(11));
+                usuario.setApellidos(rs.getString(12));
+                usuario.setTelefono(rs.getString(13));
+                usuario.setDireccion(rs.getString(14));
+                usuario.setEmail(rs.getString(15));
+                usuario.setPassword(rs.getString(16));
+                usuario.setActivo(rs.getByte(17));
+                usuario.setIdPerfil(rs.getInt(18));
+                usuario.setIdCarrera(rs.getInt(19));
+                
+                carrera = new Carrera();
+                
+                carrera.setIdCarrera(rs.getInt(20));
+                carrera.setDescripcion(rs.getString(21));
+                
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(22));
+                producto.setNombre(rs.getString(23));
+                producto.setModelo(rs.getString(24));
+                producto.setDescripcion(rs.getString(25));
+                producto.setStock(rs.getInt(26));
+                producto.setRutaImagen(rs.getString(27));
+                producto.setIdCategoria(rs.getInt(28));
+                producto.setIdMarca(rs.getInt(29));
+
+                marca = new Marca();
+
+                marca.setIdMarca(rs.getInt(30));
+                marca.setDescripcion(rs.getString(31));
+                marca.setIdCategoria(rs.getInt(32));
+
+                lista.add(new DetalleSolicitudPrUsCaDTO(detalleSolicitud, 
+                        solicitud, producto, carrera, usuario, marca));             
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento solicitud por id", e);
+        }
+        return lista;
+    }
+    
+    
 
 }
