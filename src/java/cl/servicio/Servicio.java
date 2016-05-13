@@ -151,4 +151,8 @@ public class Servicio {
     public ArrayList<DetalleSolicitudPrUsCaDTO> buscarSolicitudId (int idSolicitud){
         return consultaDAO.buscarSolicitudId(idSolicitud);
     }
+    
+    public ArrayList<Item> itemsDisponibles (int idProducto, int cantidad){
+        return itemDAO.itemsDisponibles(idProducto, cantidad);
+    }
 }

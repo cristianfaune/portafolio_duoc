@@ -1,5 +1,6 @@
 package cl.controlador;
 
+import cl.dominio.Item;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
@@ -66,6 +67,37 @@ public class BuscarSolicitudServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String idSolicitud = request.getParameter("varIdSol");
+        ArrayList<Item> listaItems = new ArrayList<>();
+        ArrayList<Item> items = new ArrayList<>();
+        int idProducto;
+        int cantidad;
+
+        try (Connection con = ds.getConnection()) {
+
+            Servicio servicio = new Servicio(con);
+
+            ArrayList<DetalleSolicitudPrUsCaDTO> lista = servicio.buscarSolicitudId(Integer.parseInt(idSolicitud));
+
+            for (DetalleSolicitudPrUsCaDTO var : lista) {
+
+                idProducto = var.getDetalleSolicitud().getIdProducto();
+                cantidad = var.getDetalleSolicitud().getCantidad();
+
+                listaItems = servicio.itemsDisponibles(idProducto, cantidad);
+
+                for (Item varItem : listaItems) {
+                    items.add(varItem);
+                }
+            }
+
+            request.setAttribute("lstItems", items);
+            request.getRequestDispatcher("AdminPrestamos.jsp").forward(request, response);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la conexion bd", e);
+        }
 
     }
 

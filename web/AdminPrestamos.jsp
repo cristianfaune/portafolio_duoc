@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -77,8 +79,9 @@
                                     <div class="col-md-6">
                                         <h3>Datos Solicitud:</h3>
                                         <hr>
+                                        <c:set var="varIdSolicitud" value="${dato.solicitud.idSolicitud}"/>
                                         <h2>id: #<c:out value="${dato.solicitud.idSolicitud}"/></h2>
-                                        <label id="info-form">Fecha solicitud: <c:out value="${dato.solicitud.fechaSolicitud}"/></label>
+                                        <label id="info-form">Fecha solicitud: <fmt:formatDate value="${dato.solicitud.fechaSolicitud}" type="date"/></label>
                                     </div>
                                 </div>
                             </div>
@@ -88,54 +91,73 @@
                                     <h3>Detalle productos:</h3>
                                     <br>
                                     <table class="table">
-                            <tbody>
-                                <tr>
-                                    <th class="text-center">Imagen</th>
-                                    <th class="text-center">Id</th>
-                                    <th class="text-center">producto</th>
-                                    <th class="text-center">Modelo</th>
-                                    <th class="text-center">Marca</th>
-                                    <th class="text-center">Stock</th>
-                                    <th class="text-center">Cantidad Solicitada</th>
-                                </tr>
-                                <c:forEach var="dato" items="${lstSolicitud}">
-                                    <c:choose>
-                                        <c:when test="${dato.producto.stock < dato.detalleSolicitud.cantidad}">
-                                            <tr class="bg-danger">
-                                                <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
-                                                <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
-                                                <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
-                                                <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
-                                                <td class="text-center"><c:out value="${dato.marca.descripcion}"/></td>
-                                                <td class="text-center"><c:out value="${dato.producto.stock}"/></td>
-                                                <td class="text-center"><c:out value="${dato.detalleSolicitud.cantidad}"/></td>
-                                            </tr>
-                                        </c:when>
-                                        <c:otherwise>
+                                        <tbody>
                                             <tr>
-                                                <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
-                                                <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
-                                                <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
-                                                <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
-                                                <td class="text-center"><c:out value="${dato.marca.descripcion}"/></td>
-                                                <td class="text-center"><c:out value="${dato.producto.stock}"/></td>
-                                                <td class="text-center"><c:out value="${dato.detalleSolicitud.cantidad}"/></td>
+                                                <th class="text-center">Imagen</th>
+                                                <th class="text-center">Id</th>
+                                                <th class="text-center">producto</th>
+                                                <th class="text-center">Modelo</th>
+                                                <th class="text-center">Marca</th>
+                                                <th class="text-center">Stock</th>
+                                                <th class="text-center">Cantidad Solicitada</th>
                                             </tr>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                                            <c:forEach var="dato" items="${lstSolicitud}">
+                                                <c:choose>
+                                                    <c:when test="${dato.producto.stock < dato.detalleSolicitud.cantidad}">
+                                                        <tr class="bg-danger">
+                                                            <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.marca.descripcion}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.stock}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.detalleSolicitud.cantidad}"/></td>
+                                                        </tr>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <tr>
+                                                            <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.marca.descripcion}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.producto.stock}"/></td>
+                                                            <td class="text-center"><c:out value="${dato.detalleSolicitud.cantidad}"/></td>
+                                                        </tr>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <c:if test="${dato.producto.stock < dato.detalleSolicitud.cantidad}">
+                                                    <c:set var="stock" value="1"></c:set>
+                                                </c:if>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
                     <br>
-                    <div class="row">
-                        <div class="col-md-5">
-
-                        </div>
-                    </div>
+                    <c:choose>
+                        <c:when test="${stock == 1}">
+                            <div class="row col-lg-offset-10">
+                                <div class="col-md-5">
+                                    <form action="#" method="post">
+                                    <input class="btn btn-default btn-danger" type="submit" name="prestamo" value="Editar Solicitud">
+                                    </form>
+                                </div>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="row col-lg-offset-10">
+                                <div class="col-md-5">
+                                    <form action="BuscarSolicitudServlet" method="post">
+                                        <input type="hidden" name="varIdSol" value="${varIdSolicitud}">
+                                    <input class="btn btn-default btn-primary" type="submit" name="prestamo" value="Continuar >">
+                                    </form>
+                                </div>
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
                 </c:if>
             </div>
             <div class="col-md-0"></div>
