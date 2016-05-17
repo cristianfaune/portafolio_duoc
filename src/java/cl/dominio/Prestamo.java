@@ -12,19 +12,22 @@ import java.sql.Timestamp;
  *
  * @author cristian
  */
-public class Prestamo implements Serializable{
+public class Prestamo implements Serializable {
+
     private int idPrestamo;
     private byte activa;
     private Timestamp fechaRetiro;
     private Timestamp fechaEstimadaEntrega;
     private int idSolicitud;
+    private byte prestamoEspecial;
 
-    public Prestamo(int idPrestamo, byte activa, Timestamp fechaRetiro, Timestamp fechaEstimadaEntrega, int idSolicitud) {
+    public Prestamo(int idPrestamo, byte activa, Timestamp fechaRetiro, Timestamp fechaEstimadaEntrega, int idSolicitud, byte prestamoEspecial) {
         this.idPrestamo = idPrestamo;
         this.activa = activa;
         this.fechaRetiro = fechaRetiro;
         this.fechaEstimadaEntrega = fechaEstimadaEntrega;
         this.idSolicitud = idSolicitud;
+        this.prestamoEspecial = prestamoEspecial;
     }
 
     public Prestamo() {
@@ -70,6 +73,14 @@ public class Prestamo implements Serializable{
         this.idSolicitud = idSolicitud;
     }
 
+    public byte getPrestamoEspecial() {
+        return prestamoEspecial;
+    }
+
+    public void setPrestamoEspecial(byte prestamoEspecial) {
+        this.prestamoEspecial = prestamoEspecial;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -94,6 +105,5 @@ public class Prestamo implements Serializable{
         }
         return true;
     }
-    
-    
+
 }

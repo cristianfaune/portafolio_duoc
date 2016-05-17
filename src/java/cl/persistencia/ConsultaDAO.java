@@ -5,6 +5,7 @@
  */
 package cl.persistencia;
 
+import cl.dominio.DetalleSolicitud;
 import cl.dominio.Carrera;
 import cl.dominio.Marca;
 import cl.dominio.Perfil;

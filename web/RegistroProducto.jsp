@@ -42,7 +42,7 @@
             <div>
                 <div class="row">
                     <div class="col-md-3"></div>
-                    <div class="col-md-6  col-lg-offset-2">
+                    <div class="col-md-6  col-lg-offset-0">
                         <ul class="nav nav-pills">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">

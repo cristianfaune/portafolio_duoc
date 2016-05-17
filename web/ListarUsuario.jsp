@@ -72,7 +72,7 @@
                                     <td class="text-center"><c:out value="${dato.perfil.descripcion}"/></td>
                                     <td class="text-center"><c:out value="${dato.carrera.descripcion}"/></td>
                                     <td>
-                                        <form action="<c:url value="/ModificarEstadoUsuarioServlet"/>" method="post">
+                                        <form action="<c:url value="/ModificarEstadoUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar el estado del usuario?');">
                                             <input type="hidden" name="rut" value="${dato.usuario.rut}"/>
                                             <input type="hidden" name="activo" value="${dato.usuario.activo}"/>
                                             <c:choose>

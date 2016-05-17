@@ -94,10 +94,11 @@ public class RegistroUsuarioServlet extends HttpServlet {
             Servicio servicio = new Servicio(con);
             ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
             ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
-            ArrayList<Usuario> lista= servicio.buscarUsuarioRut(rut);
-            Usuario usuarioExiste = new Usuario();
+            ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
+            Usuario usuarioExiste = null;
             
             for (Usuario usuario : lista) {
+                usuarioExiste = new Usuario();
                 usuarioExiste.setRut(usuario.getRut());
                 usuarioExiste.setNombres(usuario.getNombres());
                 usuarioExiste.setApellidos(usuario.getApellidos());

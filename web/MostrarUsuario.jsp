@@ -67,7 +67,7 @@
                             <h4>Datos usuario:</h4> 
                         </div>
                     </div>
-                    <form action="<c:url value="/ModificarUsuarioServlet"/>" method="post">
+                    <form action="<c:url value="/ModificarUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar los datos?');">
                         <br>
                         <div class="row">
                             <div class="col-md-5">

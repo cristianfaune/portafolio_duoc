@@ -178,5 +178,25 @@ public class ItemDAO {
             throw new RuntimeException("Error en modificar estado item", e);
         }
     }
+    
+    public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
+
+        String sql = "{call modificar_prestamo_item(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setString(1, nroSerie);
+            cs.setByte(2, prestamo);
+
+            cs.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en modificar estado prestamo", e);
+        }
+    }
 
 }

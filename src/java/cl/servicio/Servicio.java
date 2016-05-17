@@ -7,9 +7,11 @@ package cl.servicio;
 
 import cl.dominio.Carrera;
 import cl.dominio.Categoria;
+import cl.dominio.DetallePrestamo;
 import cl.dominio.Item;
 import cl.dominio.Marca;
 import cl.dominio.Perfil;
+import cl.dominio.Prestamo;
 import cl.dominio.Producto;
 import cl.dominio.Usuario;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
@@ -21,7 +23,9 @@ import cl.persistencia.ConsultaDAO;
 import cl.persistencia.ItemDAO;
 import cl.persistencia.MarcaDAO;
 import cl.persistencia.PerfilDAO;
+import cl.persistencia.PrestamoDAO;
 import cl.persistencia.ProductoDAO;
+import cl.persistencia.SolicitudDAO;
 import cl.persistencia.UsuarioDAO;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -40,6 +44,8 @@ public class Servicio {
     CategoriaDAO categoriaDAO;
     PerfilDAO perfilDAO;
     CarreraDAO carreraDAO;
+    PrestamoDAO prestamoDAO;
+    SolicitudDAO solicitudDAO;
 
     public Servicio(Connection con) {
         productoDAO = new ProductoDAO(con);
@@ -50,6 +56,8 @@ public class Servicio {
         marcaDAO = new MarcaDAO(con);
         perfilDAO = new PerfilDAO(con);
         carreraDAO = new CarreraDAO(con);
+        prestamoDAO = new PrestamoDAO(con);
+        solicitudDAO = new SolicitudDAO(con);
     }
 
     public ArrayList<ProductoMarcaDTO> productosMarcaCursor() {
@@ -154,5 +162,29 @@ public class Servicio {
     
     public ArrayList<Item> itemsDisponibles (int idProducto, int cantidad){
         return itemDAO.itemsDisponibles(idProducto, cantidad);
+    }
+    
+    public void registroPrestamo (Prestamo prestamo, int cantidadDias){
+        prestamoDAO.registroPrestamo(prestamo, cantidadDias);
+    }
+    
+    public ArrayList<Prestamo> prestamoPorIdSolicitud(int idSolicitud){
+        return prestamoDAO.prestamoPorIdSolicitud(idSolicitud);
+    }
+    
+    public void registroDetallePrestamo(DetallePrestamo detallePrestamo){
+        prestamoDAO.registroDetallePrestamo(detallePrestamo);
+    }
+    
+    public int idUltimoPrestamo(){
+        return prestamoDAO.idUltimoPrestamo();
+    }
+    
+    public void ModificarEstadoSolicitud(int idSolicitud, byte activa) {
+        solicitudDAO.ModificarEstadoSolicitud(idSolicitud, activa);
+    }
+    
+    public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
+        itemDAO.modificarEstadoPrestamo(nroSerie, prestamo);
     }
 }

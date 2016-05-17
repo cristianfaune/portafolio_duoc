@@ -86,7 +86,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                         <td class="text-center">
-                                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="post">
+                                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar los datos?');">
                                                 <input type="hidden" name="nroSerie" value="${dato.nroSerie}"/>
                                                 <input type="hidden" name="idProducto" value="${idProducto}"/>
                                                 <c:choose>

@@ -13,16 +13,16 @@ import java.io.Serializable;
  *
  * @author cristian
  */
-public class UsuarioPrestamoDTO implements Serializable{
+public class DetallePrestamoDTO implements Serializable{
     private Usuario usuario;
     private Prestamo prestamo;
 
-    public UsuarioPrestamoDTO(Usuario usuario, Prestamo prestamo) {
+    public DetallePrestamoDTO(Usuario usuario, Prestamo prestamo) {
         this.usuario = usuario;
         this.prestamo = prestamo;
     }
 
-    public UsuarioPrestamoDTO() {
+    public DetallePrestamoDTO() {
     }
 
     public Usuario getUsuario() {

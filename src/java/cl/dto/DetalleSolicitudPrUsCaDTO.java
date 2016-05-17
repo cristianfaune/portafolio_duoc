@@ -10,7 +10,7 @@ import cl.dominio.Marca;
 import cl.dominio.Producto;
 import cl.dominio.Solicitud;
 import cl.dominio.Usuario;
-import cl.persistencia.DetalleSolicitud;
+import cl.dominio.DetalleSolicitud;
 import java.io.Serializable;
 
 /**

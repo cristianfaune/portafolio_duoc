@@ -62,7 +62,7 @@
                     <h3>Registro de Usuario</h3>
                     <br>
                     <p>
-                    <form class="form-horizontal" action="<c:url value="/RegistroUsuarioServlet"/>" method="post">
+                    <form class="form-horizontal" action="<c:url value="/RegistroUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de registrar al nuevo usuario?');">
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="inputRut" class="control-label">Rut:</label>
