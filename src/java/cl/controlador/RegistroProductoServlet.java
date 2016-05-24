@@ -60,6 +60,7 @@ public class RegistroProductoServlet extends HttpServlet {
         String nombre = request.getParameter("nombre");
         String modelo = request.getParameter("modelo");
         String descripcion = request.getParameter("descripcion");
+        String nombreArchivo = request.getParameter("nombreArchivo");
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
@@ -95,7 +96,12 @@ public class RegistroProductoServlet extends HttpServlet {
                 producto.setDescripcion(descripcion);
             }
 
-            producto.setRutaImagen("imgProductos/imagenNoDisponible.png");
+            if (nombreArchivo.isEmpty()) {
+                producto.setRutaImagen("imgProductos/imagenNoDisponible.png");
+            }else{
+                producto.setRutaImagen("imgProductos/"+nombreArchivo);
+            }
+
 
             if ((String.valueOf(idCategoria)).equals("0")) {
                 mapMensaje.put("errorCategoria", "**Debe ingresar una categoria**");
@@ -116,7 +122,7 @@ public class RegistroProductoServlet extends HttpServlet {
                     mapMensaje.put("errorExiste", "**El producto ya está registrado**");
                 }
             }
-
+ 
             if (mapMensaje.isEmpty()) {
 
                 servicio.registrarProducto(producto);

@@ -33,7 +33,7 @@ public class ConsultaDAO {
     public ConsultaDAO(Connection con) {
         this.con = con;
     }
-    
+
     public ArrayList<ProductoMarcaDTO> ProductosMarcaCursor() {
         ArrayList<ProductoMarcaDTO> lista = new ArrayList<>();
         Producto producto;
@@ -41,18 +41,18 @@ public class ConsultaDAO {
 
         String sql = "{call producto_marca(?)}";
 
-        CallableStatement cs = null;      
-        
+        CallableStatement cs = null;
+
         try {
-            
+
             cs = con.prepareCall(sql);
-            
-            cs.registerOutParameter(1,OracleTypes.CURSOR);
-            
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
             cs.executeQuery();
-            
-            ResultSet rs = (ResultSet)cs.getObject(1);
-            
+
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
             while (rs.next()) {
                 producto = new Producto();
 
@@ -73,13 +73,13 @@ public class ConsultaDAO {
 
                 lista.add(new ProductoMarcaDTO(producto, marca));
             }
-            
+
         } catch (SQLException e) {
-            throw new RuntimeException("Error en el procedimiento producto marca",e);
+            throw new RuntimeException("Error en el procedimiento producto marca", e);
         }
-                return lista;
+        return lista;
     }
-    
+
     public ArrayList<ProductoMarcaDTO> productosPorId(int idProducto) {
         ArrayList<ProductoMarcaDTO> lista = new ArrayList<>();
         Producto producto;
@@ -87,20 +87,20 @@ public class ConsultaDAO {
 
         String sql = "{call producto_por_id(?,?)}";
 
-        CallableStatement cs = null;      
-        
+        CallableStatement cs = null;
+
         try {
-            
+
             cs = con.prepareCall(sql);
-            
+
             cs.setInt(1, idProducto);
-            
-            cs.registerOutParameter(2,OracleTypes.CURSOR);
-            
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
             cs.executeQuery();
-            
-            ResultSet rs = (ResultSet)cs.getObject(2);
-            
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
             while (rs.next()) {
                 producto = new Producto();
 
@@ -121,35 +121,35 @@ public class ConsultaDAO {
 
                 lista.add(new ProductoMarcaDTO(producto, marca));
             }
-            
+
         } catch (SQLException e) {
-            throw new RuntimeException("Error en el procedimiento producto por ID",e);
+            throw new RuntimeException("Error en el procedimiento producto por ID", e);
         }
-                return lista;
+        return lista;
     }
-    
-    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera(int idPerfil){
+
+    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarrera(int idPerfil) {
         ArrayList<UsuarioPerfilCarreraDTO> lista = new ArrayList<UsuarioPerfilCarreraDTO>();
         Usuario usuario;
         Perfil perfil;
         Carrera carrera;
-        
+
         String sql = "{call usuario_perfil_carrera(?,?)}";
 
-        CallableStatement cs = null;      
-        
+        CallableStatement cs = null;
+
         try {
-            
+
             cs = con.prepareCall(sql);
-            
+
             cs.setInt(1, idPerfil);
-            
-            cs.registerOutParameter(2,OracleTypes.CURSOR);
-            
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
             cs.executeQuery();
-            
-            ResultSet rs = (ResultSet)cs.getObject(2);
-            
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
             while (rs.next()) {
                 usuario = new Usuario();
 
@@ -165,24 +165,80 @@ public class ConsultaDAO {
                 usuario.setIdCarrera(rs.getInt(10));
 
                 perfil = new Perfil();
-                
+
                 perfil.setIdPerfil(rs.getInt(11));
                 perfil.setDescripcion(rs.getString(12));
-                
+
                 carrera = new Carrera();
-                
+
                 carrera.setIdCarrera(rs.getInt(13));
                 carrera.setDescripcion(rs.getString(14));
 
-                lista.add(new UsuarioPerfilCarreraDTO(usuario,perfil,carrera));
+                lista.add(new UsuarioPerfilCarreraDTO(usuario, perfil, carrera));
             }
-            
+
         } catch (SQLException e) {
-            throw new RuntimeException("Error en el procedimiento almacenado usuario perfil carrera",e);
+            throw new RuntimeException("Error en el procedimiento almacenado usuario perfil carrera", e);
         }
-                return lista;
+        return lista;
+    }
+
+    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarreraPorRut(String rut) {
+        ArrayList<UsuarioPerfilCarreraDTO> lista = new ArrayList<>();
+        Usuario usuario;
+        Perfil perfil;
+        Carrera carrera;
+
+        String sql = "{call usuario_perfil_carrera_por_rut(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setString(1, rut);
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                usuario = new Usuario();
+
+                usuario.setRut(rs.getString(1));
+                usuario.setNombres(rs.getString(2));
+                usuario.setApellidos(rs.getString(3));
+                usuario.setTelefono(rs.getString(4));
+                usuario.setDireccion(rs.getString(5));
+                usuario.setEmail(rs.getString(6));
+                usuario.setPassword(rs.getString(7));
+                usuario.setActivo(rs.getByte(8));
+                usuario.setIdPerfil(rs.getInt(9));
+                usuario.setIdCarrera(rs.getInt(10));
+
+                perfil = new Perfil();
+
+                perfil.setIdPerfil(rs.getInt(11));
+                perfil.setDescripcion(rs.getString(12));
+
+                carrera = new Carrera();
+
+                carrera.setIdCarrera(rs.getInt(13));
+                carrera.setDescripcion(rs.getString(14));
+
+                lista.add(new UsuarioPerfilCarreraDTO(usuario, perfil, carrera));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento almacenado usuario perfil carrera por rut", e);
+        }
+        return lista;
     }
     
+
     public ArrayList<ProductoMarcaDTO> existeProducto(int idMarca, String modelo) {
         ArrayList<ProductoMarcaDTO> lista = new ArrayList<ProductoMarcaDTO>();
         Producto producto;
@@ -202,9 +258,9 @@ public class ConsultaDAO {
             cs.registerOutParameter(3, OracleTypes.CURSOR);
 
             cs.executeQuery();
-            
-            ResultSet rs = (ResultSet)cs.getObject(3);
-            
+
+            ResultSet rs = (ResultSet) cs.getObject(3);
+
             while (rs.next()) {
                 producto = new Producto();
 
@@ -224,16 +280,16 @@ public class ConsultaDAO {
                 marca.setIdCategoria(rs.getInt(11));
 
                 lista.add(new ProductoMarcaDTO(producto, marca));
-                
+
             }
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en el procedimiento item por id", e);
         }
-        
+
         return lista;
     }
-    
+
     public ArrayList<DetalleSolicitudPrUsCaDTO> buscarSolicitudId(int idSolicitud) {
         ArrayList<DetalleSolicitudPrUsCaDTO> lista = new ArrayList<>();
         Producto producto;
@@ -256,27 +312,27 @@ public class ConsultaDAO {
             cs.registerOutParameter(2, OracleTypes.CURSOR);
 
             cs.executeQuery();
-            
-            ResultSet rs = (ResultSet)cs.getObject(2);
-            
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
             while (rs.next()) {
                 solicitud = new Solicitud();
-                
+
                 solicitud.setIdSolicitud(rs.getInt(1));
                 solicitud.setFechaSolicitud(rs.getTimestamp(2));
                 solicitud.setActiva(rs.getByte(3));
                 solicitud.setSolicitudEspecial(rs.getByte(4));
                 solicitud.setDiasPrestamo(rs.getInt(5));
-                
+
                 detalleSolicitud = new DetalleSolicitud();
-                                
+
                 detalleSolicitud.setRut(rs.getString(6));
                 detalleSolicitud.setIdSolicitud(rs.getInt(7));
                 detalleSolicitud.setIdProducto(rs.getInt(8));
                 detalleSolicitud.setCantidad(rs.getInt(9));
-                
+
                 usuario = new Usuario();
-                
+
                 usuario.setRut(rs.getString(10));
                 usuario.setNombres(rs.getString(11));
                 usuario.setApellidos(rs.getString(12));
@@ -287,12 +343,12 @@ public class ConsultaDAO {
                 usuario.setActivo(rs.getByte(17));
                 usuario.setIdPerfil(rs.getInt(18));
                 usuario.setIdCarrera(rs.getInt(19));
-                
+
                 carrera = new Carrera();
-                
+
                 carrera.setIdCarrera(rs.getInt(20));
                 carrera.setDescripcion(rs.getString(21));
-                
+
                 producto = new Producto();
 
                 producto.setIdProducto(rs.getInt(22));
@@ -310,8 +366,8 @@ public class ConsultaDAO {
                 marca.setDescripcion(rs.getString(31));
                 marca.setIdCategoria(rs.getInt(32));
 
-                lista.add(new DetalleSolicitudPrUsCaDTO(detalleSolicitud, 
-                        solicitud, producto, carrera, usuario, marca));             
+                lista.add(new DetalleSolicitudPrUsCaDTO(detalleSolicitud,
+                        solicitud, producto, carrera, usuario, marca));
             }
 
         } catch (SQLException e) {
@@ -319,7 +375,5 @@ public class ConsultaDAO {
         }
         return lista;
     }
-    
-    
 
 }

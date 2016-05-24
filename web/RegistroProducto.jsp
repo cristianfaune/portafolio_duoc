@@ -10,6 +10,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <style>
+            #fileChooser {
+                margin-top: 115px;
+            }
+        </style>
         <script src="js/jquery.js"></script>
         <script src="js/jquery.validate.js"></script>
         <script src="js/messages_es.js"></script>
@@ -41,7 +46,8 @@
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
             <div>
                 <div class="row">
-                    <div class="col-md-3"></div>
+                    <div class="col-md-3">
+                    </div>
                     <div class="col-md-6  col-lg-offset-0">
                         <ul class="nav nav-pills">
                             <c:choose>
@@ -73,6 +79,16 @@
                     <h3 class="text-center" id="p">Registro de productos</h3>
                     <br>
                     <p id="error-form" class="text-center"><c:out value="${mapMensaje['errorExiste']}"/></p>
+                    <div class="row">
+                        <form action="UploadFotoServlet" method="post" enctype="multipart/form-data">
+                            <div class="col-md-6">
+                                <p>Carga la imagen del producto:</p>
+                                <input type="file" name="dataFile" size="20" accept="image/*"/>
+                                <input type="submit" value="Cargar" />
+                            </div>
+                        </form>
+                    </div>
+                    <br><br>
                     <form action="<c:url value="/RegistroProductoServlet"/>" method="post">
                         <div class="row">
                             <div class="form-group col-md-6">
@@ -118,26 +134,18 @@
                                           name="descripcion" rows="6"
                                           placeholder="Detalla las características del producto..."></textarea>
                                 <p id="error-form"><c:out value="${mapMensaje['errorDescripcion']}"/></p>
+                                <div class="row">
+                                    <div class="col-lg-offset-10">
+                                        <button type="submit" class="btn btn-default btn-primary">Registrar</button>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-xs-12">
-                                <label>Imagen:</label>
-                                <input type="file" id="imagen" name="imagen">
-                                <p class="help-block">**No implementado aún**</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-offset-10">
-                                <button type="submit" class="btn btn-default btn-primary">Registrar</button>
-                            </div>
-                        </div> 
+                        <input type="hidden" value="${nombre}" name="nombreArchivo">
                     </form>
                 </div>
-                <div class="col-md-3"></div>
             </div> 
         </div>
-
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     </body>
 </html>

@@ -84,7 +84,7 @@
                                     </option>
                                 </c:forEach>
                             </select>
-                        <p id="error-form"><c:out value="${mapMensaje['errorCategoria']}"/></p>
+                            <p id="error-form"><c:out value="${mapMensaje['errorCategoria']}"/></p>
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Marca:</label>
@@ -93,21 +93,21 @@
                                     <option value="0">--Seleccione una marca--</option>
                                 </select>
                             </div>
-                        <p id="error-form"><c:out value="${mapMensaje['errorMarca']}"/></p>
+                            <p id="error-form"><c:out value="${mapMensaje['errorMarca']}"/></p>
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Nombre artículo:</label>
                             <input type="text" class="form-control" id="nombre" 
                                    name="nombre" placeholder="cámara, notebook, proyector..."
                                    value="<c:out value="${producto.producto.nombre}"/>"/>
-                        <p id="error-form"><c:out value="${mapMensaje['errorNombre']}"/></p>
+                            <p id="error-form"><c:out value="${mapMensaje['errorNombre']}"/></p>
                         </div>
                         <div class="form-group col-xs-6">
                             <label>Modelo:</label>
                             <input type="text" class="form-control" id="modelo" name="modelo"
                                    style="text-transform: uppercase"
                                    value="<c:out value="${producto.producto.modelo}"/>"/>
-                        <p id="error-form"><c:out value="${mapMensaje['errorModelo']}"/></p>
+                            <p id="error-form"><c:out value="${mapMensaje['errorModelo']}"/></p>
                         </div>
                         <div class="form-group col-md-12">
                             <label>Descripción:</label>
@@ -116,26 +116,26 @@
                                       placeholder="Detalla las características del producto..."/>
                             <c:out value="${producto.producto.descripcion}"/>
                             </textarea>
-                        <p id="error-form"><c:out value="${mapMensaje['errorDescripcion']}"/></p>
+                            <p id="error-form"><c:out value="${mapMensaje['errorDescripcion']}"/></p>
                         </div>
+                        <!--
                         <div class="form-group col-xs-12">
                             <label>Imagen:</label>
                             <input type="file" id="imagen" name="imagen">
                             <p class="help-block">**No implementado aún**</p>
                         </div>
+                        -->
                         <div class="row">
                             <div class="col-lg-offset-10">
                                 <input type="hidden" name="idProducto" value="${producto.producto.idProducto}">
                                 <button type="submit" class="btn btn-default btn-primary">Modificar</button>
                             </div>
                         </div> 
-                        </div>
                     </form>
                 </div>
-                <div class="col-md-3"></div>
-            </div> 
+            </div>
         </div>
-
+        <div class="col-md-3"></div>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     </body>
 </html>

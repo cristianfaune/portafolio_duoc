@@ -76,6 +76,10 @@ public class Servicio {
         return consultaDAO.usuarioPerfilCarrera(idPerfil);
     }
 
+    public ArrayList<UsuarioPerfilCarreraDTO> usuarioPerfilCarreraPorRut(String rut) {
+        return consultaDAO.usuarioPerfilCarreraPorRut(rut);
+    }
+
     public ArrayList<ProductoMarcaDTO> productosPorId(int idProducto) {
         return consultaDAO.productosPorId(idProducto);
     }
@@ -155,35 +159,35 @@ public class Servicio {
     public void registrarUsuario(Usuario usuario) {
         usuarioDAO.registroUsuario(usuario);
     }
-    
-    public ArrayList<DetalleSolicitudPrUsCaDTO> buscarSolicitudId (int idSolicitud){
+
+    public ArrayList<DetalleSolicitudPrUsCaDTO> buscarSolicitudId(int idSolicitud) {
         return consultaDAO.buscarSolicitudId(idSolicitud);
     }
-    
-    public ArrayList<Item> itemsDisponibles (int idProducto, int cantidad){
+
+    public ArrayList<Item> itemsDisponibles(int idProducto, int cantidad) {
         return itemDAO.itemsDisponibles(idProducto, cantidad);
     }
-    
-    public void registroPrestamo (Prestamo prestamo, int cantidadDias){
+
+    public void registroPrestamo(Prestamo prestamo, int cantidadDias) {
         prestamoDAO.registroPrestamo(prestamo, cantidadDias);
     }
-    
-    public ArrayList<Prestamo> prestamoPorIdSolicitud(int idSolicitud){
+
+    public ArrayList<Prestamo> prestamoPorIdSolicitud(int idSolicitud) {
         return prestamoDAO.prestamoPorIdSolicitud(idSolicitud);
     }
-    
-    public void registroDetallePrestamo(DetallePrestamo detallePrestamo){
+
+    public void registroDetallePrestamo(DetallePrestamo detallePrestamo) {
         prestamoDAO.registroDetallePrestamo(detallePrestamo);
     }
-    
-    public int idUltimoPrestamo(){
+
+    public int idUltimoPrestamo() {
         return prestamoDAO.idUltimoPrestamo();
     }
-    
+
     public void ModificarEstadoSolicitud(int idSolicitud, byte activa) {
         solicitudDAO.ModificarEstadoSolicitud(idSolicitud, activa);
     }
-    
+
     public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
         itemDAO.modificarEstadoPrestamo(nroSerie, prestamo);
     }

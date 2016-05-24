@@ -71,9 +71,19 @@ and open the template in the editor.
     font-style: oblique;
 }
 
+#info-usuario{
+    font-size: 15px;
+    font-style: oblique;
+}
+
 #error-form{
     font-size: 12px;
     font-style: oblique;
     color: red;
+}
+
+#btn-continuar-solicitud{
+    
+    margin-top: 170px;
 }
 
