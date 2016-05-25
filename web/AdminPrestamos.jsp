@@ -33,7 +33,7 @@
                         <div class="col-md-0"></div>
                         <div class="col-md-12">
                             <div>
-                                <ul class="nav nav-pills col-md-offset-3">
+                                <ul class="nav nav-pills col-md-offset-4">
                                     <c:choose>
                                         <c:when test="${usuarioSesion.idPerfil == 100}">
                                             <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -45,8 +45,7 @@
                                             <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                             </c:when>
                                         </c:choose>
-                                    <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                                    <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
+                                    <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
                                     <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                                 </ul>
                             </div>
@@ -57,7 +56,7 @@
                                 </div>
                             </c:if>
                             <br>
-                            <div class="col-md-5">
+                            <div class="col-md-5 col-lg-offset-4">
                                 <form action="<c:url value="/BuscarSolicitudServlet"/>" method="get">
                                     <label>Buscar por ID Solicitud:</label>
                                     <div class="col-md-8">

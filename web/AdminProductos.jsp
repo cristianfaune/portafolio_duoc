@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-md-1"></div>
                         <div class="col-md-10">
-                            <ul class="nav nav-pills col-lg-offset-3">
+                            <ul class="nav nav-pills col-lg-offset-4">
                                 <c:choose>
                                     <c:when test="${usuarioSesion.idPerfil == 100}">
                                         <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -47,7 +47,7 @@
                 <div class="row">
                     <div class="col-md-0"></div>
                     <div class="col-md-12">
-                        <h3 class="text-center" id="p">Administración de Inventario</h3>
+                        <h3 class="text-center">Administración de Inventario</h3>
                         <table class="table">
                             <tbody>
                                 <tr>

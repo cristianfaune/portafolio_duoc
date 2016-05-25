@@ -14,7 +14,7 @@
         <script src="js/jquery.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
-        <title>JSP Page</title>
+        <title>Administración de pañol</title>
     </head>
     <body>
         <script type="text/javascript">
@@ -55,7 +55,6 @@
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                            <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
                             <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>
                     </div>
@@ -97,7 +96,7 @@
                                     <p>¿El usuario necesita los equipos por más de un día?</p>
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <form action="<c:url value="/ConfirmacionSolicitudServlet"/>" method="post">
+                                            <form action="<c:url value="/ConfirmacionSolicitudServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de registrar el nuevo préstamo?');">
                                                 <label class="radio-inline">
                                                     <input class="radio" type="radio" name="especial" id="especialSi" value="1"> Si
                                                 </label>

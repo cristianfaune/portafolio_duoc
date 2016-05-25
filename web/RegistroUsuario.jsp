@@ -33,10 +33,10 @@
         <div class="container">
             <h4 class="text-center">Administración sistema Pañol</h4>
             <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
-            <div class="row col-lg-offset-1">
+            <div class="row col-lg-offset-0">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-pills col-lg-offset-2">
                         <c:choose>
                             <c:when test="${usuarioSesion.idPerfil == 100}">
                                 <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>

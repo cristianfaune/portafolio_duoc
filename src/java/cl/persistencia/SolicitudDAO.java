@@ -80,6 +80,33 @@ public class SolicitudDAO {
         }
         return idSolicitud;
     }
+    
+    /**
+     * El método devuelve el último id solicitud generado
+     * @return 
+     */
+    public int idUltimaSolicitud() {
+
+        String sql = "{? = call id_ultima_solicitud()}";
+        int idSolicitud;
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.registerOutParameter(1, OracleTypes.NUMBER);
+
+            cs.executeQuery();
+
+            idSolicitud = cs.getInt(1);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la funcion id ultima solicitud", e);
+        }
+        return idSolicitud;
+    }
 
     /**
      * Método que llama a procedimiento para almacenar detalle solicitud

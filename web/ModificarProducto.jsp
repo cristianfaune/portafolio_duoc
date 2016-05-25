@@ -70,7 +70,7 @@
                             <h5 class="text-center text-success"><c:out value="${mensaje['mensajeExito']}"/></h5>
                         </div>
                     </c:if>
-                    <h3 class="text-center" id="p">Modificar productos</h3>
+                    <h3 class="text-center">Modificar productos</h3>
                     <br>
                     <p id="error-form" class="text-center"><c:out value="${mapMensaje['errorExiste']}"/></p>
                     <form action="<c:url value="/ModificarProductoServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de enviar los datos?');">

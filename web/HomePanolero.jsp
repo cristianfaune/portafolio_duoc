@@ -24,7 +24,7 @@
                     <ul class="nav nav-pills">
                         <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         <li role="presentation"><a href="AdminSolicitudes.jsp">Administrar Solicitudes</a></li>
-                        <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
+                        <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
                         <li role="presentation"><a href="#">Reportes</a></li>
                     </ul>
                     <br>

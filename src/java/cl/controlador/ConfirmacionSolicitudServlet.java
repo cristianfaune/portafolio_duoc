@@ -86,6 +86,11 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
             
             cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
             cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
+            
+            int idUltimaSolicitud = servicio.idUltimaSolicitud();
+            
+            request.setAttribute("ultimoIdSolicitud", idUltimaSolicitud);
+            request.getRequestDispatcher("RegistroSolicitudExitosa.jsp").forward(request, response);
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion a bd", e);

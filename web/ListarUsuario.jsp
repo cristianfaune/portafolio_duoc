@@ -39,7 +39,7 @@
                             <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
                         </ul>
                     </div>
-                    <h3 class="text-center" id="p">Administración de Usuarios</h3>
+                    <h3 class="text-center">Administración de Usuarios</h3>
                     <table class="table">
                         <tbody>
                             <tr>

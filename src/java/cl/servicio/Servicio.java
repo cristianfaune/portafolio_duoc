@@ -194,6 +194,10 @@ public class Servicio {
         return solicitudDAO.idSolicitudDisponible();
     }
     
+    public int idUltimaSolicitud() {
+        return solicitudDAO.idUltimaSolicitud();
+    }
+    
     public void registrarSolicitud(Solicitud solicitud) {
         solicitudDAO.registroSolicitud(solicitud);
     }

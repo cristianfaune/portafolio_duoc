@@ -25,7 +25,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <div>
-                        <ul class="nav nav-pills col-md-offset-2">
+                        <ul class="nav nav-pills col-md-offset-3">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
                                     <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -38,7 +38,6 @@
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                            <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
                             <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>
                     </div>
