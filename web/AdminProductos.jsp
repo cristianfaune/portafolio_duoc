@@ -35,8 +35,8 @@
                                         <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                         </c:when>
                                     </c:choose>
-                                <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario Existente</a></li>
-                                <li role="presentation"><a href="<c:url value="/RegistroProductoServlet"/>">Registro Nuevo Producto</a></li>
+                                <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
+                                <li role="presentation"><a href="<c:url value="/RegistroProductoServlet"/>">Registro productos</a></li>
                             </ul>
                         </div>
                         <div class="col-md-3"></div>

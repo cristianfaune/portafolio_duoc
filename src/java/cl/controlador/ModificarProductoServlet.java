@@ -142,20 +142,20 @@ public class ModificarProductoServlet extends HttpServlet {
                 producto.setIdMarca(idMarca);
             }
 
-            if (!modelo.isEmpty() && !String.valueOf(idMarca).isEmpty()) {
-                ArrayList<ProductoMarcaDTO> lista = servicio.existeProducto(idMarca, modelo);
-
-                if (lista.size() > 0) {
-                    mapMensaje.put("errorExiste", "**El producto ya está registrado**");
-                }
-            }
+            //if (!modelo.isEmpty() && !String.valueOf(idMarca).isEmpty()) {
+            //    ArrayList<ProductoMarcaDTO> lista = servicio.existeProducto(idMarca, modelo);
+            //
+            //    if (lista.size() > 0) {
+            //       mapMensaje.put("errorExiste", "**El producto ya está registrado**");
+            //    }
+            //}
             
             producto.setIdProducto(idProducto);
 
             if (mapMensaje.isEmpty()) {
 
                 servicio.modificarProducto(producto);
-                mapMensajeExito.put("mensaje", "Producto modificado con éxito");
+                mapMensajeExito.put("mensajeExito", "Producto modificado con éxito");
                 request.setAttribute("mensaje", mapMensajeExito);
                 request.getRequestDispatcher("/ModificarProducto.jsp").forward(request, response);
             } else {

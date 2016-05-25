@@ -37,8 +37,8 @@
                                     <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="#"/>">Administrar Solicitudes</a></li>
-                            <li role="presentation"><a href="<c:url value="/BuscarSolicitudServlet"/>">Préstamos y Devoluciones</a></li>
+                            <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
                             <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>
                     </div>
@@ -93,7 +93,7 @@
 
                                 </div>
                                 <div class="col-md-4" id="btn-continuar-solicitud">
-                                    <form>
+                                    <form action="RegistrarSolicitudServlet" method="get">
                                         <input class="btn btn-default btn-primary btn-lg" type="submit" value="Continuar >" name="btnContinuar">
                                     </form>
                                 </div>

@@ -33,7 +33,6 @@
                                     <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="#">Administrar Usuarios</a></li>
                             <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         </ul>
                     </div>
@@ -44,7 +43,7 @@
                     </c:if>
                     <h4 class="text-center">Registro Productos Inventario</h4>
                     <br>
-                    <form action="<c:url value="/RegistroItemServlet"/>" method="post">
+                    <form action="<c:url value="/RegistroItemServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de enviar los datos?');">
                         <div class="col-xs-6">
                             <input class="form-control input-lg" type="text" 
                                    style="text-transform: uppercase" name="nroserie" 

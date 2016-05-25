@@ -187,6 +187,10 @@ public class Servicio {
     public void ModificarEstadoSolicitud(int idSolicitud, byte activa) {
         solicitudDAO.ModificarEstadoSolicitud(idSolicitud, activa);
     }
+    
+    public int idSolicitudDisponible() {
+        return solicitudDAO.idSolicitudDisponible();
+    }
 
     public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
         itemDAO.modificarEstadoPrestamo(nroSerie, prestamo);

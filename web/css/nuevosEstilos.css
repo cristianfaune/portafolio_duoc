@@ -71,6 +71,11 @@ and open the template in the editor.
     font-style: oblique;
 }
 
+#info-tabla{
+    font-size: 10px;
+    font-style: italic;
+}
+
 #info-usuario{
     font-size: 15px;
     font-style: oblique;

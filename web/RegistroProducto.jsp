@@ -61,8 +61,8 @@
                                     <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario Existente</a></li>
-                            <li role="presentation"><a href="<c:url value="/RegistroProducto"/>">Registro Nuevo Producto</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar inventario</a></li>
+                            <li role="presentation"><a href="<c:url value="/RegistroProductoServlet"/>">Registro productos</a></li>
                         </ul>
                     </div>
                     <div class="col-md-3"></div>
@@ -71,9 +71,9 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <c:if test="${not empty mapMensaje['mensaje']}">
+                    <c:if test="${not empty mensaje['mensajeExito']}">
                         <div id="danger-box" class="bg-success">
-                            <h5 class="text-center text-success"><c:out value="${mensaje['mensaje']}"/></h5>
+                            <h5 class="text-center text-success"><c:out value="${mensaje['mensajeExito']}"/></h5>
                         </div>
                     </c:if>
                     <h3 class="text-center" id="p">Registro de productos</h3>
@@ -83,13 +83,13 @@
                         <form action="UploadFotoServlet" method="post" enctype="multipart/form-data">
                             <div class="col-md-6">
                                 <p>Carga la imagen del producto:</p>
-                                <input type="file" name="dataFile" size="20" accept="image/*"/>
-                                <input type="submit" value="Cargar" />
+                                <input class="btn btn-default btn-primary btn-sm" type="file" name="dataFile" size="20" accept="image/*"/>
+                                <input class="btn btn-default" type="submit" value="Cargar" />
                             </div>
                         </form>
                     </div>
                     <br><br>
-                    <form action="<c:url value="/RegistroProductoServlet"/>" method="post">
+                    <form action="<c:url value="/RegistroProductoServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de enviar los datos?');">
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Categoría:</label>

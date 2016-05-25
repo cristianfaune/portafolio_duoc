@@ -126,7 +126,7 @@ public class RegistroProductoServlet extends HttpServlet {
             if (mapMensaje.isEmpty()) {
 
                 servicio.registrarProducto(producto);
-                mapMensajeExito.put("mensaje", "Producto registrado con éxito");
+                mapMensajeExito.put("mensajeExito", "Producto registrado con éxito");
                 ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
                 request.setAttribute("mensaje", mapMensajeExito);
                 request.setAttribute("lstProductos", listaProductos);

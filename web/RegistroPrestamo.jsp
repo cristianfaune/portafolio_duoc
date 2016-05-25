@@ -36,7 +36,7 @@
                                     <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="#"/>">Administrar Solicitudes</a></li>
+                            <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
                             <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
                             <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>

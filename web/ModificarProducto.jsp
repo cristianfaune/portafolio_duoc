@@ -65,15 +65,15 @@
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <c:if test="${not empty mapMensajeExito['mensaje']}">
+                    <c:if test="${not empty mensaje['mensajeExito']}">
                         <div id="danger-box" class="bg-success">
-                            <h5 class="text-center text-success"><c:out value="${mapMensajeExito['mensaje']}"/></h5>
+                            <h5 class="text-center text-success"><c:out value="${mensaje['mensajeExito']}"/></h5>
                         </div>
                     </c:if>
                     <h3 class="text-center" id="p">Modificar productos</h3>
                     <br>
                     <p id="error-form" class="text-center"><c:out value="${mapMensaje['errorExiste']}"/></p>
-                    <form action="<c:url value="/ModificarProductoServlet"/>" method="post">
+                    <form action="<c:url value="/ModificarProductoServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de enviar los datos?');">
                         <div class="form-group col-xs-6">
                             <label>Categoría:</label>
                             <select class="form-control" id="seleccionCategoria" name="seleccionCategoria" onchange="marcas()">
