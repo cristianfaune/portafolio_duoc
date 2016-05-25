@@ -140,7 +140,7 @@
                         <c:when test="${not empty listaDetalle}">
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-6">
-                                    <form>
+                                    <form action="<c:url value="ConfirmacionSolicitudServlet"/>" method="get">
                                         <input class="btn btn-default btn-success btn-xs" type="submit" name="registrarSolicitud" value="Finalizar"> 
                                     </form>
                                 </div>
@@ -155,7 +155,7 @@
                         <c:otherwise>
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-6">
-                                    <form>
+                                    <form action="<c:url value="ConfirmacionSolicitudServlet"/>" method="get">
                                         <input class="btn btn-default btn-success btn-xs" type="submit" name="registrarSolicitud" value="Finalizar" disabled="true"> 
                                     </form>
                                 </div>
