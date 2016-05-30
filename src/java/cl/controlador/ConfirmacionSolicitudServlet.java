@@ -1,13 +1,18 @@
 package cl.controlador;
 
+import static cl.controlador.RegistrarSolicitudServlet.listaDtSol;
 import cl.dominio.DetalleSolicitud;
+import cl.dominio.Marca;
+import cl.dominio.Producto;
 import cl.dominio.Solicitud;
+import cl.dto.ProductoMarcaDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,8 +34,37 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        ArrayList<ProductoMarcaDTO> lstPr = new ArrayList<>();
 
         try (Connection con = ds.getConnection()) {
+            
+            Servicio servicio = new Servicio(con);
+            
+            for (DetalleSolicitud var : listaDtSol) {
+                
+                lstPr = servicio.productosPorId(var.getIdProducto());
+            
+                for (ProductoMarcaDTO pm : lstPr) {
+                    Producto producto = new Producto();
+                    Marca marca = new Marca();
+
+                    producto.setIdProducto(pm.getProducto().getIdProducto());
+                    producto.setNombre(pm.getProducto().getNombre());
+                    producto.setModelo(pm.getProducto().getModelo());
+                    producto.setDescripcion(pm.getProducto().getDescripcion());
+                    producto.setRutaImagen(pm.getProducto().getRutaImagen());
+                    producto.setStock(pm.getProducto().getStock());
+                    producto.setIdCategoria(pm.getProducto().getIdCategoria());
+                    producto.setIdMarca(pm.getProducto().getIdMarca());
+
+                    marca.setIdMarca(pm.getMarca().getIdMarca());
+                    marca.setIdCategoria(pm.getMarca().getIdCategoria());
+                    marca.setDescripcion(pm.getMarca().getDescripcion());
+
+                    cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.add(new ProductoMarcaDTO(producto, marca));
+                }
+            }
 
             request.setAttribute("listaProductos", cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud);
             request.setAttribute("listaDetalle", cl.controlador.RegistrarSolicitudServlet.listaDtSol);

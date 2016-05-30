@@ -70,54 +70,52 @@ public class RegistrarSolicitudServlet extends HttpServlet {
         String idProducto = request.getParameter("idProducto");
         Map<String, String> mapMensaje = new HashMap<>();
         DetalleSolicitud dtSol = new DetalleSolicitud();
+        ArrayList<ProductoMarcaDTO> lstPr = new ArrayList<>();
         int idSolicitud;
 
         try (Connection con = ds.getConnection()) {
-            
+
             Servicio servicio = new Servicio(con);
-            
+
             ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
 
             if (cantidad.isEmpty()) {
                 mapMensaje.put("errorCantidad", "Debe agregar una cantidad");
-            } else {
-                dtSol.setCantidad(Integer.parseInt(cantidad));
             }
 
             dtSol.setIdProducto(Integer.parseInt(idProducto));
 
             dtSol.setRut(usuarioSlc.getUsuario().getRut());
-            
-            idSolicitud = servicio.idSolicitudDisponible();
-            
-            dtSol.setIdSolicitud(idSolicitud);
-            
-            listaDtSol.add(dtSol);
-            
-            ArrayList<ProductoMarcaDTO> lstPr = servicio.productosPorId(Integer.parseInt(idProducto));
-            
-            for (ProductoMarcaDTO pm : lstPr) {
-                Producto producto = new Producto();
-                Marca marca = new Marca();
-                
-                producto.setIdProducto(pm.getProducto().getIdProducto());
-                producto.setNombre(pm.getProducto().getNombre());
-                producto.setModelo(pm.getProducto().getModelo());
-                producto.setDescripcion(pm.getProducto().getDescripcion());
-                producto.setRutaImagen(pm.getProducto().getRutaImagen());
-                producto.setStock(pm.getProducto().getStock());
-                producto.setIdCategoria(pm.getProducto().getIdCategoria());
-                producto.setIdMarca(pm.getProducto().getIdMarca());
 
-                marca.setIdMarca(pm.getMarca().getIdMarca());
-                marca.setIdCategoria(pm.getMarca().getIdCategoria());
-                marca.setDescripcion(pm.getMarca().getDescripcion());
-                
-                listaProductosSolicitud.add(new ProductoMarcaDTO(producto, marca));
+            idSolicitud = servicio.idSolicitudDisponible();
+
+            dtSol.setIdSolicitud(idSolicitud);
+
+            dtSol.setCantidad(Integer.parseInt(cantidad));
+
+            //método para agregar a carrito
+            int indice = -1;
+
+            for (int i = 0; i < listaDtSol.size(); i++) {
+                DetalleSolicitud det = listaDtSol.get(i);
+
+                if (det.getIdProducto() == dtSol.getIdProducto()) {
+                    indice = i;
+                    break;
+                }
             }
-            
+
+            if (indice == -1) {
+                listaDtSol.add(dtSol);
+            } else { 
+                listaDtSol.set(indice, dtSol);
+            }
+            // fin carrito
+
+           
             request.setAttribute("listaProductos", listaProductosSolicitud);
             request.setAttribute("listaDetalle", listaDtSol);
+            request.setAttribute("listaDtSol", listaDtSol.size());
             request.setAttribute("detalle", dtSol);
             request.setAttribute("lstProductos", listaProductos);
             request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);

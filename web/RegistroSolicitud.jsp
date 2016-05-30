@@ -105,10 +105,10 @@
                 <div class="col-md-3">
                     <h5>Mis productos: 
                         <c:if test="${not empty listaDetalle}">
-                        Solicitud Nº 
-                        <c:forEach var="ds" end="0" items="${listaDetalle}">
-                            <c:out value="${ds.idSolicitud}"></c:out>
-                        </c:forEach>
+                            Solicitud Nº 
+                            <c:forEach var="ds" end="0" items="${listaDetalle}">
+                                <c:out value="${ds.idSolicitud}"></c:out>
+                            </c:forEach>
                         </c:if>
                     </h5>
                     <table class="table table-bordered">
@@ -119,21 +119,18 @@
                             <th id="info-tabla">Cantidad</th>
                             <th id="info-tabla">Acciones</th>
                         </tr>
-                        <c:forEach var="p" items="${listaProductos}">
-                            <c:forEach var="d" items="${listaDetalle}">
-                                <c:if test="${d.idProducto == p.producto.idProducto}">
-                                    <tr>
-                                        <td id="info-form"><c:out value="${p.producto.nombre}"></c:out></td>
-                                        <td id="info-form"><c:out value="${p.marca.descripcion}"></c:out></td>
-                                        <td id="info-form"><c:out value="${p.producto.modelo}"></c:out></td> 
-                                        <td><c:out value="${d.cantidad}"></c:out></td>
-                                            <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
 
-                                        </tr>
-                                </c:if>
-                            </c:forEach>
+                        <c:forEach var="d" items="${listaDetalle}">
+                            <tr>
+                                <td id="info-form"><c:out value="${d.idSolicitud}"></c:out></td>
+                                <td id="info-form"><c:out value="${d.rut}"></c:out></td>
+                                <td id="info-form"><c:out value="${d.idProducto}"></c:out></td>
+
+                                    <td><c:out value="${d.cantidad}"></c:out></td>
+
+                                    <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                                </tr>   
                         </c:forEach>
-
                     </table>
                     <c:choose>
                         <c:when test="${not empty listaDetalle}">

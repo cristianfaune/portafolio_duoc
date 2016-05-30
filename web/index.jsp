@@ -55,9 +55,10 @@
                                        id="inputError1" name="password" placeholder="Ingrese su password">
                             </div>
                         </c:if>
+                        <br><br>
                         <div class="form-group">
-                            <div class="col-sm-offset-0 col-sm-10">
-                                <input type="submit" class="btn btn-default" value="Iniciar Sesión"/>
+                            <div class="col-sm-offset-0 col-sm-11">
+                                <input type="submit" class="btn btn-default btn-primary btn-block" value="Iniciar Sesión"/>
                             </div>
                         </div>
                     </form>

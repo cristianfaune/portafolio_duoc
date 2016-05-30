@@ -38,7 +38,7 @@ public class SesionUsuarioSolicitudServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         String rut = request.getParameter("rut");
-        HttpSession session = request.getSession();
+        HttpSession sessionSolicitud = request.getSession();
         Map<String, String> mapMensajeRut = new HashMap<>();
 
         try (Connection con = ds.getConnection()) {
@@ -83,7 +83,7 @@ public class SesionUsuarioSolicitudServlet extends HttpServlet {
 
             if (mapMensajeRut.isEmpty()) {
 
-                session.setAttribute("usuarioSolicitud", usuarioSolicitud);
+                sessionSolicitud.setAttribute("usuarioSolicitud", usuarioSolicitud);
                 request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
             } else {
                 request.setAttribute("mapMensajeRut", mapMensajeRut);
