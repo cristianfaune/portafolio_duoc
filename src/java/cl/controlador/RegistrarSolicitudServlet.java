@@ -77,7 +77,7 @@ public class RegistrarSolicitudServlet extends HttpServlet {
         try (Connection con = ds.getConnection()) {
 
             Servicio servicio = new Servicio(con);
-            
+
             int stock = servicio.stockProducto(Integer.parseInt(idProducto));
 
             ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
@@ -87,7 +87,7 @@ public class RegistrarSolicitudServlet extends HttpServlet {
             } else if (Integer.parseInt(cantidad) <= 0) {
                 mapMensaje.put("errorCantidad", "**La cantidad debe ser mayor a 0**");
             }
-            
+
             if (Integer.parseInt(cantidad) > stock) {
                 mapMensaje.put("errorCantidad", "**No hay suficiente stock del producto**");
             }
@@ -122,26 +122,49 @@ public class RegistrarSolicitudServlet extends HttpServlet {
 
                 if (indice == -1) {
                     listaDtSol.add(dtSol);
-                } else {
 
-                    dtSol.setCantidad(Integer.parseInt(cantidad) + cant);
-                    
-                    if (dtSol.getCantidad() > stock) {
-                        mapMensaje.put("errorCantidad", "**No puede agregar más productos con ID "+idProducto+"**");
-                    }else{
-                        listaDtSol.set(indice, dtSol);
+                    lstPr = servicio.productosPorId(Integer.parseInt(idProducto));
+
+                    for (ProductoMarcaDTO pm : lstPr) {
+                        Producto producto = new Producto();
+                        Marca marca = new Marca();
+
+                        producto.setIdProducto(pm.getProducto().getIdProducto());
+                        producto.setNombre(pm.getProducto().getNombre());
+                        producto.setModelo(pm.getProducto().getModelo());
+                        producto.setDescripcion(pm.getProducto().getDescripcion());
+                        producto.setRutaImagen(pm.getProducto().getRutaImagen());
+                        producto.setStock(pm.getProducto().getStock());
+                        producto.setIdCategoria(pm.getProducto().getIdCategoria());
+                        producto.setIdMarca(pm.getProducto().getIdMarca());
+
+                        marca.setIdMarca(pm.getMarca().getIdMarca());
+                        marca.setIdCategoria(pm.getMarca().getIdCategoria());
+                        marca.setDescripcion(pm.getMarca().getDescripcion());
+
+                        listaProductosSolicitud.add(new ProductoMarcaDTO(producto, marca));
                     }
-                    
-                }
-                // fin carrito
-
-                request.setAttribute("listaProductos", listaProductosSolicitud);
-                request.setAttribute("listaDetalle", listaDtSol);
-                request.setAttribute("detalle", dtSol);
-                request.setAttribute("mensajeError", mapMensaje);
-                request.setAttribute("lstProductos", listaProductos);
-                request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
+                
             } else {
+
+                dtSol.setCantidad(Integer.parseInt(cantidad) + cant);
+
+                if (dtSol.getCantidad() > stock) {
+                    mapMensaje.put("errorCantidad", "**No puede agregar más productos con ID " + idProducto + "**");
+                } else {
+                    listaDtSol.set(indice, dtSol);
+
+                }
+            }
+            // fin carrito
+
+            request.setAttribute("listaProductos", listaProductosSolicitud);
+            request.setAttribute("listaDetalle", listaDtSol);
+            request.setAttribute("detalle", dtSol);
+            request.setAttribute("mensajeError", mapMensaje);
+            request.setAttribute("lstProductos", listaProductos);
+            request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
+        }else {
                 request.setAttribute("listaProductos", listaProductosSolicitud);
                 request.setAttribute("listaDetalle", listaDtSol);
                 request.setAttribute("detalle", dtSol);
@@ -150,10 +173,14 @@ public class RegistrarSolicitudServlet extends HttpServlet {
                 request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexion bd", e);
-        }
-
     }
+    catch (SQLException e
+
+    
+        ) {
+            throw new RuntimeException("Error en la conexion bd", e);
+    }
+
+}
 
 }

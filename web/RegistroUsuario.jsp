@@ -14,6 +14,9 @@
     <c:when test="${usuarioSesion.activo == 0}">
         <c:redirect url="ErrorUsuarioInactivo.jsp"></c:redirect>
     </c:when>
+    <c:when test="${usuarioSesion.idPerfil == 120}">
+        <c:redirect url="HomePanolero.jsp"></c:redirect>
+    </c:when>
 </c:choose>
 
 <html>

@@ -7,17 +7,26 @@ package cl.persistencia;
 
 import cl.dominio.DetalleSolicitud;
 import cl.dominio.Solicitud;
+import java.io.ByteArrayOutputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
+import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.mail.util.ByteArrayDataSource;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -169,10 +178,14 @@ public class SolicitudDAO {
         }
     }
     
-    public void enviarEmailSolicitud (String nombre, int idSolicitud, String email){
+    public void enviarEmailSolicitud (String nombre, int idSolicitud, String email, ByteArrayOutputStream doc){
         
         final String username = "sistemapanol@gmail.com";
         final String password = "panolsis";
+        String texto ="Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
+                        + "Su pedido se realizó de forma exitosa, ahora debes pasar por pañol"
+                        + " y hacer efectivo tu préstamo con el número "+idSolicitud+". "
+                        + " Una vez validado el stock de tu solicitud podrás retirar tus productos.";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -196,10 +209,21 @@ public class SolicitudDAO {
 
            
                 message.setSubject("Solicitud Pañol Nº "+idSolicitud);
-                message.setText("Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
-                        + "Su pedido se realizó de forma exitosa, ahora debes pasar por pañol"
-                        + " y hacer efectivo tu préstamo con el número "+idSolicitud+". "
-                        + " Una vez validado el stock de tu solicitud podrás retirar tus productos.");
+                MimeBodyPart textBodyPart = new MimeBodyPart();
+                BodyPart messageBodyPart = new MimeBodyPart(); 
+                messageBodyPart.setText(texto);
+                Multipart multipart = new MimeMultipart();
+                
+                String applicationType = "application/pdf";
+                String fileName = "solicitud pañol";
+                textBodyPart = new MimeBodyPart();
+                textBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(doc.toByteArray(), applicationType)));
+                textBodyPart.setFileName(fileName);
+                multipart.addBodyPart(messageBodyPart);
+                multipart.addBodyPart(textBodyPart);
+                
+                
+                message.setContent(multipart);
             
             Transport.send(message);
 
@@ -209,5 +233,6 @@ public class SolicitudDAO {
         }
 
     }
+    
 
 }

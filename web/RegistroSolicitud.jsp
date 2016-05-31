@@ -124,15 +124,20 @@
                             <th id="info-tabla">Cantidad</th>
                             <th id="info-tabla">Acciones</th>
                         </tr>
+                        <c:forEach var="lp" items="${listaProductos}">
+                            <c:forEach var="d" items="${listaDetalle}">
+                                <c:if test="${lp.producto.idProducto == d.idProducto}">
+                                    <tr>
+                                        <td id="info-form"><c:out value="${lp.producto.nombre}"></c:out></td>
+                                        <td id="info-form"><c:out value="${lp.marca.descripcion}"></c:out></td>
+                                        <td id="info-form"><c:out value="${lp.producto.modelo}"></c:out></td>
 
-                        <c:forEach var="d" items="${listaDetalle}">
-                            <tr>
-                                <td id="info-form"><c:out value="${d.idSolicitud}"></c:out></td>
-                                <td id="info-form"><c:out value="${d.rut}"></c:out></td>
-                                <td id="info-form"><c:out value="${d.idProducto}"></c:out></td>
-                                <td><c:out value="${d.cantidad}"></c:out></td>
-                                    <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
-                                </tr>   
+                                            <td><c:out value="${d.cantidad}"></c:out></td>
+
+                                            <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
+                                        </tr> 
+                                </c:if>
+                            </c:forEach>
                         </c:forEach>
                     </table>
                     <c:choose>

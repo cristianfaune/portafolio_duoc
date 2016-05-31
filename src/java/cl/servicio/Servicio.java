@@ -29,6 +29,7 @@ import cl.persistencia.PrestamoDAO;
 import cl.persistencia.ProductoDAO;
 import cl.persistencia.SolicitudDAO;
 import cl.persistencia.UsuarioDAO;
+import java.io.ByteArrayOutputStream;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -214,8 +215,8 @@ public class Servicio {
         itemDAO.modificarEstadoPrestamo(nroSerie, prestamo);
     }
     
-    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email) {
-        solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email);
+    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc) {
+        solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email, doc);
     }
     
     public int stockProducto(int idProducto) {
