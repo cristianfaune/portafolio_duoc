@@ -87,14 +87,20 @@ public class ValidarIngreso extends HttpServlet {
 
                 if (usuarioSesion.getIdPerfil() == 100 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("ErrorUsuarioInactivo.jsp").forward(request, response);
                 }
 
                 if (usuarioSesion.getIdPerfil() == 120 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("ErrorUsuarioInactivo.jsp").forward(request, response);
                 }
 
                 if (usuarioSesion.getIdPerfil() == 110 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
+                }else{
+                    request.getRequestDispatcher("ErrorUsuarioInactivo.jsp").forward(request, response);
                 }
 
             } else {

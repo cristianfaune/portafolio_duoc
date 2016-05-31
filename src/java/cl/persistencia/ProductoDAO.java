@@ -113,4 +113,28 @@ public class ProductoDAO {
         }
     }
 
+    public int stockProducto(int idProducto) {
+
+        String sql = "{? = call stock_producto(?)}";
+        int stock;
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.registerOutParameter(1, OracleTypes.NUMBER);
+            
+            cs.setInt(2, idProducto);
+
+            cs.executeQuery();
+
+            stock = cs.getInt(1);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la funcion stock de producto", e);
+        }
+        return stock;
+    }
 }

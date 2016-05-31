@@ -34,12 +34,13 @@ public class CancelarSolicitudServlet extends HttpServlet {
         
         try (Connection con = ds.getConnection()){
             
-            HttpSession session = request.getSession();
+            HttpSession sessionSolicitud = request.getSession();
 
-            UsuarioPerfilCarreraDTO usuario = (UsuarioPerfilCarreraDTO) session.getAttribute("usuarioSolicitud");
+            sessionSolicitud.setAttribute("usuarioSolicitud", null);
             
-            usuario = null;
-            
+            cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
+            cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
+   
             request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
             
         } catch (SQLException e) {

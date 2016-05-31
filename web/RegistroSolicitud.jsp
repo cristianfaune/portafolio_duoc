@@ -40,6 +40,11 @@
                     <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                 </ul>
             </div>
+            <c:if test="${not empty mensajeError['errorCantidad']}">
+                <div id="danger-box" class="bg-danger">
+                    <h5 class="text-center text-danger"><c:out value="${mensajeError['errorCantidad']}"/></h5>
+                </div>
+            </c:if>
             <h2 class="text-center">Administración de solicitudes</h2>
             <div class="row">
                 <div class="col-md-9">
@@ -125,9 +130,7 @@
                                 <td id="info-form"><c:out value="${d.idSolicitud}"></c:out></td>
                                 <td id="info-form"><c:out value="${d.rut}"></c:out></td>
                                 <td id="info-form"><c:out value="${d.idProducto}"></c:out></td>
-
-                                    <td><c:out value="${d.cantidad}"></c:out></td>
-
+                                <td><c:out value="${d.cantidad}"></c:out></td>
                                     <td><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></td>
                                 </tr>   
                         </c:forEach>

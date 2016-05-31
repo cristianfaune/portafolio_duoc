@@ -20,16 +20,16 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                var esp = $('#especialSi').val();
-
                 $('#especialSi').click(function () {
                     $('#diasPrestamo').prop('disabled', false);
                     $('#diasPrestamo').prop('value', 2);
+                    
                 });
 
                 $('#especialNo').click(function () {
                     $('#diasPrestamo').prop('disabled', true);
                     $('#diasPrestamo').prop('value', 1);
+                    
                 });
             });
 
@@ -106,7 +106,7 @@
                                                 <br><br>
                                                 <div class="row">
                                                     <div class="col-md-5">
-                                                        <input class="form-control" type="number" name="diasPrestamo" id="diasPrestamo" disabled="true" min="2">
+                                                        <input class="form-control" type="number" name="diasPrestamo" id="diasPrestamo" disabled="true">
                                                     </div>
                                                     <p id="info-form">días préstamo</p>
                                                 </div>

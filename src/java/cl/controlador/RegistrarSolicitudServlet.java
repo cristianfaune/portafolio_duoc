@@ -72,53 +72,83 @@ public class RegistrarSolicitudServlet extends HttpServlet {
         DetalleSolicitud dtSol = new DetalleSolicitud();
         ArrayList<ProductoMarcaDTO> lstPr = new ArrayList<>();
         int idSolicitud;
+        int cant = 0;
 
         try (Connection con = ds.getConnection()) {
 
             Servicio servicio = new Servicio(con);
+            
+            int stock = servicio.stockProducto(Integer.parseInt(idProducto));
 
             ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
 
             if (cantidad.isEmpty()) {
-                mapMensaje.put("errorCantidad", "Debe agregar una cantidad");
+                mapMensaje.put("errorCantidad", "**Debe agregar una cantidad**");
+            } else if (Integer.parseInt(cantidad) <= 0) {
+                mapMensaje.put("errorCantidad", "**La cantidad debe ser mayor a 0**");
+            }
+            
+            if (Integer.parseInt(cantidad) > stock) {
+                mapMensaje.put("errorCantidad", "**No hay suficiente stock del producto**");
             }
 
-            dtSol.setIdProducto(Integer.parseInt(idProducto));
+            if (mapMensaje.isEmpty()) {
 
-            dtSol.setRut(usuarioSlc.getUsuario().getRut());
+                dtSol.setIdProducto(Integer.parseInt(idProducto));
 
-            idSolicitud = servicio.idSolicitudDisponible();
+                dtSol.setRut(usuarioSlc.getUsuario().getRut());
 
-            dtSol.setIdSolicitud(idSolicitud);
+                idSolicitud = servicio.idSolicitudDisponible();
 
-            dtSol.setCantidad(Integer.parseInt(cantidad));
+                dtSol.setIdSolicitud(idSolicitud);
 
-            //método para agregar a carrito
-            int indice = -1;
+                dtSol.setCantidad(Integer.parseInt(cantidad));
 
-            for (int i = 0; i < listaDtSol.size(); i++) {
-                DetalleSolicitud det = listaDtSol.get(i);
+                //método para agregar a carrito
+                int indice = -1;
 
-                if (det.getIdProducto() == dtSol.getIdProducto()) {
-                    indice = i;
-                    break;
+                for (int i = 0; i < listaDtSol.size(); i++) {
+                    DetalleSolicitud det = listaDtSol.get(i);
+
+                    if (det.getIdProducto() == dtSol.getIdProducto()) {
+
+                        cant = det.getCantidad();
+
+                        indice = i;
+
+                        break;
+                    }
                 }
-            }
 
-            if (indice == -1) {
-                listaDtSol.add(dtSol);
-            } else { 
-                listaDtSol.set(indice, dtSol);
-            }
-            // fin carrito
+                if (indice == -1) {
+                    listaDtSol.add(dtSol);
+                } else {
 
-           
-            request.setAttribute("listaProductos", listaProductosSolicitud);
-            request.setAttribute("listaDetalle", listaDtSol);
-            request.setAttribute("listaDtSol", listaDtSol.size());
-            request.setAttribute("detalle", dtSol);
-            request.setAttribute("lstProductos", listaProductos);
-            request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
+                    dtSol.setCantidad(Integer.parseInt(cantidad) + cant);
+                    
+                    if (dtSol.getCantidad() > stock) {
+                        mapMensaje.put("errorCantidad", "**No puede agregar más productos con ID "+idProducto+"**");
+                    }else{
+                        listaDtSol.set(indice, dtSol);
+                    }
+                    
+                }
+                // fin carrito
+
+                request.setAttribute("listaProductos", listaProductosSolicitud);
+                request.setAttribute("listaDetalle", listaDtSol);
+                request.setAttribute("detalle", dtSol);
+                request.setAttribute("mensajeError", mapMensaje);
+                request.setAttribute("lstProductos", listaProductos);
+                request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
+            } else {
+                request.setAttribute("listaProductos", listaProductosSolicitud);
+                request.setAttribute("listaDetalle", listaDtSol);
+                request.setAttribute("detalle", dtSol);
+                request.setAttribute("lstProductos", listaProductos);
+                request.setAttribute("mensajeError", mapMensaje);
+                request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion bd", e);

@@ -28,7 +28,7 @@
                         <li role="presentation"><a href="#">Reportes</a></li>
                     </ul>
                     <br>
-                    <h3>Bienvenido al home de Pañolero</h3>
+                    <h3 class="text-center">Bienvenido al home de Pañolero</h3>
                     <br>
                     <p>
                         En tu sitio podrás realizar todas las funcionalidades

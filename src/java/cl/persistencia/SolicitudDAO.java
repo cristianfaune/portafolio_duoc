@@ -10,6 +10,14 @@ import cl.dominio.Solicitud;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import oracle.jdbc.OracleTypes;
 
 /**
@@ -159,6 +167,47 @@ public class SolicitudDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Error al registrar solicitud", e);
         }
+    }
+    
+    public void enviarEmailSolicitud (String nombre, int idSolicitud, String email){
+        
+        final String username = "sistemapanol@gmail.com";
+        final String password = "panolsis";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("sistemapanol@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(email));
+
+           
+                message.setSubject("Solicitud Pañol Nº "+idSolicitud);
+                message.setText("Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
+                        + "Su pedido se realizó de forma exitosa, ahora debes pasar por pañol"
+                        + " y hacer efectivo tu préstamo con el número "+idSolicitud+". "
+                        + " Una vez validado el stock de tu solicitud podrás retirar tus productos.");
+            
+            Transport.send(message);
+
+            //System.out.println("Done");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 }

@@ -6,6 +6,7 @@ import cl.dominio.Marca;
 import cl.dominio.Producto;
 import cl.dominio.Solicitud;
 import cl.dto.ProductoMarcaDTO;
+import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -79,6 +81,10 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+
+        UsuarioPerfilCarreraDTO usuarioSlc = (UsuarioPerfilCarreraDTO) session.getAttribute("usuarioSolicitud");
 
         String diasPrestamo = request.getParameter("diasPrestamo");
         String especial = request.getParameter("especial");
@@ -118,11 +124,14 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
                 servicio.registrarDetalleSolicitud(detalleS);
             }
             
-            cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
-            cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
-            
+            String nombre = usuarioSlc.getUsuario().getNombres()+" "+usuarioSlc.getUsuario().getApellidos();
             int idUltimaSolicitud = servicio.idUltimaSolicitud();
             
+            servicio.enviarEmailSolicitud(nombre, idUltimaSolicitud, usuarioSlc.getUsuario().getEmail());
+            
+            cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
+            cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
+             
             request.setAttribute("ultimoIdSolicitud", idUltimaSolicitud);
             request.getRequestDispatcher("RegistroSolicitudExitosa.jsp").forward(request, response);
 

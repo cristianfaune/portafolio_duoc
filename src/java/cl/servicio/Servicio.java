@@ -166,6 +166,10 @@ public class Servicio {
         return consultaDAO.buscarSolicitudId(idSolicitud);
     }
     
+    public ArrayList<DetalleSolicitudPrUsCaDTO> totalSolicitudId(int idSolicitud) {
+        return consultaDAO.totalSolicitudId(idSolicitud);
+    }
+    
     public ArrayList<Item> itemsDisponibles(int idProducto, int cantidad) {
         return itemDAO.itemsDisponibles(idProducto, cantidad);
     }
@@ -208,5 +212,13 @@ public class Servicio {
     
     public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
         itemDAO.modificarEstadoPrestamo(nroSerie, prestamo);
+    }
+    
+    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email) {
+        solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email);
+    }
+    
+    public int stockProducto(int idProducto) {
+        return productoDAO.stockProducto(idProducto);
     }
 }
