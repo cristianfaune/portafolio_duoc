@@ -8,6 +8,7 @@ package cl.controlador;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.servicio.Servicio;
 import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -22,6 +23,7 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Header;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -78,14 +80,13 @@ public class PdfSolicitudServlet extends HttpServlet {
 
                 document.open();
 
-                
                 PdfPTable table;
                 table = new PdfPTable(4);
                 table.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table.setWidthPercentage(80);
                 PdfPCell cell;
-                    
-                    for (int i = 0; i <= 0; i++) {
+
+                for (int i = 0; i <= 0; i++) {
                     DetalleSolicitudPrUsCaDTO var = lista.get(i);
 
                     cell = new PdfPCell(new Phrase("Nombre:", FontFactory.getFont("arial", 8, Font.BOLDITALIC)));
@@ -137,8 +138,6 @@ public class PdfSolicitudServlet extends HttpServlet {
                     table.addCell(cell);
 
                 }
-                
-                
 
                 PdfPTable table2 = new PdfPTable(3);
                 table2.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -214,7 +213,7 @@ public class PdfSolicitudServlet extends HttpServlet {
                     cell3 = new PdfPCell(new Phrase(var.getProducto().getNombre()));
                     cell3.setBorder(0);
                     table3.addCell(cell3);
-                    
+
                     cell3 = new PdfPCell(new Phrase(var.getMarca().getDescripcion()));
                     cell3.setBorder(0);
                     table3.addCell(cell3);
@@ -222,13 +221,25 @@ public class PdfSolicitudServlet extends HttpServlet {
                     cell3 = new PdfPCell(new Phrase(var.getProducto().getModelo()));
                     cell3.setBorder(0);
                     table3.addCell(cell3);
-                    
+
                     cell3 = new PdfPCell(new Phrase(String.valueOf(var.getDetalleSolicitud().getCantidad())));
                     cell3.setBorder(0);
                     table3.addCell(cell3);
                 }
 
                 //organización documento PDF final
+                String filename = "C:\\Users\\cristian\\Documents\\NetBeans Projects\\portafolio_duoc\\logoDuoc.png";
+                Image image = Image.getInstance(filename);
+                image = Image.getInstance(filename);
+                image.scalePercent(200f);
+                image.setAbsolutePosition(400, (float) (PageSize.A4.getHeight() - 50.0));
+                
+                image.scaleToFit(100f, 200f);
+                
+                document.add(image);
+
+                
+                
                 document.add(new Paragraph("Detalle Solicitud: " + idSolicitud, FontFactory.getFont("arial", 20, Font.BOLD)));
                 document.add(new Paragraph("Fecha emisión documento: " + sdf.format(time), FontFactory.getFont("arial", 9, Font.ITALIC)));
                 document.add(new Paragraph("______________________________________________________________________________"));
@@ -236,14 +247,12 @@ public class PdfSolicitudServlet extends HttpServlet {
                 document.add(new Paragraph("  "));
 
                 document.add(table2);
-                
 
                 document.add(new Paragraph("  "));
                 document.add(new Paragraph("  "));
                 document.add(new Paragraph("______________________________________________________________________________"));
                 document.add(new Paragraph("Datos Usuario: ", FontFactory.getFont("arial", 16, Font.BOLD)));
                 document.add(new Paragraph(" "));
-                
 
                 document.add(table);
 
@@ -252,11 +261,18 @@ public class PdfSolicitudServlet extends HttpServlet {
                 document.add(new Paragraph("______________________________________________________________________________"));
                 document.add(new Paragraph("Detalle Productos: ", FontFactory.getFont("arial", 16, Font.BOLD)));
                 document.add(new Paragraph("  "));
-                
+
                 document.add(table3);
 
-                document.add(new Phrase("**Recuerde llevar este documento al momento de hacer efectiva su solicitud en pañol**", FontFactory.getFont("arial", 8, Font.ITALIC)));
-            
+                PdfPCell footer = new PdfPCell(new Phrase("**Recuerde llevar este documento al "
+                        + "momento de hacer efectiva su solicitud en pañol**", 
+                        FontFactory.getFont("arial", 8, Font.ITALIC)));
+                
+                footer.setHorizontalAlignment(Element.ALIGN_CENTER);
+                document.add(footer);
+
+                
+                
                 document.close();
 
             } catch (DocumentException e) {

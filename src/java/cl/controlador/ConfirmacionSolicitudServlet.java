@@ -14,6 +14,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -284,6 +286,16 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
                 }
 
                 //organización documento PDF final
+                
+                String filename = "C:\\Users\\cristian\\Documents\\NetBeans Projects\\portafolio_duoc\\logoDuoc.png";
+                Image image = Image.getInstance(filename);
+                image = Image.getInstance(filename);
+                image.scalePercent(200f);
+                image.setAbsolutePosition(400, (float) (PageSize.A4.getHeight() - 50.0));
+                
+                image.scaleToFit(100f, 200f);
+                
+                document.add(image);
                 document.add(new Paragraph("Detalle Solicitud: " + String.valueOf(idUltimaSolicitud), FontFactory.getFont("arial", 20, Font.BOLD)));
                 document.add(new Paragraph("Fecha emisión documento: " + sdf.format(time), FontFactory.getFont("arial", 9, Font.ITALIC)));
                 document.add(new Paragraph("______________________________________________________________________________"));
