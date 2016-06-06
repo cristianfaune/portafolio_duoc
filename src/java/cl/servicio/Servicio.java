@@ -219,7 +219,15 @@ public class Servicio {
         solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email, doc);
     }
     
+     public void enviarEmailPrestamo(String nombre, int idPrestamo, String email, ByteArrayOutputStream doc) {
+        prestamoDAO.enviarEmailPrestamo(nombre, idPrestamo, email, doc);
+    }
+    
     public int stockProducto(int idProducto) {
         return productoDAO.stockProducto(idProducto);
+    }
+    
+    public Prestamo buscarPrestamoPorId (int idPrestamo){
+        return prestamoDAO.buscarPrestamoPorId(idPrestamo);
     }
 }
