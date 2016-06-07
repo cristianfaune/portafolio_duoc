@@ -24,21 +24,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
+        <script src="js/jquery.js" type="text/javascript"></script>
         <title>Home - Jefe de Carrera</title>
     </head>
     <script type="text/javascript">
-        function perfil() {
-            $(document).ready(function () {
-                var idPerfil = $('#seleccionaPerfil').val();
+        $(document).ready(function () {
 
-            });
-        }
-        function carrera() {
-            $(document).ready(function () {
-                var idCarrera = $('#seleccionaCarrera').val();
+            $("#seleccionPerfil").change(function () {
+                var idPerfil = $("#seleccionPerfil").val();
 
+                if (idPerfil === '130') {
+                    $('#seleccionCarrera').prop('disabled',false);
+                }else{
+                    $('#seleccionCarrera').prop('disabled',true);
+                }
             });
-        }
+        });
     </script>
     <body>
         <%@include file="header.jsp" %>
@@ -86,7 +87,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Perfil:</label>
-                                <select class="form-control" id="seleccionCategoria" name="seleccionPerfil">
+                                <select class="form-control" id="seleccionPerfil" name="seleccionPerfil">
                                     <option value="0">--Seleccione--</option>
                                     <c:forEach var="dat1" items="${lstPerfiles}">
                                         <option value="${dat1.idPerfil}">
@@ -98,7 +99,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label>Carrera:</label>
-                                <select class="form-control" id="seleccionCategoria" name="seleccionCarrera" >
+                                <select class="form-control" id="seleccionCarrera" name="seleccionCarrera" disabled="true">
                                     <option value="0">--Seleccione--</option>
                                     <c:forEach var="dat2" items="${lstCarreras}">
                                         <option value="${dat2.idCarrera}">

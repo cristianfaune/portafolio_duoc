@@ -6,99 +6,129 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="datatables" uri="http://github.com/tduchateau/DataTables-taglib" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <title>Home - Jefe de Carrera</title>
-    </head>
-    <body>
-        <%@include file="header.jsp" %>
-        <div class="container"> 
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
-            <br>
-            <div class="row">
-                <div class="col-md-0"></div>
-                <div class="col-md-12">
-                    <div>
-                        <ul class="nav nav-pills  col-lg-offset-4">
-                            <c:choose>
-                                <c:when test="${usuarioSesion.idPerfil == 100}">
-                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
-                                    </c:when>
-                                    <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
-                                    </c:when>
-                                    <c:when test="${usuarioSesion.idPerfil == 110}">
-                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
-                                    </c:when>
-                                </c:choose>
-                            <li role="presentation"><a href="<c:url value="/MostrarUsuario.jsp"/>">Buscar Usuario</a></li>
-                            <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
-                        </ul>
-                    </div>
-                    <h3 class="text-center">Administración de Usuarios</h3>
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <th class="text-center">Nombres</th>
-                                <th class="text-center">Apellidos</th>
-                                <th class="text-center">Telefono</th>
-                                <th class="text-center">Direccion</th>
-                                <th class="text-center">Email</th>
-                                <th class="text-center">Estado</th>
-                                <th class="text-center">Perfil</th>
-                                <th class="text-center">Carrera</th>
-                                <th class="text-center"></th>
-                                <th class="text-center">Acciones</th>
-                            </tr>
-                            <c:forEach var="dato" items="${lstUsuarios}">
-                                <tr>
-                                    <td class="text-center"><c:out value="${dato.usuario.nombres}"/></td>
-                                    <td class="text-center"><c:out value="${dato.usuario.apellidos}"/></td>
-                                    <td class="text-center"><c:out value="${dato.usuario.telefono}"/></td>
-                                    <td class="text-center"><c:out value="${dato.usuario.direccion}"/></td>
-                                    <td class="text-center"><c:out value="${dato.usuario.email}"/></td>
-                                    <c:choose>
-                                        <c:when test="${dato.usuario.activo == 1}">
-                                            <td class="text-center"><c:out value="Activo"/></td>        
-                                        </c:when>
-                                        <c:otherwise>
-                                            <td class="text-center"><c:out value="Inactivo"/></td>
-                                        </c:otherwise>
-                                    </c:choose>
-                                    <td class="text-center"><c:out value="${dato.perfil.descripcion}"/></td>
-                                    <td class="text-center"><c:out value="${dato.carrera.descripcion}"/></td>
-                                    <td>
-                                        <form action="<c:url value="/ModificarEstadoUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar el estado del usuario?');">
-                                            <input type="hidden" name="rut" value="${dato.usuario.rut}"/>
-                                            <input type="hidden" name="activo" value="${dato.usuario.activo}"/>
-                                            <c:choose>
-                                                <c:when test="${dato.usuario.activo == 1}">
-                                                    <input class="btn btn-danger btn-xs" name="activo" type="submit" value="desactivar"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <input class="btn btn-success btn-xs" name="activo" type="submit" value="activar"/>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <form action="<c:url value="/MostrarUsuarioServlet"/>" method="post">
-                                            <input type="hidden" name="rut" value="${dato.usuario.rut}"/>
-                                            <input class="btn btn-primary btn-xs" name="modificar" type="submit" value="modificar"/>
-                                        </form>
-                                    </td>
-                                </tr
-                            </c:forEach>
-                        </tbody>
-                    </table>
+        <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href="css/jquery.dataTables.css" rel="stylesheet">
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <script src="js/jquery.dataTables.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+        <link href="css/jquery.dataTables.TableTools.css" rel="stylesheet">
+        <script src="js/jquery.dataTables.TableTools.js"/></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+    <title>Home - Jefe de Carrera</title>
+</head>
+<body>
+    <script>
+        $(document).ready(function () {
+            $('#tabla-usuarios').dataTable({
+                "dom": 'T<"clear">lfrtip',
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json"
+                },
+                "tableTools": {
+                    "sSwfPath": "/swf/copy_csv_xls_pdf.swf"
+                },
+            });
+        });
+    </script>
+    <%@include file="header.jsp" %>
+    <div class="container"> 
+        <h4 class="text-center">Administración sistema Pañol</h4>
+        <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+        <br>
+        <div class="row">
+            <div class="col-md-0"></div>
+            <div class="col-md-12">
+                <div>
+                    <ul class="nav nav-pills  col-lg-offset-4">
+                        <c:choose>
+                            <c:when test="${usuarioSesion.idPerfil == 100}">
+                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                </c:when>
+                                <c:when test="${usuarioSesion.idPerfil == 120}">
+                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                </c:when>
+                                <c:when test="${usuarioSesion.idPerfil == 110}">
+                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                </c:when>
+                            </c:choose>
+                        <li role="presentation"><a href="<c:url value="/MostrarUsuario.jsp"/>">Buscar Usuario</a></li>
+                        <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
+                    </ul>
                 </div>
-                <div class="col-md-0"></div>
+                <h3 class="text-center">Administración de Usuarios</h3>
+                <datatables:table cssClass="table" data="${lstUsuarios}" htmlTableId="tabla-usuarios" dataObjectId="row">
+                    <datatables:column title="Rut" sortable="true">
+                        <c:out value="${row.usuario.rut}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Nombres" sortable="true">
+                        <c:out value="${row.usuario.nombres}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Apellidos" sortable="true"> 
+                        <c:out value="${row.usuario.apellidos}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Perfil" sortable="true">
+                        <c:out value="${row.perfil.descripcion}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Carrera" sortable="true">
+                        <c:choose>
+                            <c:when test="${empty row.carrera.descripcion}">
+                                <p class="text-center text-danger bg-danger" id="info-form"><c:out value="No aplica"></c:out></p>
+                            </c:when>
+                            <c:otherwise>
+                                <c:out value="${row.carrera.descripcion}"></c:out>
+                            </c:otherwise>
+                        </c:choose>
+                    </datatables:column>
+                    <datatables:column title="Dirección" sortable="true">
+                        <c:out value="${row.usuario.direccion}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Teléfono" sortable="true">
+                        <c:out value="${row.usuario.telefono}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Email" sortable="true">
+                        <c:out value="${row.usuario.email}"></c:out>
+                    </datatables:column>
+                    <datatables:column title="Activo" sortable="true">
+                        <c:choose>
+                            <c:when test="${row.usuario.activo == 1}">
+                                <p class="text-success text-center bg-success" id="info-form"><c:out value="Activo"></c:out></p>
+                            </c:when>
+                            <c:otherwise>
+                                <p class="text-center text-danger bg-danger" id="info-form"><c:out value="Inactivo"></c:out></p>
+                            </c:otherwise>
+                        </c:choose>
+                    </datatables:column>
+                    <datatables:column title="Estado">
+                        <form action="<c:url value="/ModificarEstadoUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar el estado del usuario?');">
+                            <input type="hidden" name="rut" value="${row.usuario.rut}"/>
+                            <input type="hidden" name="activo" value="${row.usuario.activo}"/>
+                            <c:choose>
+                                <c:when test="${row.usuario.activo == 1}">
+                                    <input class="btn btn-danger btn-xs" name="activo" type="submit" value="desactivar"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input class="btn btn-success btn-xs" name="activo" type="submit" value="activar"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </form>
+                    </datatables:column>
+                    <datatables:column title="Modificar">
+                        <form action="<c:url value="/MostrarUsuarioServlet"/>" method="post">
+                            <input type="hidden" name="rut" value="${row.usuario.rut}"/>
+                            <input class="btn btn-primary btn-xs" name="modificar" type="submit" value="modificar"/>
+                        </form>
+                    </datatables:column>
+                </datatables:table>
             </div>
+            <div class="col-md-0"></div>
         </div>
+    </div>
 
-    </body>
+</body>
 </html>

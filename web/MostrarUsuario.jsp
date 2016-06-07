@@ -62,6 +62,7 @@
                     </div>
                     <br>
                     <br>
+                    <c:if test="${not empty usuarioBusqueda}">
                     <div class="row">
                         <div class="col-lg-6">
                             <h4>Datos usuario:</h4> 
@@ -138,6 +139,7 @@
                         <input class="btn btn-default btn-primary col-sm-offset-9" type="submit" value="Actualizar"/>
                     </form>
                 </div>
+                    </c:if>
                 <div class="col-md-2"></div>
             </div>
     </body>
