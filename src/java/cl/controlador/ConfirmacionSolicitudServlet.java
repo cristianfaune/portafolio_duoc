@@ -126,6 +126,7 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
             int idUltimaSolicitud = servicio.idUltimaSolicitud();
             ArrayList<DetalleSolicitudPrUsCaDTO> lista = servicio.totalSolicitudId(idUltimaSolicitud);
             
+            
             //documento PDF
             Document document = new Document();
 

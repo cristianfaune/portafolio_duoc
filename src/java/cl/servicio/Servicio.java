@@ -16,9 +16,11 @@ import cl.dominio.Prestamo;
 import cl.dominio.Producto;
 import cl.dominio.Solicitud;
 import cl.dominio.Usuario;
+import cl.dto.DetallePrestamoDTO;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.dto.ProductoMarcaDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
+import cl.dto.UsuarioPrestamoDTO;
 import cl.persistencia.CarreraDAO;
 import cl.persistencia.CategoriaDAO;
 import cl.persistencia.ConsultaDAO;
@@ -229,5 +231,13 @@ public class Servicio {
     
     public Prestamo buscarPrestamoPorId (int idPrestamo){
         return prestamoDAO.buscarPrestamoPorId(idPrestamo);
+    }
+    
+    public ArrayList<DetallePrestamoDTO> buscarDetallePrestamoPorId (int idPrestamo){
+        return consultaDAO.buscarDetallePrestamoPorId(idPrestamo);
+    }
+    
+    public ArrayList<UsuarioPrestamoDTO> buscarUsuarioPrestamoPorId(int idPrestamo) {
+        return consultaDAO.buscarUsuarioPrestamoPorId(idPrestamo);
     }
 }

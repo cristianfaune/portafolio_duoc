@@ -12,6 +12,11 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <script src="js/jquery.js" type="text/javascript"></script>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
+
         <title>Administración de Inventario</title>
     </head>
     <body>
@@ -87,7 +92,7 @@
                                             </c:otherwise>
                                         </c:choose>
                                         <td class="text-center">
-                                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar los datos?');">
+                                            <form action="<c:url value="/ModificarEstadoItemServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de modificar el estado?');">
                                                 <input type="hidden" name="nroSerie" value="${dato.nroSerie}"/>
                                                 <input type="hidden" name="idProducto" value="${idProducto}"/>
                                                 <c:choose>

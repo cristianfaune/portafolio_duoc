@@ -24,6 +24,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <script src="js/jquery.js" type="text/javascript"></script>
         <title>Home - Jefe de Carrera</title>
     </head>
@@ -34,9 +36,9 @@
                 var idPerfil = $("#seleccionPerfil").val();
 
                 if (idPerfil === '130') {
-                    $('#seleccionCarrera').prop('disabled',false);
-                }else{
-                    $('#seleccionCarrera').prop('disabled',true);
+                    $('#seleccionCarrera').prop('disabled', false);
+                } else {
+                    $('#seleccionCarrera').prop('disabled', true);
                 }
             });
         });
@@ -44,12 +46,13 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
-            <div class="row col-lg-offset-0">
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
+            <br>
+            <div class="row">
                 <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <ul class="nav nav-pills col-lg-offset-2">
+                <div class="col-md-8 centered-pills">
+                    <ul class="nav nav-pills" id="palanquin-font">
                         <c:choose>
                             <c:when test="${usuarioSesion.idPerfil == 100}">
                                 <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -61,9 +64,9 @@
                                 <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
                                 </c:when>
                             </c:choose>
-                        <li role="presentation"><a href="<c:url value="/MostrarUsuarioServlet"/>">Buscar Usuario</a></li>
-                        <li role="presentation"><a href="<c:url value="#"/>">Ingresar Nuevo Usuario</a></li>
-                        <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Mostrar Usuarios</a></li>
+                        <li role="presentation"><a href="<c:url value="/MostrarUsuarioServlet"/>">Buscar usuario</a></li>
+                        <li role="presentation"><a href="<c:url value="#"/>">Ingresar usuario</a></li>
+                        <li role="presentation"><a href="<c:url value="ListarUsuariosServlet"/>">Listar usuarios</a></li>
 
                     </ul>
                     <br>
@@ -72,7 +75,8 @@
                             <h5 class="text-center text-success"><c:out value="${mapMensajeExito['mensaje']}"/></h5>
                         </div>
                     </c:if>
-                    <h3>Registro de Usuario</h3>
+                    <h3 class="text-center" id="palanquin-font">Registro de Usuario</h3>
+                    <hr>
                     <br>
                     <p>
                     <form class="form-horizontal" action="<c:url value="/RegistroUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de registrar al nuevo usuario?');">

@@ -22,6 +22,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <title>Administración de Inventario</title>
     </head>
     <script type="text/javascript">
@@ -42,14 +44,15 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container"> 
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
+            <br>
             <div>
                 <div class="row">
                     <div class="col-md-3">
                     </div>
-                    <div class="col-md-6  col-lg-offset-0">
-                        <ul class="nav nav-pills">
+                    <div class="col-md-6 centered-pills">
+                        <ul class="nav nav-pills" id="palanquin-font">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
                                     <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -76,13 +79,14 @@
                             <h5 class="text-center text-success"><c:out value="${mensaje['mensajeExito']}"/></h5>
                         </div>
                     </c:if>
-                    <h3 class="text-center" id="p">Registro de productos</h3>
+                    <h3 class="text-center" id="palanquin-font">Registro de productos</h3>
+                    <hr>
                     <br>
                     <p id="error-form" class="text-center"><c:out value="${mapMensaje['errorExiste']}"/></p>
                     <div class="row">
                         <form action="UploadFotoServlet" method="post" enctype="multipart/form-data">
-                            <div class="col-md-6">
-                                <p>Carga la imagen del producto:</p>
+                            <div class="col-md-12" id="borde-imagen">
+                                <p id="palanquin-font">Carga la imagen del producto:</p>
                                 <input class="btn btn-default btn-primary btn-sm" type="file" name="dataFile" size="20" accept="image/*"/>
                                 <input class="btn btn-default" type="submit" value="Cargar" />
                             </div>

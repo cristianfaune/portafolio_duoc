@@ -14,6 +14,8 @@
         <script src="js/jquery.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <title>Administración de pañol</title>
     </head>
     <body>
@@ -23,13 +25,13 @@
                 $('#especialSi').click(function () {
                     $('#diasPrestamo').prop('disabled', false);
                     $('#diasPrestamo').prop('value', 2);
-                    
+
                 });
 
                 $('#especialNo').click(function () {
                     $('#diasPrestamo').prop('disabled', true);
                     $('#diasPrestamo').prop('value', 1);
-                    
+
                 });
             });
 

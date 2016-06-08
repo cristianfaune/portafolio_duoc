@@ -7,14 +7,19 @@ package cl.persistencia;
 
 import cl.dominio.DetalleSolicitud;
 import cl.dominio.Carrera;
+import cl.dominio.DetallePrestamo;
+import cl.dominio.Item;
 import cl.dominio.Marca;
 import cl.dominio.Perfil;
+import cl.dominio.Prestamo;
 import cl.dominio.Producto;
 import cl.dominio.Solicitud;
 import cl.dominio.Usuario;
+import cl.dto.DetallePrestamoDTO;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.dto.ProductoMarcaDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
+import cl.dto.UsuarioPrestamoDTO;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -457,6 +462,179 @@ public class ConsultaDAO {
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en el procedimiento total solicitud por id", e);
+        }
+        return lista;
+    }
+
+    public ArrayList<DetallePrestamoDTO> buscarDetallePrestamoPorId(int idPrestamo) {
+        ArrayList<DetallePrestamoDTO> lista = new ArrayList<>();
+        Producto producto;
+        Marca marca;
+        Usuario usuario;
+        DetallePrestamo detallePrestamo;
+        Item item;
+        Prestamo prestamo;
+
+        String sql = "{call buscar_detalle_prestamo_por_id(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idPrestamo);
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                prestamo = new Prestamo();
+
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setActiva(rs.getByte(2));
+                prestamo.setFechaRetiro(rs.getTimestamp(3));
+                prestamo.setFechaEstimadaEntrega(rs.getTimestamp(4));
+                prestamo.setIdSolicitud(rs.getInt(5));
+                prestamo.setPrestamoEspecial(rs.getByte(6));
+
+                detallePrestamo = new DetallePrestamo();
+
+                detallePrestamo.setRut(rs.getString(7));
+                detallePrestamo.setIdPrestamo(rs.getInt(8));
+                detallePrestamo.setNroSerie(rs.getString(9));
+
+                usuario = new Usuario();
+
+                usuario.setRut(rs.getString(10));
+                usuario.setNombres(rs.getString(11));
+                usuario.setApellidos(rs.getString(12));
+                usuario.setTelefono(rs.getString(13));
+                usuario.setDireccion(rs.getString(14));
+                usuario.setEmail(rs.getString(15));
+                usuario.setPassword(rs.getString(16));
+                usuario.setActivo(rs.getByte(17));
+                usuario.setIdPerfil(rs.getInt(18));
+                usuario.setIdCarrera(rs.getInt(19));
+
+                item = new Item();
+                
+                item.setNroSerie(rs.getString(20));
+                item.setActivo(rs.getByte(21));
+                item.setIdProducto(rs.getInt(22));
+                item.setPrestamo(rs.getByte(23));
+
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(24));
+                producto.setNombre(rs.getString(25));
+                producto.setModelo(rs.getString(26));
+                producto.setDescripcion(rs.getString(27));
+                producto.setStock(rs.getInt(28));
+                producto.setRutaImagen(rs.getString(29));
+                producto.setIdCategoria(rs.getInt(30));
+                producto.setIdMarca(rs.getInt(31));
+
+                marca = new Marca();
+
+                marca.setIdMarca(rs.getInt(32));
+                marca.setDescripcion(rs.getString(33));
+                marca.setIdCategoria(rs.getInt(34));
+
+                lista.add(new DetallePrestamoDTO(usuario,
+                        prestamo, detallePrestamo, item, producto, marca));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento detalle prestamo por id", e);
+        }
+        return lista;
+    }
+    
+    public ArrayList<UsuarioPrestamoDTO> buscarUsuarioPrestamoPorId(int idPrestamo) {
+        ArrayList<UsuarioPrestamoDTO> lista = new ArrayList<>();
+        Usuario usuario;
+        Perfil perfil;
+        Carrera carrera;
+        Prestamo prestamo;
+        Solicitud solicitud;
+        DetalleSolicitud detalleSolicitud;
+
+        String sql = "{call buscar_usuario_prestamo_por_id(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idPrestamo);
+
+            cs.registerOutParameter(2, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(2);
+
+            while (rs.next()) {
+                
+                prestamo = new Prestamo();
+
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setActiva(rs.getByte(2));
+                prestamo.setFechaRetiro(rs.getTimestamp(3));
+                prestamo.setFechaEstimadaEntrega(rs.getTimestamp(4));
+                prestamo.setIdSolicitud(rs.getInt(5));
+                prestamo.setPrestamoEspecial(rs.getByte(6));
+                
+                solicitud = new Solicitud();
+
+                solicitud.setIdSolicitud(rs.getInt(7));
+                solicitud.setFechaSolicitud(rs.getTimestamp(8));
+                solicitud.setActiva(rs.getByte(9));
+                solicitud.setSolicitudEspecial(rs.getByte(10));
+                solicitud.setDiasPrestamo(rs.getInt(11));
+
+                detalleSolicitud = new DetalleSolicitud();
+
+                detalleSolicitud.setRut(rs.getString(12));
+                detalleSolicitud.setIdSolicitud(rs.getInt(13));
+                detalleSolicitud.setIdProducto(rs.getInt(14));
+                detalleSolicitud.setCantidad(rs.getInt(15));
+                
+                usuario = new Usuario();
+
+                usuario.setRut(rs.getString(16));
+                usuario.setNombres(rs.getString(17));
+                usuario.setApellidos(rs.getString(18));
+                usuario.setTelefono(rs.getString(19));
+                usuario.setDireccion(rs.getString(20));
+                usuario.setEmail(rs.getString(21));
+                usuario.setPassword(rs.getString(22));
+                usuario.setActivo(rs.getByte(23));
+                usuario.setIdPerfil(rs.getInt(24));
+                usuario.setIdCarrera(rs.getInt(25));
+                
+                carrera = new Carrera();
+
+                carrera.setIdCarrera(rs.getInt(26));
+                carrera.setDescripcion(rs.getString(27));
+
+                perfil = new Perfil();
+
+                perfil.setIdPerfil(rs.getInt(28));
+                perfil.setDescripcion(rs.getString(29));
+
+                
+
+                lista.add(new UsuarioPrestamoDTO(prestamo, usuario, solicitud, detalleSolicitud, carrera, perfil));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento usuario prestamo por id", e);
         }
         return lista;
     }

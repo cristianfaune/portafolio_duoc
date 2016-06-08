@@ -14,17 +14,19 @@
         <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <title>Administración de solicitudes</title>
         <title>Registro de solicitud</title>
     </head>
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
             <br>
-            <div>
-                <ul class="nav nav-pills col-md-offset-4">
+            <div class="centered-pills">
+                <ul class="nav nav-pills" id="palanquin-font">
                     <c:choose>
                         <c:when test="${usuarioSesion.idPerfil == 100}">
                             <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -42,10 +44,12 @@
             </div>
             <c:if test="${not empty mensajeError['errorCantidad']}">
                 <div id="danger-box" class="bg-danger">
-                    <h5 class="text-center text-danger"><c:out value="${mensajeError['errorCantidad']}"/></h5>
+                    <h5 class="text-center text-danger" id="palanquin-font"><c:out value="${mensajeError['errorCantidad']}"/></h5>
                 </div>
             </c:if>
-            <h2 class="text-center">Administración de solicitudes</h2>
+                <h3 class="text-center" id="palanquin-font">Administración de solicitudes</h3>
+                <hr>
+                <br>
             <div class="row">
                 <div class="col-md-9">
                     <table class="table">
@@ -65,7 +69,7 @@
                                 <c:choose>
                                     <c:when test="${dato.producto.stock == 0}">
                                         <tr>
-                                            <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                            <td><img src="${dato.producto.rutaImagen}" width="70" height="70"></td>
                                             <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
                                             <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
                                             <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>
@@ -108,11 +112,11 @@
                     </table>
                 </div>
                 <div class="col-md-3">
-                    <h5>Mis productos: 
+                    <h5 id="palanquin-font">Mis productos: 
                         <c:if test="${not empty listaDetalle}">
-                            Solicitud Nº 
+                            <p id="palanquin-font">Solicitud Nº </p>
                             <c:forEach var="ds" end="0" items="${listaDetalle}">
-                                <c:out value="${ds.idSolicitud}"></c:out>
+                                <strong><c:out value="${ds.idSolicitud}"></c:out></strong>
                             </c:forEach>
                         </c:if>
                     </h5>
@@ -144,12 +148,12 @@
                         <c:when test="${not empty listaDetalle}">
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-6">
-                                    <form action="<c:url value="ConfirmacionSolicitudServlet"/>" method="get">
+                                    <form action="<c:url value="ConfirmacionSolicitudServlet"/>" method="get" onsubmit="return confirm('¿Está seguro que esto es todo lo que necesita?');">
                                         <input class="btn btn-default btn-success btn-xs" type="submit" name="registrarSolicitud" value="Finalizar"> 
                                     </form>
                                 </div>
                                 <div class="col-md-3 col-md-offset-0">
-                                    <form action="<c:url value="CancelarSolicitudServlet"/>" method="post">
+                                    <form action="<c:url value="CancelarSolicitudServlet"/>" method="post" onsubmit="return confirm('¿Al cancelar eliminará todos los productos de su solicitud?');">
                                         <input class="btn btn-default btn-danger btn-xs" type="submit" name="cancelarSolicitud" value="Cancelar"> 
                                     </form>
                                 </div> 

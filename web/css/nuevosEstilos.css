@@ -8,14 +8,18 @@ and open the template in the editor.
     Author     : cristian
 */
 #header{
+    height: 20%;
+    background-color: #23527c;
     width: 100%;
-    height: 15vh;
+}
+
+#body{
     background-color: #23527c;
 }
 
 #logo{
-    width: 15%;
-    height: 30%;
+    width: 20%;
+    height: 10%;
     margin-left: 100px;
 }
 
@@ -37,19 +41,6 @@ and open the template in the editor.
     width:80% /* value of your choice which suits your alignment */
 }
 
-.nav-center {  
-  text-align: center;
-  ul.nav {
-    display: inline-block;
-    li {
-      display: inline
-      a {
-        float: left
-      }
-    }
-  }
-}
-
 #danger-box{
     height: 50px;
     padding-top: 10px;
@@ -59,11 +50,13 @@ and open the template in the editor.
 #usuario-sesion{
     font-size: 15px;
     color: white;
+    margin-top: 8%;
 }
 
 #cerrar-sesion{
     font-size: 12px;
     color: white;
+    margin-top: 0%;
 }
 
 #info-form{
@@ -92,3 +85,55 @@ and open the template in the editor.
     margin-top: 170px;
 }
 
+#opensans-font{
+    font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#palanquin-font{
+    font-family: 'Palanquin', sans-serif;
+}
+
+#titulo-pagina {
+    font-family: 'Open Sans Condensed', sans-serif;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#container {
+    background-color: white;
+}
+
+.centered-pills { text-align:center; }
+.centered-pills ul.nav-pills { display:inline-block; }
+.centered-pills li { display:inline; }
+.centered-pills a { float:left; }
+* html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
+*+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
+
+
+#footer{
+    padding: 10px;
+    color: white;
+    background-color: #23527c;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 80px;
+    width: 100%;
+}
+
+#borde-footer{
+    background-color: #FFCE06;
+    height:5px;
+    margin-top: 245px;
+}
+
+#iconos {
+    color: white;
+}
+
+#borde-imagen{
+    border-style:solid;
+    border-width:thin;
+    border-color: #23527c;
+}

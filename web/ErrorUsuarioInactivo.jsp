@@ -12,6 +12,8 @@
         <script src="js/jquery.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <title>Administración de Pañol</title>
     </head>
     <body>
@@ -26,15 +28,15 @@
                     <h5 class="text-center">Actualmente ud. no cumple con los requisitos para ingresar 
                         al sistema de administración de pañol de la escuela de comunicaciones de Duoc UC
                         - sede Viña del Mar.</h5><br><br>
-                        <h5 class="text-center">Le aconsejamos que se comunique con la dirección de su escuela para solucionar<br>
+                    <h5 class="text-center">Le aconsejamos que se comunique con la dirección de su escuela para solucionar<br>
                         lo antes posible cualquier inconveniente.</h5><br><br>
-                        <h6 class="text-center">
-                            Teléfono: 800 215001 - desde Celulares : 22915 3439<br>
-                            Email: <a href="mailto:sistemapanol@gmail.com">sistemapanol@gmail.com</a>
-                        </h6>
-                <div class="col-md-2"></div>      
+                    <h6 class="text-center">
+                        Teléfono: 800 215001 - desde Celulares : 22915 3439<br>
+                        Email: <a href="mailto:sistemapanol@gmail.com">sistemapanol@gmail.com</a>
+                    </h6>
+                    <div class="col-md-2"></div>      
+                </div>
             </div>
-        </div>
     </body>
 </html>
 

@@ -14,6 +14,8 @@
         <script src="js/jquery.js" type="text/javascript"></script>
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <title>Administración de Pañol</title>
     </head>
     <body>
@@ -27,10 +29,10 @@
                     <h3 class="text-center">¡ Su solicitud fue ingresada con éxito !</h3>
                     <h5 class="text-center">Un correo electrónico fue enviado a 
                         <strong><c:out value="${usuarioSolicitud.usuario.email}"></c:out></strong>
-                    con los detalles de su pedido.</h5>
-                    <h5 class="text-center">Con este número puede pasar a validar su préstamo:</h5>
-                    <br>
-                    <h1 class="text-center"><strong><c:out value="${ultimoIdSolicitud}"></c:out></strong></h1>
+                            con los detalles de su pedido.</h5>
+                        <h5 class="text-center">Con este número puede pasar a validar su préstamo:</h5>
+                        <br>
+                        <h1 class="text-center"><strong><c:out value="${ultimoIdSolicitud}"></c:out></strong></h1>
                         <div class="row">
                             <div class="col-md-4 col-lg-offset-5">
                                 <label id="info-form">Detalle de la solicitud: </label><br>

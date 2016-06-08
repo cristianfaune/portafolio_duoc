@@ -12,6 +12,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
         <title>Login Sistema Pañol - Escuela de comunicaciones - Duoc Viña del Mar</title>
     </head>
     <body>
@@ -19,8 +20,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4"></div>
-                <h1 align="center">Ingreso a sistema de administración de pañol</h1>
-                <h4 align="center">Escuela de comunicaciones - Sede Viña del Mar</h4>
+                <h3 id="opensans-font" align="center">Ingreso a sistema de administración de pañol</h3>
+                <h5 id="opensans-font" align="center">Escuela de comunicaciones - Sede Viña del Mar</h5>
                 <div class="col-md-4 col-md-offset-4">
                     <form class="form-horizontal" action="<c:url value="/ValidarIngreso"/>" method="post">
                         <c:if test="${empty mapMensajeRut}">

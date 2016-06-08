@@ -16,34 +16,36 @@
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     </head>
     <body>
-        <div class="container">
-        </div>
-        <header id="header">
-            <div id="logo">
-                <img src="imagenes/logoDuoc.png" width="300" height="110" alt="logoDuoc"/>
-            </div>
-            <div class="container">
-                <div class="text-right">
-                    <!--<c:set var="now" value="<%=new java.util.Date()%>" />
-                    <h6 class="text-right" id="fecha"><fmt:formatDate value="${now}" type="date"></fmt:formatDate></h6>-->
-                    </div>
-                <c:if test="${usuarioSesion != null}">
-                    <div class="row">
-                        <div class="col-lg-5 col-lg-offset-7">
-                            <h4 class="text-right" id="usuario-sesion">
-                                <span class="glyphicon glyphicon-user" id="usuario-sesion" aria-hidden="true"></span>
-                                <c:out value="${usuarioSesion.nombres} ${usuarioSesion.apellidos}"/>
-                            </h4>
+        <div class="row">
+            <div class="col-md-12">
+                <header id="header">
+                    <div class="col-md-6">
+                        <div id="logo">
+                            <img class="img-responsive center-block" src="imagenes/logoDuoc.png" alt="logoDuoc" width="200" height="100"/>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <span class="glyphicon glyphicon-log-out" id="usuario-sesion" aria-hidden="true"></span>
-                        <a id="cerrar-sesion" href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
-                    </div> 
-                </c:if>
+                    <div class="row">
+                    <div class="col-md-6">
+                        <c:if test="${usuarioSesion != null}">
+                            <div class="row">
+                                <div class="col-lg-offset-7">
+                                    <h4 id="usuario-sesion">
+                                        <span class="glyphicon glyphicon-user" id="iconos" aria-hidden="true"></span>
+                                        <c:out value="${usuarioSesion.nombres} ${usuarioSesion.apellidos}"/>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-offset-7">
+                                    <span class="glyphicon glyphicon-log-out" id="iconos"aria-hidden="true"></span>
+                                    <a id="cerrar-sesion" href="<c:url value="/CerrarSesionServlet"/>">Cerrar Sesión</a>
+                                </div> 
+                            </div>
+                        </c:if>
+                    </div>
+                    </div>
+                </header>
             </div>
-        </header>
-    </div>
-</div>
-</body>
+        </div>
+    </body>
 </html>

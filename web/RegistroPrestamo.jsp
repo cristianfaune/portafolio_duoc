@@ -13,6 +13,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
         <title>Administración Préstamos</title>
     </head>
     <body>
@@ -37,7 +39,8 @@
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                            <li role="presentation"><a href="<c:url value="/AdminPrestamos.jsp"/>">Préstamos y Devoluciones</a></li>
+                            <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos</a></li>
+                            <li role="presentation"><a href="<c:url value="AdminDevolucion.jsp"/>">Devoluciones</a></li>
                             <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>
                     </div>

@@ -20,6 +20,9 @@
         <script src="js/jquery.dataTables.TableTools.js"/></script>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
     <title>Home - Jefe de Carrera</title>
 </head>
 <body>
@@ -38,14 +41,14 @@
     </script>
     <%@include file="header.jsp" %>
     <div class="container"> 
-        <h4 class="text-center">Administración sistema Pañol</h4>
-        <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+        <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+        <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
         <br>
         <div class="row">
             <div class="col-md-0"></div>
             <div class="col-md-12">
-                <div>
-                    <ul class="nav nav-pills  col-lg-offset-4">
+                <div class="centered-pills">
+                    <ul class="nav nav-pills" id="palanquin-font">
                         <c:choose>
                             <c:when test="${usuarioSesion.idPerfil == 100}">
                                 <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
@@ -61,7 +64,9 @@
                         <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
                     </ul>
                 </div>
-                <h3 class="text-center">Administración de Usuarios</h3>
+                    <h3 class="text-center" id="palanquin-font">Administración de Usuarios</h3>
+                    <hr>
+                    <br>
                 <datatables:table cssClass="table" data="${lstUsuarios}" htmlTableId="tabla-usuarios" dataObjectId="row">
                     <datatables:column title="Rut" sortable="true">
                         <c:out value="${row.usuario.rut}"></c:out>
