@@ -8,6 +8,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <script src="js/jquery.js"></script>
@@ -39,26 +44,27 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container"> 
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
+            <br>
             <div>
                 <div class="row">
                     <div class="col-md-3"></div>
-                    <div class="col-md-6 col-lg-offset-1">
-                        <ul class="nav nav-pills">
+                    <div class="col-md-6 centered-pills">
+                        <ul class="nav nav-pills" id="palanquin-font">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
-                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 110}">
-                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
-                            <li role="presentation"><a href="<c:url value="/RegistroProducto"/>">Registro Nuevo Producto</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar inventario</a></li>
+                            <li role="presentation"><a href="<c:url value="/RegistroProducto"/>">Registro nuevo producto</a></li>
                         </ul>
                     </div>
                     <div class="col-md-3"></div>
@@ -72,7 +78,8 @@
                             <h5 class="text-center text-success"><c:out value="${mensaje['mensajeExito']}"/></h5>
                         </div>
                     </c:if>
-                    <h3 class="text-center">Modificar productos</h3>
+                    <h3 class="text-center" id="palanquin-font">Modificar productos</h3>
+                    <hr>
                     <br>
                     <p id="error-form" class="text-center"><c:out value="${mapMensaje['errorExiste']}"/></p>
                     <form action="<c:url value="/ModificarProductoServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de enviar los datos?');">
@@ -136,8 +143,8 @@
                     </form>
                 </div>
             </div>
+            <div class="col-md-3"></div>
         </div>
-        <div class="col-md-3"></div>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     </body>
 </html>

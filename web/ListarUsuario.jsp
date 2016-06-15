@@ -8,6 +8,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="datatables" uri="http://github.com/tduchateau/DataTables-taglib" %>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${usuarioSesion.idPerfil == 120}">
+        <c:redirect url="HomePanolero.jsp"></c:redirect>
+    </c:when>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -51,17 +59,17 @@
                     <ul class="nav nav-pills" id="palanquin-font">
                         <c:choose>
                             <c:when test="${usuarioSesion.idPerfil == 100}">
-                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                 </c:when>
                                 <c:when test="${usuarioSesion.idPerfil == 120}">
-                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                 </c:when>
                                 <c:when test="${usuarioSesion.idPerfil == 110}">
-                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                 </c:when>
                             </c:choose>
-                        <li role="presentation"><a href="<c:url value="/MostrarUsuario.jsp"/>">Buscar Usuario</a></li>
-                        <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar Nuevo Usuario</a></li>
+                        <li role="presentation"><a href="<c:url value="/MostrarUsuario.jsp"/>">Buscar usuario</a></li>
+                        <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar usuario</a></li>
                     </ul>
                 </div>
                     <h3 class="text-center" id="palanquin-font">Administración de Usuarios</h3>

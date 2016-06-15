@@ -37,6 +37,11 @@
                     <div class="col-md-2"></div>      
                 </div>
             </div>
+            <br>
+            <br>
+            <br>
+            <p class="text-center"><a href="index.jsp">Volver</a></p>
+        </div>
     </body>
 </html>
 

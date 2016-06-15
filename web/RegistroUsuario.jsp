@@ -8,17 +8,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <c:choose>
-    <c:when test="${empty usuarioSesion}">
-        <c:redirect url="index.jsp"></c:redirect>
-    </c:when>
-    <c:when test="${usuarioSesion.activo == 0}">
-        <c:redirect url="ErrorUsuarioInactivo.jsp"></c:redirect>
-    </c:when>
     <c:when test="${usuarioSesion.idPerfil == 120}">
         <c:redirect url="HomePanolero.jsp"></c:redirect>
     </c:when>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
 </c:choose>
-
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -55,13 +51,13 @@
                     <ul class="nav nav-pills" id="palanquin-font">
                         <c:choose>
                             <c:when test="${usuarioSesion.idPerfil == 100}">
-                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                 </c:when>
                                 <c:when test="${usuarioSesion.idPerfil == 120}">
-                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                 </c:when>
                                 <c:when test="${usuarioSesion.idPerfil == 110}">
-                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                 </c:when>
                             </c:choose>
                         <li role="presentation"><a href="<c:url value="/MostrarUsuarioServlet"/>">Buscar usuario</a></li>
@@ -81,15 +77,15 @@
                     <p>
                     <form class="form-horizontal" action="<c:url value="/RegistroUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de registrar al nuevo usuario?');">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-left">
                                 <label for="inputRut" class="control-label">Rut:</label>
-                                <input type="text" class="form-control" id="rut" name="rut" 
+                                <input type="text" class="form-control text-center" id="rut" name="rut" 
                                        value="<c:out value="${param.rut}"/>" 
                                        placeholder="Ingrese su Rut" autofocus="true" maxlength="9">   
                                 <p id="info-form">**Ingrese su rut sin puntos ni guion**</p>
                                 <p id="error-form"><c:out value="${mapMensaje['errorRut']}"/></p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-left">
                                 <label>Perfil:</label>
                                 <select class="form-control" id="seleccionPerfil" name="seleccionPerfil">
                                     <option value="0">--Seleccione--</option>
@@ -101,7 +97,7 @@
                                 </select>
                                 <p id="error-form"><c:out value="${mapMensaje['errorPerfil']}"/></p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-left">
                                 <label>Carrera:</label>
                                 <select class="form-control" id="seleccionCarrera" name="seleccionCarrera" disabled="true">
                                     <option value="0">--Seleccione--</option>
@@ -111,54 +107,53 @@
                                         </option>
                                     </c:forEach>
                                 </select>
-                                <p id="info-form">**Ingresar solo si aplica**</p>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-6 text-left">
                                 <label for="inputNombre" class="control-label">Nombres: </label>
-                                <input type="text" class="form-control" id="nombre" name="nombres" 
+                                <input type="text" class="form-control text-center" id="nombre" name="nombres" 
                                        value="<c:out value="${param.nombre}"/>" placeholder="Ingrese nombres">
                                 <p id="error-form"><c:out value="${mapMensaje['errorNombre']}"/></p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 text-left">
                                 <label for="inputApellidos" class="control-label">Apellidos: </label>
-                                <input type="text" class="form-control" id="apellidos" name="apellidos" 
+                                <input type="text" class="form-control text-center" id="apellidos" name="apellidos" 
                                        value="<c:out value="${param.apellidos}"/>" placeholder="Ingrese sus apellidos">
                                 <p id="error-form"><c:out value="${mapMensaje['errorApellidos']}"/></p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 text-left">
                                 <label for="inputDireccion" class="control-label">Dirección: </label>
-                                <input type="text" class="form-control" id="direccion" name="direccion" 
+                                <input type="text" class="form-control text-center" id="direccion" name="direccion" 
                                        value="<c:out value="${param.direccion}"/>" placeholder="Ingrese su dirección">
                                 <p id="error-form"><c:out value="${mapMensaje['errorDireccion']}"/></p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-left">
                                 <label for="inputTelefono" class="control-label">Teléfono: </label>
-                                <input type="text" class="form-control" id="telefono" name="telefono" 
+                                <input type="text" class="form-control text-center" id="telefono" name="telefono" 
                                        value="<c:out value="${param.telefono}"/>" 
                                        placeholder="Ingrese su teléfono" maxlength="10">
                                 <p id="error-form"><c:out value="${mapMensaje['errorTelefono']}"/></p>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-8 text-left">
                                 <label for="inputEmail" class="control-label">Email: </label>
-                                <input type="email" class="form-control" id="direccion" name="email" 
+                                <input type="email" class="form-control text-center" id="direccion" name="email" 
                                        value="<c:out value="${param.email}"/>" placeholder="Ingrese un email">
                                 <p id="error-form"><c:out value="${mapMensaje['errorEmail']}"/></p>
                             </div>
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-5">
+                            <div class="col-md-5 text-left">
                                 <label for="inputPassword" class="control-label">Password: </label>
-                                <input type="password" class="form-control" id="direccion" name="password" 
-                                       value="<c:out value="${param.password}"/>" placeholder="Ingrese contraseña">
+                                <input type="password" class="form-control text-center" id="direccion" name="password" 
+                                       value="<c:out value="${param.password}"/>" placeholder="Ingrese contraseña" maxlength="10">
                                 <p id="info-form">**Máximo 10 caractéres**</p>
                                 <p id="error-form"><c:out value="${mapMensaje['errorPassword']}"/></p>
                             </div>

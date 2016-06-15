@@ -7,8 +7,11 @@ package cl.servicio;
 
 import cl.dominio.Carrera;
 import cl.dominio.Categoria;
+import cl.dominio.DetalleDevolucion;
 import cl.dominio.DetallePrestamo;
 import cl.dominio.DetalleSolicitud;
+import cl.dominio.Devolucion;
+import cl.dominio.HistorialClienteDevolucion;
 import cl.dominio.Item;
 import cl.dominio.Marca;
 import cl.dominio.Perfil;
@@ -24,6 +27,8 @@ import cl.dto.UsuarioPrestamoDTO;
 import cl.persistencia.CarreraDAO;
 import cl.persistencia.CategoriaDAO;
 import cl.persistencia.ConsultaDAO;
+import cl.persistencia.DevolucionDAO;
+import cl.persistencia.HistorialClienteDevolucionDAO;
 import cl.persistencia.ItemDAO;
 import cl.persistencia.MarcaDAO;
 import cl.persistencia.PerfilDAO;
@@ -51,6 +56,8 @@ public class Servicio {
     CarreraDAO carreraDAO;
     PrestamoDAO prestamoDAO;
     SolicitudDAO solicitudDAO;
+    DevolucionDAO devolucionDAO;
+    HistorialClienteDevolucionDAO historialClienteDevolucionDAO;
     
     public Servicio(Connection con) {
         productoDAO = new ProductoDAO(con);
@@ -63,6 +70,8 @@ public class Servicio {
         carreraDAO = new CarreraDAO(con);
         prestamoDAO = new PrestamoDAO(con);
         solicitudDAO = new SolicitudDAO(con);
+        devolucionDAO = new DevolucionDAO(con);
+        historialClienteDevolucionDAO = new HistorialClienteDevolucionDAO(con);
     }
     
     public ArrayList<ProductoMarcaDTO> productosMarcaCursor() {
@@ -239,5 +248,17 @@ public class Servicio {
     
     public ArrayList<UsuarioPrestamoDTO> buscarUsuarioPrestamoPorId(int idPrestamo) {
         return consultaDAO.buscarUsuarioPrestamoPorId(idPrestamo);
+    }
+    
+    public void registroDevolucion(Devolucion devolucion) {
+        devolucionDAO.registroDevolucion(devolucion);
+    }
+    
+    public void registroDetalleDevolucion(DetalleDevolucion detalleDevolucion) {
+        devolucionDAO.registroDetalleDevolucion(detalleDevolucion);
+    }
+    
+    public void registroHistorialCliente(HistorialClienteDevolucion historialCliente) {
+        historialClienteDevolucionDAO.registroHistorialCliente(historialCliente);
     }
 }

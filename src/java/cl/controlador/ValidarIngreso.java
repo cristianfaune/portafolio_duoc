@@ -46,7 +46,7 @@ public class ValidarIngreso extends HttpServlet {
         Map<String, String> mapMensajeRut = new HashMap<>();
         Map<String, String> mapMensajePass = new HashMap<>();
         HttpSession session = request.getSession();
-        Usuario usuarioSesion = new Usuario();
+        Usuario usuarioSesion = null;
 
         try (Connection con = ds.getConnection()) {
 
@@ -55,6 +55,7 @@ public class ValidarIngreso extends HttpServlet {
             ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
 
             for (Usuario usuario : lista) {
+                usuarioSesion = new Usuario();
                 usuarioSesion.setRut(usuario.getRut());
                 usuarioSesion.setNombres(usuario.getNombres());
                 usuarioSesion.setApellidos(usuario.getApellidos());
@@ -68,13 +69,13 @@ public class ValidarIngreso extends HttpServlet {
             }
 
             if (rut.isEmpty() || rut == null) {
-                mapMensajeRut.put("errorRut", "Debe ingresar su RUT");
+                mapMensajeRut.put("errorRut", "Ingrese su RUT");
             } else if (usuarioSesion == null) {
                 mapMensajeRut.put("errorRut", "El usuario rut " + rut + " no existe");
             }
 
             if (password.isEmpty() || password == null) {
-                mapMensajePass.put("errorPass", "Debe ingresar su PASSWORD");
+                mapMensajePass.put("errorPass", "Ingrese su PASSWORD");
             } else if (usuarioSesion != null) {
                 if (!usuarioSesion.getPassword().equals(password)) {
                     mapMensajePass.put("errorPass", "Su password no coincide con el registro");
@@ -92,6 +93,7 @@ public class ValidarIngreso extends HttpServlet {
                 } else if (usuarioSesion.getIdPerfil() == 110 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
                 } else {
+                    session.removeAttribute("usuarioSesion");
                     request.getRequestDispatcher("ErrorUsuarioInactivo.jsp").forward(request, response);
                 }
 

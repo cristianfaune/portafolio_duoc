@@ -365,13 +365,13 @@ public class BuscarSolicitudServlet extends HttpServlet {
                 e.printStackTrace();
             }
 
-            servicio.enviarEmailPrestamo(nombreUsuario, idPrestamo, emailUsuario, doc);
 
             request.setAttribute("lstSolicitud", lista);
             request.setAttribute("lstPrestamo", lstPrestamo);
             request.setAttribute("lstItems", items);
             request.setAttribute("id", idSolicitud);
             request.getRequestDispatcher("RegistroPrestamo.jsp").forward(request, response);
+            servicio.enviarEmailPrestamo(nombreUsuario, idPrestamo, emailUsuario, doc);
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion bd", e);

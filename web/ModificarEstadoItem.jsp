@@ -8,6 +8,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -22,28 +27,30 @@
     <body>
         <%@include file="header.jsp" %> 
         <div class="container">
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
+            <br>
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
-                    <div class="col-lg-offset-4">
-                        <ul class="nav nav-pills">
+                    <div class="centered-pills">
+                        <ul class="nav nav-pills" id="palanquin-font">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
-                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 110}">
-                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar inventario</a></li>
                         </ul>
                     </div>
-                    <h3 class="text-center">Administrar Recursos Pañol</h3>
+                        <h3 class="text-center" id="palanquin-font">Administrar Recursos Pañol</h3>
+                        <hr>
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
@@ -71,7 +78,7 @@
                         </table>
                     </div>
                     <br>
-                    <h4 class="text-center bg-primary">Detalle recursos por producto</h4>
+                    <h4 class="text-center bg-primary" id="palanquin-font">Detalle recursos por producto</h4>
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
@@ -85,10 +92,10 @@
                                         <td class="text-center"><c:out value="${dato.nroSerie}"/></td>
                                         <c:choose>
                                             <c:when test="${dato.activo == 1}">
-                                                <td class="text-center"><c:out value="Activo"/></td>  
+                                                <td class="text-center text-success bg-success"><c:out value="Activo"/></td>  
                                             </c:when>
                                             <c:otherwise>
-                                                <td class="text-center"><c:out value="Inactivo"/></td> 
+                                                <td class="text-center text-danger bg-danger"><c:out value="Inactivo"/></td> 
                                             </c:otherwise>
                                         </c:choose>
                                         <td class="text-center">

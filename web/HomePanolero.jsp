@@ -7,6 +7,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+    <c:when test="${usuarioSesion.idPerfil == 110 or usuarioSesion.idPerfil == 100}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -34,7 +42,7 @@
                     </ul>
                     <br>
                     <section>
-                        <h3 id="palanquin-font" class="text-center">Bienvenido al home de Pañolero</h3>
+                        <h3 id="palanquin-font" class="text-center">Bienvenido al escritorio de pañolero</h3>
                         <h5 id="palanquin-font" class="text-center"><c:out value="${usuarioSesion.nombres} ${usuarioSesion.apellidos}"></c:out></h5>
                         <hr>
                         <br><br>

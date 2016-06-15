@@ -8,6 +8,9 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<c:if test="${empty usuarioSesion}">
+    <c:redirect url="index.jsp"></c:redirect>
+</c:if>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -47,13 +50,13 @@
                         <ul class="nav nav-pills col-md-offset-4">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
-                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 110}">
-                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>

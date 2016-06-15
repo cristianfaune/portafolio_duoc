@@ -6,6 +6,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -18,44 +23,50 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
+            <br>
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="col-lg-offset-2">
-                        <ul class="nav nav-pills">
+                    <div class="centered-pills">
+                        <ul class="nav nav-pills" id="palanquin-font">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
-                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 110}">
-                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
+                            <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar inventario</a></li>
                         </ul>
                     </div>
                     <c:if test="${not empty mapMensaje['mensaje']}">
                         <div id="danger-box" class="bg-success">
-                            <h5 class="text-center text-success"><c:out value="${mapMensaje['mensaje']}"/></h5>
+                            <h5 class="text-center text-success" id="palanquin-font"><c:out value="${mapMensaje['mensaje']}"/></h5>
                         </div>
                     </c:if>
-                    <h4 class="text-center">Registro Productos Inventario</h4>
+                    <h4 class="text-center" id="palanquin-font">Registro Productos Inventario</h4>
+                    <hr>
                     <br>
                     <form action="<c:url value="/RegistroItemServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de enviar los datos?');">
-                        <div class="col-xs-6">
-                            <input class="form-control input-lg" type="text" 
-                                   style="text-transform: uppercase" name="nroserie" 
-                                   placeholder="Ej.   XD23455A6789"/>
+                        <div class="row col-md-offset-2">
+                            <div class="col-md-6">
+                                <input class="form-control input-lg" type="text" 
+                                       style="text-transform: uppercase" name="nroserie" 
+                                       placeholder="Ej.   XD23455A6789"/>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn-default btn-group btn-lg btn-success" id="btnRegistrar" 
+                                       type="submit" value="Registrar"/>
+                            </div>
                         </div>
-                        <input class="btn-default btn-group btn-lg" id="btnRegistrar" 
-                               type="submit" value="Registrar"/>
+                        <p id="info-form" class="col-md-offset-3">--Ingrese el nro de serie--</p>
                         <br>
-                        <p id="info-form">--Ingrese el nro de serie sin puntos ni guiones--</p>
                         <table class="table">
                             <tbody>
                                 <tr>

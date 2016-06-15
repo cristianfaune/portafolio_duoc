@@ -97,10 +97,11 @@ public class SolicitudDAO {
         }
         return idSolicitud;
     }
-    
+
     /**
      * El método devuelve el último id solicitud generado
-     * @return 
+     *
+     * @return
      */
     public int idUltimaSolicitud() {
 
@@ -154,7 +155,8 @@ public class SolicitudDAO {
 
     /**
      * Método que llama a procedimiento para registrar una solicitud
-     * @param solicitud 
+     *
+     * @param solicitud
      */
     public void registroSolicitud(Solicitud solicitud) {
 
@@ -177,28 +179,29 @@ public class SolicitudDAO {
             throw new RuntimeException("Error al registrar solicitud", e);
         }
     }
-    
-    public void enviarEmailSolicitud (String nombre, int idSolicitud, String email, ByteArrayOutputStream doc){
-        
+
+    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc) {
+
         final String username = "sistemapanol@gmail.com";
         final String password = "panolsis";
-        String texto ="Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
-                        + "Su pedido se realizó de forma exitosa, ahora debes pasar por pañol"
-                        + " y hacer efectivo tu préstamo con el número "+idSolicitud+". "
-                        + " Una vez validado el stock de tu solicitud podrás retirar tus productos.";
+        String texto = "Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
+                + "Su pedido se realizó de forma exitosa, ahora debes pasar por pañol"
+                + " y hacer efectivo tu préstamo con el número " + idSolicitud + ". "
+                + " Una vez validado el stock de tu solicitud podrás retirar tus productos.";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
+        
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
 
         try {
 
@@ -207,24 +210,22 @@ public class SolicitudDAO {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
 
-           
-                message.setSubject("Solicitud Pañol Nº "+idSolicitud);
-                MimeBodyPart textBodyPart = new MimeBodyPart();
-                BodyPart messageBodyPart = new MimeBodyPart(); 
-                messageBodyPart.setText(texto);
-                Multipart multipart = new MimeMultipart();
-                
-                String applicationType = "application/pdf";
-                String fileName = "solicitud pañol";
-                textBodyPart = new MimeBodyPart();
-                textBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(doc.toByteArray(), applicationType)));
-                textBodyPart.setFileName(fileName);
-                multipart.addBodyPart(messageBodyPart);
-                multipart.addBodyPart(textBodyPart);
-                
-                
-                message.setContent(multipart);
-            
+            message.setSubject("Solicitud Pañol Nº " + idSolicitud);
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(texto);
+            Multipart multipart = new MimeMultipart();
+
+            String applicationType = "application/pdf";
+            String fileName = "solicitud pañol";
+            textBodyPart = new MimeBodyPart();
+            textBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(doc.toByteArray(), applicationType)));
+            textBodyPart.setFileName(fileName);
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(textBodyPart);
+
+            message.setContent(multipart);
+
             Transport.send(message);
 
             //System.out.println("Done");
@@ -233,6 +234,5 @@ public class SolicitudDAO {
         }
 
     }
-    
 
 }

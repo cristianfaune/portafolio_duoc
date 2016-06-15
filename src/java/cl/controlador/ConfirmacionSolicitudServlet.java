@@ -332,13 +332,13 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
             }
             
             
-            servicio.enviarEmailSolicitud(nombre, idUltimaSolicitud, usuarioSlc.getUsuario().getEmail(), doc);
             
             cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
             cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
              
             request.setAttribute("ultimoIdSolicitud", idUltimaSolicitud);
             request.getRequestDispatcher("RegistroSolicitudExitosa.jsp").forward(request, response);
+            servicio.enviarEmailSolicitud(nombre, idUltimaSolicitud, usuarioSlc.getUsuario().getEmail(), doc);
 
         } catch (SQLException e) {
             throw new RuntimeException("Error en la conexion a bd", e);

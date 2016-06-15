@@ -38,27 +38,33 @@ public class AdminDevolucionServlet extends HttpServlet {
         ArrayList<UsuarioPrestamoDTO> listaUsuario = new ArrayList();
 
         try (Connection con = ds.getConnection()) {
-            
+
             Servicio servicio = new Servicio(con);
-            
 
             if (idPrestamo.isEmpty()) {
                 mapMensaje.put("errorPrestamo", "**Debe ingresar el número de ticket**");
-            }else{
+            } else {
                 lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
                 listaUsuario = servicio.buscarUsuarioPrestamoPorId(Integer.parseInt(idPrestamo));
             }
-            
-            
+
+            if (!idPrestamo.isEmpty() && lista.isEmpty()) {
+                mapMensaje.put("errorPrestamo", "**El número de ticket no es válido**");
+            }
+
             if (mapMensaje.isEmpty()) {
-                
+
                 request.setAttribute("lstUsuarioPrestamo", listaUsuario);
                 request.setAttribute("lstDetallePrestamo", lista);
+                request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+            } else {
+
+                request.setAttribute("mensajeError", mapMensaje);
                 request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd",e);
+            throw new RuntimeException("Error en la conexión a bd", e);
         }
 
     }
@@ -67,6 +73,9 @@ public class AdminDevolucionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setAttribute("idItemServlet", request.getParameter("nroSerieOculto"));
+
+        request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
     }
 
 }

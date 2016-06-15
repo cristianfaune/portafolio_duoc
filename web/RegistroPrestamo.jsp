@@ -8,6 +8,17 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${usuarioSesion.idPerfil == 100}">
+        <c:redirect url="HomeJefeCarrera.jsp"></c:redirect>
+    </c:when>
+    <c:when test="${usuarioSesion.idPerfil == 110}">
+        <c:redirect url="HomeCoordinador.jsp"></c:redirect>
+    </c:when>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -29,16 +40,16 @@
                         <ul class="nav nav-pills col-md-offset-3">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
-                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 120}">
-                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomePanolero.jsp"/>">Inicio</a></li>
                                     </c:when>
                                     <c:when test="${usuarioSesion.idPerfil == 110}">
-                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Home</a></li>
+                                    <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
+                            <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar solicitudes</a></li>
                             <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos</a></li>
                             <li role="presentation"><a href="<c:url value="AdminDevolucion.jsp"/>">Devoluciones</a></li>
                             <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
@@ -112,7 +123,7 @@
                                                 <th class="text-center">Nro Serie</th>
                                             </tr>
                                             <tr>
-                                                <td><img src="${dato.producto.rutaImagen}" width="100" height="100"></td>
+                                                <td><img src="${dato.producto.rutaImagen}" width="70" height="70"></td>
                                                 <td class="text-center"><c:out value="${dato.producto.idProducto}"/></td>
                                                 <td class="text-center"><c:out value="${dato.producto.nombre}"/></td>
                                                 <td class="text-center"><c:out value="${dato.producto.modelo}"/></td>

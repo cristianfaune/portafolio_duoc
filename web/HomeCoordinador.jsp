@@ -5,14 +5,23 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+<c:choose>
+    <c:when test="${empty usuarioSesion}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+    <c:when test="${usuarioSesion.idPerfil == 100 or usuarioSesion.idPerfil == 120}">
+        <c:redirect url="index.jsp"></c:redirect>
+    </c:when>
+</c:choose>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css"/>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Palanquin' rel='stylesheet' type='text/css'>
-        <title>JHome - Coordinador</title>
+        <title>Escritorio - Coordinador</title>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -30,7 +39,8 @@
                         <li role="presentation"><a href="#">Reportes</a></li>
                     </ul>
                     <br>
-                    <h3 class="text-center" id="palanquin-font">Bienvenido al home de Coordinador</h3>
+                    <h3 class="text-center" id="palanquin-font">Bienvenido al escritorio de Coordinador</h3>
+                    <h5 id="palanquin-font" class="text-center"><c:out value="${usuarioSesion.nombres} ${usuarioSesion.apellidos}"></c:out></h5>
                     <hr>
                     <br>
                     <p id="palanquin-font">
