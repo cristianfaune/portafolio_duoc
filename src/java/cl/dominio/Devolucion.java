@@ -15,13 +15,13 @@ import java.sql.Timestamp;
 public class Devolucion implements Serializable{
     private int idDevolucion;
     private Timestamp fechaDevolucion;
-    private String observacion;
+    private byte atraso;
     private int idPrestamo;
 
-    public Devolucion(int idDevolucion, Timestamp fechaDevolucion, String observacion, int idPrestamo) {
+    public Devolucion(int idDevolucion, Timestamp fechaDevolucion, byte atraso, int idPrestamo) {
         this.idDevolucion = idDevolucion;
         this.fechaDevolucion = fechaDevolucion;
-        this.observacion = observacion;
+        this.atraso = atraso;
         this.idPrestamo = idPrestamo;
     }
 
@@ -44,12 +44,12 @@ public class Devolucion implements Serializable{
         this.fechaDevolucion = fechaDevolucion;
     }
 
-    public String getObservacion() {
-        return observacion;
+    public byte getAtraso() {
+        return atraso;
     }
 
-    public void setObservacion(String observacion) {
-        this.observacion = observacion;
+    public void setObservacion(byte atraso) {
+        this.atraso = atraso;
     }
 
     public int getIdPrestamo() {

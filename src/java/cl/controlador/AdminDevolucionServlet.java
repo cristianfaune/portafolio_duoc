@@ -1,5 +1,8 @@
 package cl.controlador;
 
+import cl.dominio.HistorialClienteDevolucion;
+import cl.dominio.Prestamo;
+import cl.dominio.Usuario;
 import cl.dto.DetallePrestamoDTO;
 import cl.dto.UsuarioPrestamoDTO;
 import cl.servicio.Servicio;
@@ -7,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +31,8 @@ public class AdminDevolucionServlet extends HttpServlet {
 
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
+
+    static ArrayList<HistorialClienteDevolucion> listaHcd = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -73,9 +79,53 @@ public class AdminDevolucionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setAttribute("idItemServlet", request.getParameter("nroSerieOculto"));
+        String idItemSeleccionado = request.getParameter("nroSerieOculto");
+        String observacion = request.getParameter("observacion");
+        String descripcion = request.getParameter("opcionDevolucion");
 
-        request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+        String idPrestamo = request.getParameter("idPrestamoPost");
+        Map<String, String> mapMensaje = new HashMap<>();
+        ArrayList<DetallePrestamoDTO> lista = new ArrayList();
+        ArrayList<UsuarioPrestamoDTO> listaUsuario = new ArrayList();
+        Usuario us = new Usuario();
+        HistorialClienteDevolucion hcd = new HistorialClienteDevolucion();
+
+        try (Connection con = ds.getConnection()) {
+
+            Servicio servicio = new Servicio(con);
+
+            lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
+            listaUsuario = servicio.buscarUsuarioPrestamoPorId(Integer.parseInt(idPrestamo));
+
+            for (int i = 0; i <= 0; i++) {
+
+                us = listaUsuario.get(i).getUsuario();
+            }
+
+            int idDevolucion = servicio.idDevolucionDisponible();
+
+            Timestamp fecha = new Timestamp(System.currentTimeMillis());
+
+            hcd.setIdDevolucion(idDevolucion);
+            hcd.setFecha(fecha);
+            hcd.setDescripcion(descripcion);
+            hcd.setNroSerie(idItemSeleccionado);
+            hcd.setObservacion(observacion);
+            hcd.setRut(us.getRut());
+
+            listaHcd.add(hcd);
+
+            request.setAttribute("idItemServlet", request.getParameter("nroSerieOculto"));
+
+            request.setAttribute("rut", hcd.getRut());
+            request.setAttribute("largo", listaHcd.size());
+            request.setAttribute("lstUsuarioPrestamo", listaUsuario);
+            request.setAttribute("lstDetallePrestamo", lista);
+            request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la conexión a bd", e);
+        }
     }
 
 }

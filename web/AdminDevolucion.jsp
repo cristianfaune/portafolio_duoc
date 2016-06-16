@@ -109,10 +109,13 @@
                                 </div>
                                 <div class="col-md-6">
                                     <h3>Datos Préstamo:</h3>
-                                    <c:set var="varIdSolicitud" value="${dato.prestamo.idPrestamo}"/>
                                     <h2>Ticket: #<c:out value="${dato.prestamo.idPrestamo}"/></h2>
+                                    <c:set var="idPres" value="${dato.prestamo.idPrestamo}"></c:set>
                                     <label id="info-form">Fecha préstamo: <fmt:formatDate value="${dato.prestamo.fechaRetiro}" type="date"/></label><br>
                                     <label id="info-form">Fecha estimada entrega: <fmt:formatDate value="${dato.prestamo.fechaEstimadaEntrega}" type="date"/></label>
+                                    <c:forEach end="0" var="datoPanolero" items="${lstDetallePrestamo}">
+                                        <p id="info-form">Pañolero asociado: <c:out value="${datoPanolero.usuario.nombres} ${datoPanolero.usuario.apellidos}"></c:out></p>
+                                    </c:forEach>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +165,7 @@
                                                 </div>
 
                                                 <div class="modal-body">
-                                                    <form action="<c:url value="AdminDevolucionServlet"/>" method="post">
+                                                    <form action="<c:url value="AdminDevolucionServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de guardar la información');">
                                                         <div class="row">
                                                             <div class="col-md-4">
                                                                 <label>Seleccione una opción:</label>
@@ -174,13 +177,12 @@
                                                             </div>
                                                             <div class="col-md-8">
                                                                 <label>Observación: (opcional)</label>
-                                                                <textarea name="observacion" class="form-control" rows="5">
-                                                                        
-                                                                </textarea>
+                                                                <textarea name="observacion" class="form-control" rows="5" maxlength="200"></textarea>
                                                             </div>
                                                         </div>                                              
                                                         <div class="modal-footer">
                                                             <button type="submit" class="btn btn-success">Guardar</button>
+                                                            <input type="hidden" value="${idPres}" name="idPrestamoPost"> 
                                                             <input id="inputOculto" type="hidden" name="nroSerieOculto" value="">
                                                             </form>  
                                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -202,6 +204,8 @@
         </div>
         <div class="col-md-0">
             <c:out value="${idItemServlet}"/>
+            <c:out value="${rut}"/>
+            <c:out value="${largo}"/>
         </div>
     </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>

@@ -26,10 +26,18 @@ public class ValidarIngreso extends HttpServlet {
 
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+
+        //Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+        
+        session.removeAttribute("usuarioSesion");
+        session.invalidate();
 
         request.getRequestDispatcher("/index.jsp").forward(request, response);
 
@@ -81,10 +89,12 @@ public class ValidarIngreso extends HttpServlet {
                     mapMensajePass.put("errorPass", "Su password no coincide con el registro");
                 }
             }
+            
 
             if (mapMensajePass.isEmpty() && mapMensajeRut.isEmpty()) {
 
                 session.setAttribute("usuarioSesion", usuarioSesion);
+               
 
                 if (usuarioSesion.getIdPerfil() == 100 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);

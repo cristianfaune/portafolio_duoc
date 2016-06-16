@@ -64,7 +64,7 @@
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar inventario</a></li>
-                            <li role="presentation"><a href="<c:url value="/RegistroProducto"/>">Registro nuevo producto</a></li>
+                            <li role="presentation"><a href="<c:url value="/RegistroProductoServlet"/>">Registro nuevo producto</a></li>
                         </ul>
                     </div>
                     <div class="col-md-3"></div>
@@ -122,18 +122,9 @@
                             <label>Descripción:</label>
                             <textarea type="text" class="form-control" id="descripcion" 
                                       name="descripcion" rows="6"
-                                      placeholder="Detalla las características del producto..."/>
-                            <c:out value="${producto.producto.descripcion}"/>
-                            </textarea>
+                                      placeholder="Detalla las características del producto..."/><c:out value="${producto.producto.descripcion}"/></textarea>
                             <p id="error-form"><c:out value="${mapMensaje['errorDescripcion']}"/></p>
                         </div>
-                        <!--
-                        <div class="form-group col-xs-12">
-                            <label>Imagen:</label>
-                            <input type="file" id="imagen" name="imagen">
-                            <p class="help-block">**No implementado aún**</p>
-                        </div>
-                        -->
                         <div class="row">
                             <div class="col-lg-offset-10">
                                 <input type="hidden" name="idProducto" value="${producto.producto.idProducto}">

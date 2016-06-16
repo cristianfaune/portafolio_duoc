@@ -3,35 +3,39 @@
     Created on : 11-nov-2015, 8:31:58
     Author     : CristianFaune
 --%>
+<%@page import="cl.dominio.Usuario"%>
+
 <%
     session.removeAttribute("usuarioSesion");
     session.invalidate();
+
 %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-
+<html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
-        <script src="js/jquery.js" type="text/javascript"></script>
     <intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS"></intercept-url>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
+    <script src="js/jquery.js" type="text/javascript"></script>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <title>Login Sistema Pañol - Escuela de comunicaciones - Duoc Viña del Mar</title>
 </head>
-<body>
-    <script>
-        $(document).ready(function () {
-            $('#iniciar').click(function () {
-                $('#boton1').hide();
-                $('#boton2').show();
-            });
+<script>
+    $(document).ready(function () {
+        $('#iniciar').click(function () {
+            $('#boton1').hide();
+            $('#boton2').show();
         });
-    </script>
+    });
+</script>
 
+
+<body onload="javascript:history.go(1)" id="page-top" class="index">
     <%@include file="header.jsp" %>
     <div class="container">
         <h3 id="opensans-font" align="center">Ingreso a sistema de administración de pañol</h3>
@@ -108,4 +112,8 @@
             </div>
         </div>
     </section>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 </body>
+
+</html>

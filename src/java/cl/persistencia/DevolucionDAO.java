@@ -10,6 +10,8 @@ import cl.dominio.Devolucion;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -34,7 +36,7 @@ public class DevolucionDAO {
             cs = con.prepareCall(sql);
 
             cs.setTimestamp(1, devolucion.getFechaDevolucion());
-            cs.setString(2, devolucion.getObservacion());
+            cs.setByte(2, devolucion.getAtraso());
             cs.setInt(3, devolucion.getIdPrestamo());
 
             cs.executeQuery();
@@ -65,5 +67,40 @@ public class DevolucionDAO {
         }
     }
 
+    public int idDevolucionDisponible() {
+
+        String sql = "{? = call iddevolucion_disponible()}";
+        int idDevolucion;
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+            
+            cs.registerOutParameter(1, OracleTypes.NUMBER);
+
+            cs.executeQuery();
+
+            idDevolucion = cs.getInt(1);
+            
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en la funcion id devolucion disponible", e);
+        }
+        return idDevolucion;
+    }
+    
+    public int determinarAtraso (Timestamp fechaEstimadaEntrega, Timestamp fechaDevolucion){
+        
+        long f1 = fechaEstimadaEntrega.getTime();
+        long f2 = fechaDevolucion.getTime();
+        int atraso = 0;
+    
+        if (f2 > f1) {
+            atraso = 1;
+        }
+        
+        return atraso;
+    }
     
 }

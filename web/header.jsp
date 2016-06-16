@@ -39,7 +39,7 @@
                                 <div class="row">
                                     <div class="col-lg-offset-7">
                                         <span class="glyphicon glyphicon-log-out" id="iconos"aria-hidden="true"></span>
-                                        <a href="<c:url value="index.jsp"/>" id="cerrar-sesion">Cerrar Sesión</a>
+                                        <a href="<c:url value="ValidarIngreso"/>" id="cerrar-sesion">Cerrar Sesión</a>
                                     </div> 
                                 </div>
                             </c:if>

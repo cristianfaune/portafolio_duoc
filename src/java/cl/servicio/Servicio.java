@@ -261,4 +261,8 @@ public class Servicio {
     public void registroHistorialCliente(HistorialClienteDevolucion historialCliente) {
         historialClienteDevolucionDAO.registroHistorialCliente(historialCliente);
     }
+    
+    public int idDevolucionDisponible() {
+        return devolucionDAO.idDevolucionDisponible();
+    }
 }
