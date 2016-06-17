@@ -17,11 +17,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <intercept-url pattern="/favicon.ico" access="ROLE_ANONYMOUS"></intercept-url>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/nuevosEstilos.css">
     <script src="js/jquery.js" type="text/javascript"></script>
+    <link rel="shortcut icon" href="">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
     <title>Login Sistema Pañol - Escuela de comunicaciones - Duoc Viña del Mar</title>
 </head>

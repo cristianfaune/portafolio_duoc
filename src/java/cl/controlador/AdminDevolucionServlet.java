@@ -119,6 +119,7 @@ public class AdminDevolucionServlet extends HttpServlet {
 
             request.setAttribute("rut", hcd.getRut());
             request.setAttribute("largo", listaHcd.size());
+            request.setAttribute("lstHistorial", listaHcd);
             request.setAttribute("lstUsuarioPrestamo", listaUsuario);
             request.setAttribute("lstDetallePrestamo", lista);
             request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
