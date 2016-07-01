@@ -27,7 +27,7 @@ public class DevolucionDAO {
 
     public void registroDevolucion(Devolucion devolucion) {
 
-        String sql = "{call registrar_devolucion(?,?,?)}";
+        String sql = "{call registrar_devolucion(?,?,?,?)}";
 
         CallableStatement cs = null;
 
@@ -35,9 +35,10 @@ public class DevolucionDAO {
 
             cs = con.prepareCall(sql);
 
-            cs.setTimestamp(1, devolucion.getFechaDevolucion());
-            cs.setByte(2, devolucion.getAtraso());
-            cs.setInt(3, devolucion.getIdPrestamo());
+            cs.setInt(1, devolucion.getIdDevolucion());
+            cs.setTimestamp(2, devolucion.getFechaDevolucion());
+            cs.setByte(3, devolucion.getAtraso());
+            cs.setInt(4, devolucion.getIdPrestamo());
 
             cs.executeQuery();
 

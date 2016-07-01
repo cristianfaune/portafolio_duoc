@@ -43,12 +43,12 @@
                                     <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                            <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
+                            <li role="presentation"><a href="<c:url value="AdminSolicitudesEspecialesServlet"/>">Administrar Solicitudes Especiales</a></li>
                         </ul>
                     </div>
                     <br>
-                    <h3 class="text-center" id="palanquin-font">Administración de solicitudes</h3>
+                    <h3 class="text-center" id="palanquin-font">Crear nueva de solicitud</h3>
+                    <hr>
                     <br>
                     <div class="row">
                         <form action="<c:url value="/SesionUsuarioSolicitudServlet"/>" method="get">  

@@ -49,6 +49,7 @@
     <div class="container">
         <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
         <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
+        <br>
         <div class="row col-lg-offset-0">
             <div class="col-md-0"></div>
             <div class="col-md-12">
@@ -116,6 +117,14 @@
                                     <c:forEach end="0" var="datoPanolero" items="${lstDetallePrestamo}">
                                         <p id="info-form">Pañolero asociado: <c:out value="${datoPanolero.usuario.nombres} ${datoPanolero.usuario.apellidos}"></c:out></p>
                                     </c:forEach>
+                                    <c:if test="${contadorHcd > 0 and contadorDetalle == contadorHcd}">
+                                        <div class="col-md-6">
+                                            <form action="<c:url value="/ConfirmarDevolucionServlet"></c:url>" method="post">
+                                                    <input type="submit" class="btn btn-success btn-block" value="Finalizar">
+                                                    <input type="hidden" value="${dato.prestamo.idPrestamo}" name="idPrestamoDev">
+                                            </form>
+                                        </div>
+                                    </c:if>
                                 </div>
                             </div>
                         </div>
@@ -204,8 +213,9 @@
         </div>
         <div class="col-md-0">
             <c:out value="${idItemServlet}"/>
-            <c:out value="${rut}"/>
-            <c:out value="${largo}"/>
+            <c:out value="${observacion}"/>
+            <c:out value="${largo}"/><br>
+            <c:out value="${lstDetalleDev}"/>
         </div>
     </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>

@@ -22,6 +22,7 @@ import cl.dominio.Usuario;
 import cl.dto.DetallePrestamoDTO;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
 import cl.dto.ProductoMarcaDTO;
+import cl.dto.SolicitudUsuarioDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.dto.UsuarioPrestamoDTO;
 import cl.persistencia.CarreraDAO;
@@ -222,8 +223,8 @@ public class Servicio {
         solicitudDAO.registroDetalleSolicitud(detalleSolicitud);
     }
     
-    public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
-        itemDAO.modificarEstadoPrestamo(nroSerie, prestamo);
+    public void modificarEstadoPrestamoItem(String nroSerie, byte prestamo) {
+        itemDAO.modificarEstadoPrestamoItem(nroSerie, prestamo);
     }
     
     public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc) {
@@ -264,5 +265,13 @@ public class Servicio {
     
     public int idDevolucionDisponible() {
         return devolucionDAO.idDevolucionDisponible();
+    }
+    
+    public void ModificarEstadoPrestamo(int idPrestamo, byte activa) {
+        prestamoDAO.ModificarEstadoPrestamo(idPrestamo, activa);
+    }
+    
+    public ArrayList<SolicitudUsuarioDTO> listarSolicitudesEspeciales() {
+        return solicitudDAO.listarSolicitudesEspeciales();
     }
 }

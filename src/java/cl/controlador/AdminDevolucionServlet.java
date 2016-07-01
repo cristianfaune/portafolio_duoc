@@ -1,5 +1,7 @@
 package cl.controlador;
 
+import cl.dominio.DetalleDevolucion;
+import cl.dominio.Devolucion;
 import cl.dominio.HistorialClienteDevolucion;
 import cl.dominio.Prestamo;
 import cl.dominio.Usuario;
@@ -33,6 +35,7 @@ public class AdminDevolucionServlet extends HttpServlet {
     private DataSource ds;
 
     static ArrayList<HistorialClienteDevolucion> listaHcd = new ArrayList<>();
+    static ArrayList<DetalleDevolucion> listaDev = new ArrayList<>();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -79,6 +82,8 @@ public class AdminDevolucionServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+
         String idItemSeleccionado = request.getParameter("nroSerieOculto");
         String observacion = request.getParameter("observacion");
         String descripcion = request.getParameter("opcionDevolucion");
@@ -88,7 +93,9 @@ public class AdminDevolucionServlet extends HttpServlet {
         ArrayList<DetallePrestamoDTO> lista = new ArrayList();
         ArrayList<UsuarioPrestamoDTO> listaUsuario = new ArrayList();
         Usuario us = new Usuario();
+        Usuario usPanolero = new Usuario();
         HistorialClienteDevolucion hcd = new HistorialClienteDevolucion();
+        DetalleDevolucion detalleDevolucion = new DetalleDevolucion();
 
         try (Connection con = ds.getConnection()) {
 
@@ -100,6 +107,7 @@ public class AdminDevolucionServlet extends HttpServlet {
             for (int i = 0; i <= 0; i++) {
 
                 us = listaUsuario.get(i).getUsuario();
+                usPanolero = lista.get(i).getUsuario();
             }
 
             int idDevolucion = servicio.idDevolucionDisponible();
@@ -113,13 +121,41 @@ public class AdminDevolucionServlet extends HttpServlet {
             hcd.setObservacion(observacion);
             hcd.setRut(us.getRut());
 
-            listaHcd.add(hcd);
+            detalleDevolucion.setIdDevolucion(idDevolucion);
+            detalleDevolucion.setNroSerie(idItemSeleccionado);
+            detalleDevolucion.setRut(usPanolero.getRut());
+
+            //registro de devolución items
+            int indice = -1;
+
+            for (int i = 0; i < listaHcd.size(); i++) {
+                HistorialClienteDevolucion hcd1 = listaHcd.get(i);
+                if (hcd1.getNroSerie().equals(hcd.getNroSerie())) {
+
+                    indice = i;
+
+                    break;
+                }
+            }
+
+            if (indice == -1) {
+                listaHcd.add(hcd);
+                listaDev.add(detalleDevolucion);
+            } else {
+                hcd.setDescripcion(descripcion);
+                hcd.setObservacion(observacion);
+
+                listaHcd.set(indice, hcd);
+            }
+            //fin registro de devolución
 
             request.setAttribute("idItemServlet", request.getParameter("nroSerieOculto"));
 
-            request.setAttribute("rut", hcd.getRut());
-            request.setAttribute("largo", listaHcd.size());
+            request.setAttribute("observacion", hcd.getObservacion());
+            request.setAttribute("contadorDetalle", lista.size());
+            request.setAttribute("contadorHcd", listaHcd.size());
             request.setAttribute("lstHistorial", listaHcd);
+            request.setAttribute("lstDetalleDev", idDevolucion);
             request.setAttribute("lstUsuarioPrestamo", listaUsuario);
             request.setAttribute("lstDetallePrestamo", lista);
             request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);

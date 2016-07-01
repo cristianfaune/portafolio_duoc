@@ -185,6 +185,27 @@ public class PrestamoDAO {
         return prestamo;
     }
     
+    public void ModificarEstadoPrestamo(int idPrestamo, byte activa) {
+
+        String sql = "{call modificar_estado_prestamo(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idPrestamo);
+            cs.setByte(2, activa);
+
+            cs.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en modificar estado prestamo", e);
+        }
+    }
+
+    
     public void enviarEmailPrestamo (String nombre, int idPrestamo, String email, ByteArrayOutputStream doc){
         
         final String username = "sistemapanol@gmail.com";

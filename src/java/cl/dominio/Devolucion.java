@@ -48,7 +48,7 @@ public class Devolucion implements Serializable{
         return atraso;
     }
 
-    public void setObservacion(byte atraso) {
+    public void setAtraso(byte atraso) {
         this.atraso = atraso;
     }
 

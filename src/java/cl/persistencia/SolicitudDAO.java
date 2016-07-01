@@ -6,11 +6,16 @@
 package cl.persistencia;
 
 import cl.dominio.DetalleSolicitud;
+import cl.dominio.Producto;
 import cl.dominio.Solicitud;
+import cl.dominio.Usuario;
+import cl.dto.SolicitudUsuarioDTO;
 import java.io.ByteArrayOutputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -194,7 +199,6 @@ public class SolicitudDAO {
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.port", "587");
-        
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
@@ -232,7 +236,57 @@ public class SolicitudDAO {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    public ArrayList<SolicitudUsuarioDTO> listarSolicitudesEspeciales() {
+        Usuario usuario;
+        Solicitud solicitud;
+        ArrayList<SolicitudUsuarioDTO> lista = new ArrayList<>();
+
+        String sql = "{call listar_solicitudes_especiales(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+
+                solicitud = new Solicitud();
+
+                solicitud.setIdSolicitud(rs.getInt(1));
+                solicitud.setFechaSolicitud(rs.getTimestamp(2));
+                solicitud.setActiva(rs.getByte(3));
+                solicitud.setSolicitudEspecial(rs.getByte(4));
+                solicitud.setDiasPrestamo(rs.getInt(5));
+                
+                usuario = new Usuario();
+
+                usuario.setRut(rs.getString(6));
+                usuario.setNombres(rs.getString(7));
+                usuario.setApellidos(rs.getString(8));
+                usuario.setTelefono(rs.getString(9));
+                usuario.setDireccion(rs.getString(10));
+                usuario.setEmail(rs.getString(11));
+                usuario.setPassword(rs.getString(12));
+                usuario.setActivo(rs.getByte(13));
+                usuario.setIdPerfil(rs.getInt(14));
+                usuario.setIdCarrera(rs.getInt(15));
+
+                lista.add(new SolicitudUsuarioDTO(usuario,solicitud));
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento listar solicitudes especiales", e);
+        }
+        return lista;
     }
 
 }

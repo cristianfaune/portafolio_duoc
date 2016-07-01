@@ -179,7 +179,7 @@ public class ItemDAO {
         }
     }
     
-    public void modificarEstadoPrestamo(String nroSerie, byte prestamo) {
+    public void modificarEstadoPrestamoItem(String nroSerie, byte prestamo) {
 
         String sql = "{call modificar_prestamo_item(?,?)}";
 

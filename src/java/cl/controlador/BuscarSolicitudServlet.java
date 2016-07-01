@@ -151,7 +151,7 @@ public class BuscarSolicitudServlet extends HttpServlet {
 
                 servicio.registroDetallePrestamo(detallePrestamo);
 
-                servicio.modificarEstadoPrestamo(item.getNroSerie(), (byte) 1);
+                servicio.modificarEstadoPrestamoItem(item.getNroSerie(), (byte) 1);
 
             }
 
