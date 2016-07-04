@@ -237,6 +237,89 @@ public class SolicitudDAO {
             throw new RuntimeException(e);
         }
     }
+    
+    public void avisoAutorizacionSolicitud(int idSolicitud, Usuario usuario) {
+
+        final String username = "sistemapanol@gmail.com";
+        final String password = "panolsis";
+         String texto = "Hola " + usuario.getNombres()+" "+usuario.getApellidos()+ ", "
+                + "Su solicitud fue AUTORIZADA, ahora debes pasar por pañol"
+                + " y hacer efectivo tu préstamo con el número " + idSolicitud + ". "
+                + " Una vez validado el stock de tu solicitud podrás retirar tus productos.";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("sistemapanol@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(usuario.getEmail()));
+
+                message.setSubject("Solicitud especial Nº "+idSolicitud+" aprobada");
+                message.setText(texto);
+
+            Transport.send(message);
+
+            //System.out.println("Done");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    
+    public void avisoNegacionSolicitud(int idSolicitud, Usuario usuario) {
+
+        final String username = "sistemapanol@gmail.com";
+        final String password = "panolsis";
+         String texto = "Hola " + usuario.getNombres()+" "+usuario.getApellidos()+ ", "
+                + "Su solicitud nº " + idSolicitud+ " fue NEGADA."
+                + "Para mayor información dirigirse a dirección de su carrera, "
+                + " o puede contactarse vía telefónica al 800 215001 "
+                + "- desde Celulares : 229153439";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("sistemapanol@gmail.com"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(usuario.getEmail()));
+
+                message.setSubject("Solicitud especial Nº "+idSolicitud+" negada");
+                message.setText(texto);
+
+            Transport.send(message);
+
+            //System.out.println("Done");
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     public ArrayList<SolicitudUsuarioDTO> listarSolicitudesEspeciales() {
         Usuario usuario;
@@ -289,4 +372,41 @@ public class SolicitudDAO {
         return lista;
     }
 
+    public void activarSolicitudEspecial(int idSolicitud) {
+
+        String sql = "{call activar_solicitud_especial(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idSolicitud);
+
+            cs.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en activar solicitud especial", e);
+        }
+    }
+    
+    public void NegarSolicitudEspecial(int idSolicitud) {
+
+        String sql = "{call negar_solicitud_especial(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.setInt(1, idSolicitud);
+
+            cs.executeQuery();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en negar solicitud especial", e);
+        }
+    }
 }

@@ -99,6 +99,18 @@
         <div class="row">
             <div class="col-md-0"></div>
             <div class="col-md-12">
+                <c:choose>
+                <c:when test="${not empty mensajeA}">
+                    <div class="alert alert-success" role="alert">
+                        <p id="palanquin-font" class="text-center text-success"><c:out value="${mensajeA['mensajeAutorizado']}"/></p>
+                    </div>
+                </c:when>
+                <c:when test="${not empty mensajeN}">
+                    <div class="alert alert-danger" role="alert">
+                        <p id="palanquin-font" class="text-center text-danger"><c:out value="${mensajeN['mensajeNegado']}"/></p>
+                    </div>
+                </c:when>
+                </c:choose>
                 <h3 class="text-center" id="palanquin-font">Administración de Solicitudes Especiales</h3>
                 <hr>
                 <br>
@@ -145,15 +157,15 @@
                                 </div>                                              
                                 <div class="modal-footer">
                                     <div class="col-xs-10">
-                                        <form action="<c:url value="AceptarSolEspecialServlet"/>" method="get">
+                                        <form action="<c:url value="AceptarSolEspecialServlet"/>" method="post">
                                             <button type="submit" class="btn btn-success">Aceptar</button>
-                                            <input id="inputAceptar" type="hidden" name="nroSerieOculto" value="">
+                                            <input id="inputAceptar" type="hidden" name="nroSolicitud" value="">
                                         </form>
                                     </div>
                                     <div>
-                                        <form action="<c:url value="NegarSolEspecialServlet"/>" method="get">
+                                        <form action="<c:url value="NegarSolEspecialServlet"/>" method="post">
                                             <button type="submit" class="btn btn-danger">Negar</button>
-                                            <input id="inputNegar" type="hidden" name="nroSerieOculto" value="">
+                                            <input id="inputNegar" type="hidden" name="nroSolicitud" value="">
                                         </form>
                                     </div>
                                 </div>

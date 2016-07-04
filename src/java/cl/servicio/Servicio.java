@@ -231,7 +231,7 @@ public class Servicio {
         solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email, doc);
     }
     
-     public void enviarEmailPrestamo(String nombre, int idPrestamo, String email, ByteArrayOutputStream doc) {
+    public void enviarEmailPrestamo(String nombre, int idPrestamo, String email, ByteArrayOutputStream doc) {
         prestamoDAO.enviarEmailPrestamo(nombre, idPrestamo, email, doc);
     }
     
@@ -239,11 +239,11 @@ public class Servicio {
         return productoDAO.stockProducto(idProducto);
     }
     
-    public Prestamo buscarPrestamoPorId (int idPrestamo){
+    public Prestamo buscarPrestamoPorId(int idPrestamo) {
         return prestamoDAO.buscarPrestamoPorId(idPrestamo);
     }
     
-    public ArrayList<DetallePrestamoDTO> buscarDetallePrestamoPorId (int idPrestamo){
+    public ArrayList<DetallePrestamoDTO> buscarDetallePrestamoPorId(int idPrestamo) {
         return consultaDAO.buscarDetallePrestamoPorId(idPrestamo);
     }
     
@@ -273,5 +273,21 @@ public class Servicio {
     
     public ArrayList<SolicitudUsuarioDTO> listarSolicitudesEspeciales() {
         return solicitudDAO.listarSolicitudesEspeciales();
+    }
+    
+    public void activarSolicitudEspecial(int idSolicitud) {
+        solicitudDAO.activarSolicitudEspecial(idSolicitud);
+    }
+    
+    public void avisoAutorizacionSolicitud(int idSolicitud, Usuario usuario) {
+        solicitudDAO.avisoAutorizacionSolicitud(idSolicitud, usuario);
+    }
+    
+    public void NegarSolicitudEspecial(int idSolicitud) {
+        solicitudDAO.NegarSolicitudEspecial(idSolicitud);
+    }
+    
+    public void avisoNegacionSolicitud(int idSolicitud, Usuario usuario) {
+        solicitudDAO.avisoNegacionSolicitud(idSolicitud, usuario);
     }
 }
