@@ -91,7 +91,7 @@
                     <div id="boton2" hidden="true">
                         <div class="form-group">
                             <div>
-                                <button type="submit" id="iniciar" class="btn btn-default btn-primary btn-block" value="Iniciar Sesión">
+                                <button type="submit" id="iniciar" class="btn btn-default btn-primary btn-block" value="Iniciar Sesión" disabled="true">
                                     Validando...  <span class="glyphicon glyphicon-refresh glyphicon-spin"></span>
                                 </button>
                             </div>

@@ -68,7 +68,6 @@
                             </c:choose>
                         <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos</a></li>
                         <li role="presentation"><a href="<c:url value="AdminDevolucion.jsp"/>">Devoluciones</a></li>
-                        <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                     </ul>
                 </div>
                 <br>

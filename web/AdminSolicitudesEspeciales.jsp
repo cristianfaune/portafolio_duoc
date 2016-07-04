@@ -57,8 +57,15 @@
                 $('#tituloModal').html('<p>Solicitud Especial Nro: <strong>' + idItem + '</strong><p>');
                 $('#inputAceptar').prop('value', idItem);
                 $('#inputNegar').prop('value', idItem);
-            });
 
+                $.post('DetalleSolicitudModalServlet', {
+                    idSolicitud: idItem
+
+                }, function (responseText) {
+                    $('#informacion').html(responseText);
+
+                });
+            });
         });
     </script>
 
@@ -124,8 +131,8 @@
 
                 <!-- inicio modal item-->
 
-                <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
-                    <div class="modal-dialog" role="document">
+                <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -133,8 +140,8 @@
                             </div>
 
                             <div class="modal-body">
-                                <div class="row">
-                                    <p>Hola algo </p>
+                                <div id="informacion" class="row">
+                                    <p></p>
                                 </div>                                              
                                 <div class="modal-footer">
                                     <div class="col-xs-10">
@@ -161,5 +168,6 @@
                 </div>
             </div>
         </div>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 </body>
 </html>

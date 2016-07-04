@@ -88,7 +88,7 @@
                             <select class="form-control" id="seleccionCategoria" name="seleccionCategoria" onchange="marcas()">
                                 <option value="0">--Seleccione una categoría</option>
                                 <c:forEach var="dato" items="${lstCategorias}">
-                                    <option value="${dato.idCategoria}">
+                                    <option value="${dato.idCategoria}" ${dato.idCategoria == producto.producto.idCategoria ? 'selected="selected"' : ''}>
                                         <c:out value="${dato.descripcion}"/>
                                     </option>
                                 </c:forEach>
@@ -100,6 +100,11 @@
                             <div id="opcion">
                                 <select class="form-control" id="seleccionMarca" name="seleccionMarca">
                                     <option value="0">--Seleccione una marca--</option>
+                                    <c:forEach var="dato" items="${lstMarcas}">
+                                    <option value="${dato.idMarca}" ${dato.idMarca == producto.producto.idMarca ? 'selected="selected"' : ''}>
+                                        <c:out value="${dato.descripcion}"/>
+                                    </option>
+                                </c:forEach>
                                 </select>
                             </div>
                             <p id="error-form"><c:out value="${mapMensaje['errorMarca']}"/></p>
