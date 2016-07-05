@@ -34,64 +34,74 @@ public class SesionUsuarioSolicitudServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         request.setCharacterEncoding("UTF-8");
 
         String rut = request.getParameter("rut");
         HttpSession sessionSolicitud = request.getSession();
         Map<String, String> mapMensajeRut = new HashMap<>();
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            Usuario usuarioBusqueda = new Usuario();
-            Carrera carrera = new Carrera();
-            Perfil perfil = new Perfil();
-            UsuarioPerfilCarreraDTO usuarioSolicitud = null;
-                    
-            ArrayList<UsuarioPerfilCarreraDTO> lista = servicio.usuarioPerfilCarreraPorRut(rut);
-            
-            for (UsuarioPerfilCarreraDTO usuario : lista) {
-                
-                usuarioBusqueda.setRut(usuario.getUsuario().getRut());
-                usuarioBusqueda.setNombres(usuario.getUsuario().getNombres());
-                usuarioBusqueda.setApellidos(usuario.getUsuario().getApellidos());
-                usuarioBusqueda.setTelefono(usuario.getUsuario().getTelefono());
-                usuarioBusqueda.setDireccion(usuario.getUsuario().getDireccion());
-                usuarioBusqueda.setEmail(usuario.getUsuario().getEmail());
-                usuarioBusqueda.setPassword(usuario.getUsuario().getPassword());
-                usuarioBusqueda.setActivo(usuario.getUsuario().getActivo());
-                usuarioBusqueda.setIdPerfil(usuario.getUsuario().getIdPerfil());
-                usuarioBusqueda.setIdCarrera(usuario.getUsuario().getIdCarrera());
-                
-                carrera.setIdCarrera(usuario.getCarrera().getIdCarrera());
-                carrera.setDescripcion(usuario.getCarrera().getDescripcion());
-                
-                perfil.setIdPerfil(usuario.getPerfil().getIdPerfil());
-                perfil.setDescripcion(usuario.getPerfil().getDescripcion());
-                
-                usuarioSolicitud = new UsuarioPerfilCarreraDTO(usuarioBusqueda,perfil,carrera);
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                Servicio servicio = new Servicio(con);
+
+                Usuario usuarioBusqueda = new Usuario();
+                Carrera carrera = new Carrera();
+                Perfil perfil = new Perfil();
+                UsuarioPerfilCarreraDTO usuarioSolicitud = null;
+
+                ArrayList<UsuarioPerfilCarreraDTO> lista = servicio.usuarioPerfilCarreraPorRut(rut);
+
+                for (UsuarioPerfilCarreraDTO usuario : lista) {
+
+                    usuarioBusqueda.setRut(usuario.getUsuario().getRut());
+                    usuarioBusqueda.setNombres(usuario.getUsuario().getNombres());
+                    usuarioBusqueda.setApellidos(usuario.getUsuario().getApellidos());
+                    usuarioBusqueda.setTelefono(usuario.getUsuario().getTelefono());
+                    usuarioBusqueda.setDireccion(usuario.getUsuario().getDireccion());
+                    usuarioBusqueda.setEmail(usuario.getUsuario().getEmail());
+                    usuarioBusqueda.setPassword(usuario.getUsuario().getPassword());
+                    usuarioBusqueda.setActivo(usuario.getUsuario().getActivo());
+                    usuarioBusqueda.setIdPerfil(usuario.getUsuario().getIdPerfil());
+                    usuarioBusqueda.setIdCarrera(usuario.getUsuario().getIdCarrera());
+
+                    carrera.setIdCarrera(usuario.getCarrera().getIdCarrera());
+                    carrera.setDescripcion(usuario.getCarrera().getDescripcion());
+
+                    perfil.setIdPerfil(usuario.getPerfil().getIdPerfil());
+                    perfil.setDescripcion(usuario.getPerfil().getDescripcion());
+
+                    usuarioSolicitud = new UsuarioPerfilCarreraDTO(usuarioBusqueda, perfil, carrera);
+                }
+
+                if (rut.isEmpty() || rut == null) {
+                    mapMensajeRut.put("errorRut", "**Debe ingresar un rut**");
+                } else if (lista.size() == 0) {
+                    mapMensajeRut.put("errorRut", "**El usuario no está registrado o no poseee las credenciales"
+                            + " para modificarlo**");
+                }
+
+                if (mapMensajeRut.isEmpty()) {
+
+                    sessionSolicitud.setAttribute("usuarioSolicitud", usuarioSolicitud);
+                    request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("mapMensajeRut", mapMensajeRut);
+                    request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("error en la conexion", e);
             }
 
-            if (rut.isEmpty() || rut == null) {
-                mapMensajeRut.put("errorRut", "**Debe ingresar un rut**");
-            } else if (lista.size()== 0) {
-                mapMensajeRut.put("errorRut", "**El usuario no está registrado o no poseee las credenciales"
-                        + " para modificarlo**");
-            }
-
-            if (mapMensajeRut.isEmpty()) {
-
-                sessionSolicitud.setAttribute("usuarioSolicitud", usuarioSolicitud);
-                request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
-            } else {
-                request.setAttribute("mapMensajeRut", mapMensajeRut);
-                request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("error en la conexion", e);
         }
 
     }

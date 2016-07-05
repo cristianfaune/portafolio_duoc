@@ -31,20 +31,30 @@ public class CancelarSolicitudServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        try (Connection con = ds.getConnection()){
-            
-            HttpSession sessionSolicitud = request.getSession();
 
-            sessionSolicitud.setAttribute("usuarioSolicitud", null);
-            
-            cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
-            cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
-   
-            request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
-            
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd",e);
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                HttpSession sessionSolicitud = request.getSession();
+
+                sessionSolicitud.setAttribute("usuarioSolicitud", null);
+
+                cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
+                cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
+
+                request.getRequestDispatcher("AdminSolicitudes.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
+            }
+
         }
 
     }
@@ -53,21 +63,30 @@ public class CancelarSolicitudServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try (Connection con = ds.getConnection()) {
-            Servicio servicio = new Servicio(con);
+        HttpSession session = request.getSession();
 
-            ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
-            cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            request.setAttribute("lstProductos", listaProductos);
-            request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
-            
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión bd",e);
+            try (Connection con = ds.getConnection()) {
+                Servicio servicio = new Servicio(con);
+
+                ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
+
+                cl.controlador.RegistrarSolicitudServlet.listaDtSol.clear();
+                cl.controlador.RegistrarSolicitudServlet.listaProductosSolicitud.clear();
+
+                request.setAttribute("lstProductos", listaProductos);
+                request.getRequestDispatcher("RegistroSolicitud.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión bd", e);
+            }
+
         }
-
     }
 
 }

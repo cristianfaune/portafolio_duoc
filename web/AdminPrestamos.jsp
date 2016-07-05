@@ -65,10 +65,10 @@
                     <br>
                     <div class="row">
                         <form action="<c:url value="/BuscarSolicitudServlet"/>" method="get">      
-                            <div class="input-group col-md-4 center_div">    
+                            <div class="input-group col-md-3 center_div">    
                                 <label id="palanquin-font">Ingrese Id Solicitud:</label>
                                 <input class="form-control" type="number" name="idSolicitud" maxlength="5"/>
-                                <p id="info-form">--Ingrese el número asignado a la solicitud--</p>
+                                <p id="info-form">--Ingrese el número de la solicitud--</p>
                                 <span class="input-group-btn">
                                     <input class="btn btn-default" type="submit" name="buscar" value="Buscar"/>
                                 </span>

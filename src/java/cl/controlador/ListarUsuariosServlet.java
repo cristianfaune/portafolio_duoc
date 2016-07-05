@@ -46,17 +46,25 @@ public class ListarUsuariosServlet extends HttpServlet {
 
         Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-        try (Connection con = ds.getConnection()) {
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 120) {
+            request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+        } else {
 
-            Servicio servicio = new Servicio(con);
+            try (Connection con = ds.getConnection()) {
 
-            ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera(usuarioS.getIdPerfil());
+                Servicio servicio = new Servicio(con);
 
-            request.setAttribute("lstUsuarios", listaUsuarios);
-            request.getRequestDispatcher("/ListarUsuario.jsp").forward(request, response);
+                ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera(usuarioS.getIdPerfil());
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexion bd", e);
+                request.setAttribute("lstUsuarios", listaUsuarios);
+                request.getRequestDispatcher("/ListarUsuario.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexion bd", e);
+            }
+
         }
     }
 

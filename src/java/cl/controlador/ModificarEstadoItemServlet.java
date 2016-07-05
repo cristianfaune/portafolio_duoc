@@ -6,6 +6,7 @@
 package cl.controlador;
 
 import cl.dominio.Item;
+import cl.dominio.Usuario;
 import cl.dto.ProductoMarcaDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
@@ -19,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -35,21 +37,31 @@ public class ModificarEstadoItemServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            ArrayList<ProductoMarcaDTO> lstProductos = servicio.productosPorId(idProducto);
-            ArrayList<Item> lstItem = servicio.itemPorIdProducto(idProducto);
+            try (Connection con = ds.getConnection()) {
 
-            request.setAttribute("lstProductos", lstProductos);
-            request.setAttribute("lstItem", lstItem);
-            request.getRequestDispatcher("/ModificarEstadoItem.jsp").forward(request, response);
+                Servicio servicio = new Servicio(con);
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd", e);
+                int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+
+                ArrayList<ProductoMarcaDTO> lstProductos = servicio.productosPorId(idProducto);
+                ArrayList<Item> lstItem = servicio.itemPorIdProducto(idProducto);
+
+                request.setAttribute("lstProductos", lstProductos);
+                request.setAttribute("lstItem", lstItem);
+                request.getRequestDispatcher("/ModificarEstadoItem.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
+            }
+
         }
 
     }
@@ -63,27 +75,37 @@ public class ModificarEstadoItemServlet extends HttpServlet {
         int idProducto = Integer.parseInt(request.getParameter("idProducto"));
         byte activar;
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            if (activo.equals("activar")) {
-                activar = 1;
-            } else {
-                activar = 0;
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                Servicio servicio = new Servicio(con);
+
+                if (activo.equals("activar")) {
+                    activar = 1;
+                } else {
+                    activar = 0;
+                }
+
+                servicio.modificarEstadoItem(nroSerie, activar);
+
+                ArrayList<ProductoMarcaDTO> lstProductos = servicio.productosPorId(idProducto);
+                ArrayList<Item> lstItem = servicio.itemPorIdProducto(idProducto);
+
+                request.setAttribute("lstProductos", lstProductos);
+                request.setAttribute("lstItem", lstItem);
+                request.getRequestDispatcher("/ModificarEstadoItem.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a la bd", e);
             }
 
-            servicio.modificarEstadoItem(nroSerie, activar);
-
-            ArrayList<ProductoMarcaDTO> lstProductos = servicio.productosPorId(idProducto);
-            ArrayList<Item> lstItem = servicio.itemPorIdProducto(idProducto);
-
-            request.setAttribute("lstProductos", lstProductos);
-            request.setAttribute("lstItem", lstItem);
-            request.getRequestDispatcher("/ModificarEstadoItem.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a la bd", e);
         }
 
     }

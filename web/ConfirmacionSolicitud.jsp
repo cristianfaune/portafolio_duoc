@@ -41,13 +41,13 @@
         </script>
         <%@include file="header.jsp" %>
         <div class="container">
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
             <div class="row">
-                <div class="1"></div>
-                <div class="10">
-                    <div>
-                        <ul class="nav nav-pills col-md-offset-4">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="centered-pills">
+                        <ul class="nav nav-pills" id="palanquin-font">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
                                     <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
@@ -60,11 +60,10 @@
                                     </c:when>
                                 </c:choose>
                             <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                            <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>
                     </div>
                     <br>
-                    <h2 class="text-center">Confirmación solicitud</h2>
+                    <h2 class="text-center" id="palanquin-font">Confirmación solicitud</h2>
                     <br>
                     <div class="row col-lg-offset-1">
                         <div class="col-md-12">
@@ -162,7 +161,7 @@
                                         </c:forEach>
                                 </table>
                             </div>
-                            <div class="1"></div>
+                            <div class="col-md-1"></div>
                         </div>
                     </div>
                 </div>

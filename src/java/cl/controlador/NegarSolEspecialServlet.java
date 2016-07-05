@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -44,34 +45,44 @@ public class NegarSolEspecialServlet extends HttpServlet {
         Usuario us = new Usuario();
         Map<String, String> mapMensaje = new HashMap<>();
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            ArrayList<DetalleSolicitudPrUsCaDTO> lista = servicio.totalSolicitudId(Integer.parseInt(idSolicitud));
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            for (int i = 0; i == 0; i++) {
+            try (Connection con = ds.getConnection()) {
 
-                us = lista.get(i).getUsuario();
-                email = us.getEmail();
+                Servicio servicio = new Servicio(con);
 
+                ArrayList<DetalleSolicitudPrUsCaDTO> lista = servicio.totalSolicitudId(Integer.parseInt(idSolicitud));
+
+                for (int i = 0; i == 0; i++) {
+
+                    us = lista.get(i).getUsuario();
+                    email = us.getEmail();
+
+                }
+
+                servicio.NegarSolicitudEspecial(Integer.parseInt(idSolicitud));
+
+                ArrayList<SolicitudUsuarioDTO> listaSol = servicio.listarSolicitudesEspeciales();
+
+                mapMensaje.put("mensajeNegado", "**La solicitud Nº " + idSolicitud + " fue negada y un correo se ha "
+                        + "enviado a " + email + "**");
+
+                request.setAttribute("mensajeN", mapMensaje);
+                request.setAttribute("lstSolEspeciales", listaSol);
+                request.getRequestDispatcher("AdminSolicitudesEspeciales.jsp").forward(request, response);
+
+                servicio.avisoNegacionSolicitud(Integer.parseInt(idSolicitud), us);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("error en la conexión a bd", e);
             }
 
-            servicio.NegarSolicitudEspecial(Integer.parseInt(idSolicitud));
-
-            ArrayList<SolicitudUsuarioDTO> listaSol = servicio.listarSolicitudesEspeciales();
-
-            mapMensaje.put("mensajeNegado", "**La solicitud Nº " + idSolicitud + " fue negada y un correo se ha "
-                    + "enviado a " + email+"**");
-
-            request.setAttribute("mensajeN", mapMensaje);
-            request.setAttribute("lstSolEspeciales", listaSol);
-            request.getRequestDispatcher("AdminSolicitudesEspeciales.jsp").forward(request, response);
-
-            servicio.avisoNegacionSolicitud(Integer.parseInt(idSolicitud), us);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("error en la conexión a bd", e);
         }
 
     }

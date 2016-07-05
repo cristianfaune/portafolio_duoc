@@ -46,19 +46,28 @@ public class RegistroUsuarioServlet extends HttpServlet {
 
         Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-        try (Connection con = ds.getConnection()) {
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 120) {
+            request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 110) {
+            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
+        } else{
 
-            Servicio servicio = new Servicio(con);
+            try (Connection con = ds.getConnection()) {
 
-            ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
-            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
+                Servicio servicio = new Servicio(con);
 
-            request.setAttribute("lstCarreras", lstCarreras);
-            request.setAttribute("lstPerfiles", lstPerfiles);
-            request.getRequestDispatcher("RegistroUsuario.jsp").forward(request, response);
+                ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+                ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexion bd", e);
+                request.setAttribute("lstCarreras", lstCarreras);
+                request.setAttribute("lstPerfiles", lstPerfiles);
+                request.getRequestDispatcher("RegistroUsuario.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexion bd", e);
+            }
         }
     }
 
@@ -83,123 +92,133 @@ public class RegistroUsuarioServlet extends HttpServlet {
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
-        try (Connection con = ds.getConnection()) {
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 120) {
+            request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 110) {
+            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
+        } else {
 
-            Servicio servicio = new Servicio(con);
-            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
-            ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+            try (Connection con = ds.getConnection()) {
 
-            ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
-            
-            Usuario usuarioExiste = null;
+                Servicio servicio = new Servicio(con);
+                ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
+                ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
 
-            for (Usuario usuario : lista) {
-                usuarioExiste = new Usuario();
-                usuarioExiste.setRut(usuario.getRut());
-                usuarioExiste.setNombres(usuario.getNombres());
-                usuarioExiste.setApellidos(usuario.getApellidos());
-                usuarioExiste.setTelefono(usuario.getTelefono());
-                usuarioExiste.setDireccion(usuario.getDireccion());
-                usuarioExiste.setEmail(usuario.getEmail());
-                usuarioExiste.setPassword(usuario.getPassword());
-                usuarioExiste.setActivo(usuario.getActivo());
-                usuarioExiste.setIdPerfil(usuario.getIdPerfil());
-                usuarioExiste.setIdCarrera(usuario.getIdCarrera());
+                ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
+
+                Usuario usuarioExiste = null;
+
+                for (Usuario usuario : lista) {
+                    usuarioExiste = new Usuario();
+                    usuarioExiste.setRut(usuario.getRut());
+                    usuarioExiste.setNombres(usuario.getNombres());
+                    usuarioExiste.setApellidos(usuario.getApellidos());
+                    usuarioExiste.setTelefono(usuario.getTelefono());
+                    usuarioExiste.setDireccion(usuario.getDireccion());
+                    usuarioExiste.setEmail(usuario.getEmail());
+                    usuarioExiste.setPassword(usuario.getPassword());
+                    usuarioExiste.setActivo(usuario.getActivo());
+                    usuarioExiste.setIdPerfil(usuario.getIdPerfil());
+                    usuarioExiste.setIdCarrera(usuario.getIdCarrera());
+                }
+
+                Usuario usuario = new Usuario();
+
+                if (rut.isEmpty()) {
+                    mapMensaje.put("errorRut", "**Debe ingresar rut**");
+                } else if (!rut.isEmpty() && rut.length() > 10) {
+                    mapMensaje.put("errorRut", "**El valor es demasiado largo**");
+                } else if (usuarioExiste != null) {
+                    mapMensaje.put("errorRut", "**El usuario ya está registrado**");
+                } else {
+                    usuario.setRut(rut);
+                }
+
+                if (nombres.isEmpty()) {
+                    mapMensaje.put("errorNombre", "**Debe ingresar nombre**");
+                } else if (!nombres.isEmpty() && nombres.length() > 50) {
+                    mapMensaje.put("errorNombre", "**El valor es demasiado largo**");
+                } else {
+                    usuario.setNombres(nombres);
+                }
+
+                if (apellidos.isEmpty()) {
+                    mapMensaje.put("errorApellidos", "**Debe ingresar apellido**");
+                } else if (!apellidos.isEmpty() && apellidos.length() > 50) {
+                    mapMensaje.put("errorApellidos", "**El valor es demasiado largo**");
+                } else {
+                    usuario.setApellidos(apellidos);
+                }
+
+                if (telefono.isEmpty()) {
+                    mapMensaje.put("errorTelefono", "**Debe ingresar un teléfono**");
+                } else if (telefono.length() > 10) {
+                    mapMensaje.put("errorTelefono", "**El número es inválido**");
+                } else {
+                    usuario.setTelefono(telefono);
+                }
+
+                if (direccion.isEmpty()) {
+                    mapMensaje.put("errorDireccion", "**Debe ingresar una dirección**");
+                } else if (!direccion.isEmpty() && direccion.length() > 200) {
+                    mapMensaje.put("errorDireccion", "**El contenido es demasiado largo**");
+                } else {
+                    usuario.setDireccion(direccion);
+                }
+
+                if (email.isEmpty()) {
+                    mapMensaje.put("errorEmail", "**Debe ingresar email**");
+                } else if (!email.isEmpty() && email.length() > 50) {
+                    mapMensaje.put("errorEmail", "**El valor es demasiado largo**");
+                } else {
+                    usuario.setEmail(email);
+                }
+
+                if (password.isEmpty()) {
+                    mapMensaje.put("errorPassword", "**Debe ingresar password**");
+                } else if (!password.isEmpty() && password.length() > 10) {
+                    mapMensaje.put("errorPassword", "**Contraseña demasiado larga**");
+                } else {
+                    usuario.setPassword(password);
+                }
+
+                if (perfil.equals("0")) {
+                    mapMensaje.put("errorPerfil", "**Debe ingresar un perfil**");
+                } else {
+                    int idPerfil = Integer.parseInt(perfil);
+                    usuario.setIdPerfil(idPerfil);
+                }
+
+                if (request.getParameter("carrera") != null) {
+                    int idCarrera = Integer.parseInt(request.getParameter("carrera"));
+                    usuario.setIdCarrera(idCarrera);
+                } else {
+                    usuario.setIdCarrera(0);
+                }
+
+                usuario.setActivo((byte) 1);
+
+                if (mapMensaje.isEmpty()) {
+
+                    servicio.registrarUsuario(usuario);
+                    mapMensajeExito.put("mensaje", "El usuario fue registrado con éxito");
+                    request.setAttribute("mapMensajeExito", mapMensajeExito);
+                    request.setAttribute("lstPerfiles", lstPerfiles);
+                    request.setAttribute("lstCarreras", lstCarreras);
+                    request.getRequestDispatcher("/RegistroUsuario.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("mapMensaje", mapMensaje);
+                    request.setAttribute("lstPerfiles", lstPerfiles);
+                    request.setAttribute("lstCarreras", lstCarreras);
+                    request.getRequestDispatcher("RegistroUsuario.jsp").forward(request, response);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
             }
 
-            Usuario usuario = new Usuario();
-
-            if (rut.isEmpty()) {
-                mapMensaje.put("errorRut", "**Debe ingresar rut**");
-            } else if (!rut.isEmpty() && rut.length() > 10) {
-                mapMensaje.put("errorRut", "**El valor es demasiado largo**");
-            } else if (usuarioExiste != null) {
-                mapMensaje.put("errorRut", "**El usuario ya está registrado**");
-            } else {
-                usuario.setRut(rut);
-            }
-
-            if (nombres.isEmpty()) {
-                mapMensaje.put("errorNombre", "**Debe ingresar nombre**");
-            } else if (!nombres.isEmpty() && nombres.length() > 50) {
-                mapMensaje.put("errorNombre", "**El valor es demasiado largo**");
-            } else {
-                usuario.setNombres(nombres);
-            }
-
-            if (apellidos.isEmpty()) {
-                mapMensaje.put("errorApellidos", "**Debe ingresar apellido**");
-            } else if (!apellidos.isEmpty() && apellidos.length() > 50) {
-                mapMensaje.put("errorApellidos", "**El valor es demasiado largo**");
-            } else {
-                usuario.setApellidos(apellidos);
-            }
-
-            if (telefono.isEmpty()) {
-                mapMensaje.put("errorTelefono", "**Debe ingresar un teléfono**");
-            } else if (telefono.length() > 10) {
-                mapMensaje.put("errorTelefono", "**El número es inválido**");
-            } else {
-                usuario.setTelefono(telefono);
-            }
-
-            if (direccion.isEmpty()) {
-                mapMensaje.put("errorDireccion", "**Debe ingresar una dirección**");
-            } else if (!direccion.isEmpty() && direccion.length() > 200) {
-                mapMensaje.put("errorDireccion", "**El contenido es demasiado largo**");
-            } else {
-                usuario.setDireccion(direccion);
-            }
-
-            if (email.isEmpty()) {
-                mapMensaje.put("errorEmail", "**Debe ingresar email**");
-            } else if (!email.isEmpty() && email.length() > 50) {
-                mapMensaje.put("errorEmail", "**El valor es demasiado largo**");
-            } else {
-                usuario.setEmail(email);
-            }
-
-            if (password.isEmpty()) {
-                mapMensaje.put("errorPassword", "**Debe ingresar password**");
-            } else if (!password.isEmpty() && password.length() > 10) {
-                mapMensaje.put("errorPassword", "**Contraseña demasiado larga**");
-            } else {
-                usuario.setPassword(password);
-            }
-
-            if (perfil.equals("0")) {
-                mapMensaje.put("errorPerfil", "**Debe ingresar un perfil**");
-            } else {
-                int idPerfil = Integer.parseInt(perfil);
-                usuario.setIdPerfil(idPerfil);
-            }
-
-            if (request.getParameter("carrera") != null) {
-                int idCarrera = Integer.parseInt(request.getParameter("carrera"));
-                usuario.setIdCarrera(idCarrera);
-            } else {
-                usuario.setIdCarrera(0);
-            }
-
-            usuario.setActivo((byte) 1);
-
-            if (mapMensaje.isEmpty()) {
-
-                servicio.registrarUsuario(usuario);
-                mapMensajeExito.put("mensaje", "El usuario fue registrado con éxito");
-                request.setAttribute("mapMensajeExito", mapMensajeExito);
-                request.setAttribute("lstPerfiles", lstPerfiles);
-                request.setAttribute("lstCarreras", lstCarreras);
-                request.getRequestDispatcher("/RegistroUsuario.jsp").forward(request, response);
-            } else {
-                request.setAttribute("mapMensaje", mapMensaje);
-                request.setAttribute("lstPerfiles", lstPerfiles);
-                request.setAttribute("lstCarreras", lstCarreras);
-                request.getRequestDispatcher("RegistroUsuario.jsp").forward(request, response);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd", e);
         }
 
     }

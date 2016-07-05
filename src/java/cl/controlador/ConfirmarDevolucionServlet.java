@@ -20,6 +20,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -55,68 +56,82 @@ public class ConfirmarDevolucionServlet extends HttpServlet {
         int idDevolucion = 0;
         int atraso = 0;
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            DevolucionDAO devDAO = new DevolucionDAO(con);
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 100) {
+            request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 110) {
+            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
+        } else {
 
-            lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
-            
-            ArrayList<Usuario> listaUs = new ArrayList<>();
+            try (Connection con = ds.getConnection()) {
 
-            for (int i = 0; i <= 0; i++) {
+                Servicio servicio = new Servicio(con);
 
-                prestamo = lista.get(i).getPrestamo();
-                
-                rutCliente = detHcd.get(i).getRut();
-                
-                listaUs = servicio.buscarUsuarioRut(rutCliente);
-                
-                us = listaUs.get(i);
-                
-                idDevolucion = detDev.get(i).getIdDevolucion();
-            }
+                DevolucionDAO devDAO = new DevolucionDAO(con);
 
-            Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
-            Timestamp fechaEstimadaEntrega = prestamo.getFechaEstimadaEntrega();
+                lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
 
-            devolucion.setIdPrestamo(Integer.parseInt(idPrestamo));
-            devolucion.setFechaDevolucion(fechaActual);
-            devolucion.setIdDevolucion(idDevolucion);
+                ArrayList<Usuario> listaUs = new ArrayList<>();
 
-            atraso = devDAO.determinarAtraso(fechaEstimadaEntrega, fechaActual);
+                for (int i = 0; i <= 0; i++) {
 
-            devolucion.setAtraso((byte) atraso);
+                    prestamo = lista.get(i).getPrestamo();
 
-            servicio.registroDevolucion(devolucion);
+                    rutCliente = detHcd.get(i).getRut();
 
-            for (DetalleDevolucion x : detDev) {
+                    listaUs = servicio.buscarUsuarioRut(rutCliente);
 
-                servicio.registroDetalleDevolucion(x);
-            }
+                    us = listaUs.get(i);
 
-            for (HistorialClienteDevolucion y : detHcd) {
-
-                servicio.registroHistorialCliente(y);
-
-                if (y.getDescripcion().equals("dañado") || y.getDescripcion().equals("no devuelto")) {
-                    servicio.modificarEstadoItem(y.getNroSerie(), (byte) 0);
-                    servicio.modificarEstadoPrestamoItem(y.getNroSerie(), (byte) 0);
-                } else {
-                    servicio.modificarEstadoPrestamoItem(y.getNroSerie(), (byte) 0);
+                    idDevolucion = detDev.get(i).getIdDevolucion();
                 }
+
+                Timestamp fechaActual = new Timestamp(System.currentTimeMillis());
+                Timestamp fechaEstimadaEntrega = prestamo.getFechaEstimadaEntrega();
+
+                devolucion.setIdPrestamo(Integer.parseInt(idPrestamo));
+                devolucion.setFechaDevolucion(fechaActual);
+                devolucion.setIdDevolucion(idDevolucion);
+
+                atraso = devDAO.determinarAtraso(fechaEstimadaEntrega, fechaActual);
+
+                devolucion.setAtraso((byte) atraso);
+
+                servicio.registroDevolucion(devolucion);
+
+                for (DetalleDevolucion x : detDev) {
+
+                    servicio.registroDetalleDevolucion(x);
+                }
+
+                for (HistorialClienteDevolucion y : detHcd) {
+
+                    servicio.registroHistorialCliente(y);
+
+                    if (y.getDescripcion().equals("dañado") || y.getDescripcion().equals("no devuelto")) {
+                        servicio.modificarEstadoItem(y.getNroSerie(), (byte) 0);
+                        servicio.modificarEstadoPrestamoItem(y.getNroSerie(), (byte) 0);
+                    } else {
+                        servicio.modificarEstadoPrestamoItem(y.getNroSerie(), (byte) 0);
+                    }
+                }
+
+                servicio.ModificarEstadoPrestamo(Integer.parseInt(idPrestamo), (byte) 0);
+
+                request.setAttribute("idDev", idDevolucion);
+                request.setAttribute("usuarioCliente", us);
+                request.setAttribute("detalleCliente", detHcd);
+                request.getRequestDispatcher("ConfirmacionDevolucionFinalizada.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
             }
 
-            servicio.ModificarEstadoPrestamo(Integer.parseInt(idPrestamo), (byte) 0);
-
-            request.setAttribute("idDev", idDevolucion);
-            request.setAttribute("usuarioCliente", us);
-            request.setAttribute("detalleCliente", detHcd);
-            request.getRequestDispatcher("ConfirmacionDevolucionFinalizada.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd", e);
         }
 
     }

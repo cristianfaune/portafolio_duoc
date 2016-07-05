@@ -6,6 +6,7 @@
 package cl.controlador;
 
 import cl.dominio.Marca;
+import cl.dominio.Usuario;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -28,63 +30,82 @@ import javax.sql.DataSource;
  */
 @WebServlet(name = "DropdownCategoriaServlet", urlPatterns = {"/DropdownCategoriaServlet"})
 public class DropdownCategoriaServlet extends HttpServlet {
-    
+
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
-    
-     @Override
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html; charset=iso-8859-1");
         PrintWriter out = response.getWriter();
-        try (Connection con = ds.getConnection()) {
 
-            int idCategoria = Integer.parseInt(request.getParameter("seleccionCategoria"));
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
-            
-            ArrayList<Marca> lstMarcas = servicio.marcaPorId(idCategoria);           
-            
-            out.print("<select class='form-control' id='seleccionMarca' name='seleccionMarca'>");
-            out.print("<option value = '0'>--Seleccione una marca--</option>");
-            for (Marca temp : lstMarcas) {
-                out.print(" <option value ='" + temp.getIdMarca() + "'>" + temp.getDescripcion() + "</option>");
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                int idCategoria = Integer.parseInt(request.getParameter("seleccionCategoria"));
+
+                Servicio servicio = new Servicio(con);
+
+                ArrayList<Marca> lstMarcas = servicio.marcaPorId(idCategoria);
+
+                out.print("<select class='form-control' id='seleccionMarca' name='seleccionMarca'>");
+                out.print("<option value = '0'>--Seleccione una marca--</option>");
+                for (Marca temp : lstMarcas) {
+                    out.print(" <option value ='" + temp.getIdMarca() + "'>" + temp.getDescripcion() + "</option>");
+                }
+                out.print("</select>");
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en dropdown ajax", e);
             }
-            out.print("</select>");
-           
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en dropdown ajax", e);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html; charset=iso-8859-1");
         PrintWriter out = response.getWriter();
-        try (Connection con = ds.getConnection()) {
 
-            int idCategoria = Integer.parseInt(request.getParameter("seleccionCategoria"));
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
-            
-            ArrayList<Marca> lstMarcas = servicio.marcaPorId(idCategoria);           
-            
-            out.print("<select class='form-control' id='seleccionMarca' name='seleccionMarca'>");
-            out.print("<option value = '0'>--Seleccione una marca--</option>");
-            for (Marca temp : lstMarcas) {
-                out.print(" <option value ='" + temp.getIdMarca() + "'>" + temp.getDescripcion() + "</option>");
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                int idCategoria = Integer.parseInt(request.getParameter("seleccionCategoria"));
+
+                Servicio servicio = new Servicio(con);
+
+                ArrayList<Marca> lstMarcas = servicio.marcaPorId(idCategoria);
+
+                out.print("<select class='form-control' id='seleccionMarca' name='seleccionMarca'>");
+                out.print("<option value = '0'>--Seleccione una marca--</option>");
+                for (Marca temp : lstMarcas) {
+                    out.print(" <option value ='" + temp.getIdMarca() + "'>" + temp.getDescripcion() + "</option>");
+                }
+                out.print("</select>");
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en dropdown ajax", e);
             }
-            out.print("</select>");
-           
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en dropdown ajax", e);
         }
-
     }
 
 }

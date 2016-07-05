@@ -1,5 +1,6 @@
 package cl.controlador;
 
+import cl.dominio.Usuario;
 import cl.servicio.Servicio;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -33,18 +35,32 @@ public class CancelarDevolucionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-         try (Connection con = ds.getConnection()) {
-             
-            Servicio servicio = new Servicio(con);
 
-            cl.controlador.AdminDevolucionServlet.listaDev.clear();
-            cl.controlador.AdminDevolucionServlet.listaHcd.clear();
+        HttpSession session = request.getSession();
 
-            request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
-            
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión bd",e);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 100) {
+            request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 110) {
+            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                Servicio servicio = new Servicio(con);
+
+                cl.controlador.AdminDevolucionServlet.listaDev.clear();
+                cl.controlador.AdminDevolucionServlet.listaHcd.clear();
+
+                request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión bd", e);
+            }
+
         }
 
     }

@@ -31,13 +31,13 @@
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
-            <h4 class="text-center">Administración sistema Pañol</h4>
-            <h6 class="text-center">Escuela de comunicaciones - Duoc UC</h6>
+            <h3 class="text-center" id="titulo-pagina">Administración sistema Pañol</h3>
+            <h5 class="text-center" id="titulo-pagina">Escuela de comunicaciones - Duoc UC</h5>
             <div class="row col-lg-offset-0">
                 <div class="col-md-0"></div>
                 <div class="col-md-12">
-                    <div>
-                        <ul class="nav nav-pills col-md-offset-3">
+                    <div class="centered-pills">
+                        <ul class="nav nav-pills" id="palanquin-font">
                             <c:choose>
                                 <c:when test="${usuarioSesion.idPerfil == 100}">
                                     <li role="presentation"><a href="<c:url value="HomeJefeCarrera.jsp"/>">Inicio</a></li>
@@ -52,7 +52,6 @@
                             <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar solicitudes</a></li>
                             <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos</a></li>
                             <li role="presentation"><a href="<c:url value="AdminDevolucion.jsp"/>">Devoluciones</a></li>
-                            <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                         </ul>
                     </div>
                     <br>

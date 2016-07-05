@@ -61,6 +61,10 @@ public class BuscarSolicitudServlet extends HttpServlet {
 
         if (usuarioS == null) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 100) {
+            request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 110) {
+            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
         } else {
 
             try (Connection con = ds.getConnection()) {
@@ -121,6 +125,10 @@ public class BuscarSolicitudServlet extends HttpServlet {
 
         if (usuarioS == null) {
             request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 100) {
+            request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 110) {
+            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
         } else {
 
             try (Connection con = ds.getConnection()) {
@@ -392,7 +400,7 @@ public class BuscarSolicitudServlet extends HttpServlet {
                 if (largo > 0) {
                     ArrayList<Integer> prod = new ArrayList<>();
                     prod = servicio.revisarStockPrestamo(items);
-                    
+
                     servicio.alertaStockPrestamo(prod);
                 }
 

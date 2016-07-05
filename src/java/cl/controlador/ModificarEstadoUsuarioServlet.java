@@ -58,26 +58,34 @@ public class ModificarEstadoUsuarioServlet extends HttpServlet {
         String rut = request.getParameter("rut");
         byte activar = 0;
 
-        try (Connection con = ds.getConnection()) {
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 120) {
+            request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+        } else {
 
-            Servicio servicio = new Servicio(con);
+            try (Connection con = ds.getConnection()) {
 
-            if (activo == activar) {
-                activar = 1;
+                Servicio servicio = new Servicio(con);
 
-            } else {
-                activar = 0;
+                if (activo == activar) {
+                    activar = 1;
+
+                } else {
+                    activar = 0;
+                }
+
+                servicio.modificarEstadoUsuario(rut, activar);
+
+                ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera(usuarioS.getIdPerfil());
+
+                request.setAttribute("lstUsuarios", listaUsuarios);
+                request.getRequestDispatcher("/ListarUsuario.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a la bd", e);
             }
 
-            servicio.modificarEstadoUsuario(rut, activar);
-            
-            ArrayList<UsuarioPerfilCarreraDTO> listaUsuarios = servicio.usuarioPerfilCarrera(usuarioS.getIdPerfil());
-
-            request.setAttribute("lstUsuarios", listaUsuarios);
-            request.getRequestDispatcher("/ListarUsuario.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a la bd", e);
         }
 
     }

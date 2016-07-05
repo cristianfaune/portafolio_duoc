@@ -44,12 +44,24 @@ public class MostrarUsuarioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a la bd", e);
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 120) {
+            request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a la bd", e);
+            }
+
         }
     }
 
@@ -60,68 +72,66 @@ public class MostrarUsuarioServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
-        
+
         request.setCharacterEncoding("UTF-8");
 
         String rut = request.getParameter("rut");
         Map<String, String> mapMensajeRut = new HashMap<>();
 
-        try (Connection con = ds.getConnection()) {
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else if (usuarioS.getIdPerfil() == 120) {
+            request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
+        } else {
 
-            Servicio servicio = new Servicio(con);
+            try (Connection con = ds.getConnection()) {
 
-            ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
-            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
+                Servicio servicio = new Servicio(con);
 
-            Usuario usuarioBusqueda = new Usuario();
-                    
-            ArrayList<Usuario> lista = servicio.buscarUsuarioRutFiltro(rut, usuarioS.getIdPerfil());
-            
-            for (Usuario usuario : lista) {
-                usuarioBusqueda.setRut(usuario.getRut());
-                usuarioBusqueda.setNombres(usuario.getNombres());
-                usuarioBusqueda.setApellidos(usuario.getApellidos());
-                usuarioBusqueda.setTelefono(usuario.getTelefono());
-                usuarioBusqueda.setDireccion(usuario.getDireccion());
-                usuarioBusqueda.setEmail(usuario.getEmail());
-                usuarioBusqueda.setPassword(usuario.getPassword());
-                usuarioBusqueda.setActivo(usuario.getActivo());
-                usuarioBusqueda.setIdPerfil(usuario.getIdPerfil());
-                usuarioBusqueda.setIdCarrera(usuario.getIdCarrera());
+                ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+                ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
+
+                Usuario usuarioBusqueda = new Usuario();
+
+                ArrayList<Usuario> lista = servicio.buscarUsuarioRutFiltro(rut, usuarioS.getIdPerfil());
+
+                for (Usuario usuario : lista) {
+                    usuarioBusqueda.setRut(usuario.getRut());
+                    usuarioBusqueda.setNombres(usuario.getNombres());
+                    usuarioBusqueda.setApellidos(usuario.getApellidos());
+                    usuarioBusqueda.setTelefono(usuario.getTelefono());
+                    usuarioBusqueda.setDireccion(usuario.getDireccion());
+                    usuarioBusqueda.setEmail(usuario.getEmail());
+                    usuarioBusqueda.setPassword(usuario.getPassword());
+                    usuarioBusqueda.setActivo(usuario.getActivo());
+                    usuarioBusqueda.setIdPerfil(usuario.getIdPerfil());
+                    usuarioBusqueda.setIdCarrera(usuario.getIdCarrera());
+                }
+
+                if (rut.isEmpty() || rut == null) {
+                    mapMensajeRut.put("errorRut", "**Debe ingresar un rut**");
+                } else if (lista.size() == 0) {
+                    mapMensajeRut.put("errorRut", "**El usuario no está registrado o no poseee las credenciales"
+                            + " para modificarlo**");
+                }
+
+                if (mapMensajeRut.isEmpty()) {
+
+                    request.setAttribute("lstCarreras", lstCarreras);
+                    request.setAttribute("lstPerfiles", lstPerfiles);
+                    request.setAttribute("usuarioBusqueda", usuarioBusqueda);
+                    request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("mapMensajeRut", mapMensajeRut);
+                    request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("error en la conexion", e);
             }
 
-            if (rut.isEmpty() || rut == null) {
-                mapMensajeRut.put("errorRut", "**Debe ingresar un rut**");
-            } else if (lista.size()== 0) {
-                mapMensajeRut.put("errorRut", "**El usuario no está registrado o no poseee las credenciales"
-                        + " para modificarlo**");
-            }
-
-            if (mapMensajeRut.isEmpty()) {
-
-                request.setAttribute("lstCarreras", lstCarreras);
-                request.setAttribute("lstPerfiles", lstPerfiles);
-                request.setAttribute("usuarioBusqueda", usuarioBusqueda);
-                request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
-            } else {
-                request.setAttribute("mapMensajeRut", mapMensajeRut);
-                request.getRequestDispatcher("MostrarUsuario.jsp").forward(request, response);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("error en la conexion", e);
         }
 
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

@@ -3,6 +3,7 @@ package cl.controlador;
 import cl.dominio.Categoria;
 import cl.dominio.Marca;
 import cl.dominio.Producto;
+import cl.dominio.Usuario;
 import cl.dto.ProductoMarcaDTO;
 import cl.servicio.Servicio;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -33,19 +35,29 @@ public class RegistroProductoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            ArrayList<Categoria> lstCategorias = servicio.listarCategorias();
-            ArrayList<Marca> lstMarcas = servicio.listarMarcas();
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            request.setAttribute("lstMarcas", lstMarcas);
-            request.setAttribute("lstCategorias", lstCategorias);
-            request.getRequestDispatcher("RegistroProducto.jsp").forward(request, response);
+            try (Connection con = ds.getConnection()) {
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexion bd", e);
+                Servicio servicio = new Servicio(con);
+
+                ArrayList<Categoria> lstCategorias = servicio.listarCategorias();
+                ArrayList<Marca> lstMarcas = servicio.listarMarcas();
+
+                request.setAttribute("lstMarcas", lstMarcas);
+                request.setAttribute("lstCategorias", lstCategorias);
+                request.getRequestDispatcher("RegistroProducto.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexion bd", e);
+            }
+
         }
     }
 
@@ -64,82 +76,91 @@ public class RegistroProductoServlet extends HttpServlet {
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
-            ArrayList<Categoria> lstCategorias = servicio.listarCategorias();
-            ArrayList<Marca> lstMarcas = servicio.listarMarcas();
-            ArrayList<Producto> lstProductos = servicio.listarProductos();
-            Producto producto = new Producto();
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            if (nombre.isEmpty()) {
-                mapMensaje.put("errorNombre", "**Debe ingresar un nombre**");
-            } else if (!nombre.isEmpty() && nombre.length() > 50) {
-                mapMensaje.put("errorNombre", "**El valor es demasiado largo**");
-            } else {
-                producto.setNombre(nombre);
-            }
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            if (modelo.isEmpty()) {
-                mapMensaje.put("errorModelo", "**Debe ingresar modelo**");
-            } else if (!modelo.isEmpty() && modelo.length() > 50) {
-                mapMensaje.put("errorModelo", "**El valor es demasiado largo**");
-            } else {
-                producto.setModelo(modelo);
-            }
+            try (Connection con = ds.getConnection()) {
 
-            if (descripcion.isEmpty()) {
-                mapMensaje.put("errorDescripcion", "**Debe ingresar una descripción**");
-            } else if (!descripcion.isEmpty() && descripcion.length() > 200) {
-                mapMensaje.put("errorDescripcion", "**Escriba una descripción más corta**");
-            } else {
-                producto.setDescripcion(descripcion);
-            }
+                Servicio servicio = new Servicio(con);
+                ArrayList<Categoria> lstCategorias = servicio.listarCategorias();
+                ArrayList<Marca> lstMarcas = servicio.listarMarcas();
+                ArrayList<Producto> lstProductos = servicio.listarProductos();
+                Producto producto = new Producto();
 
-            if (nombreArchivo.isEmpty()) {
-                producto.setRutaImagen("imgProductos/imagenNoDisponible.png");
-            }else{
-                producto.setRutaImagen("imgProductos/"+nombreArchivo);
-            }
-
-
-            if ((String.valueOf(idCategoria)).equals("0")) {
-                mapMensaje.put("errorCategoria", "**Debe ingresar una categoria**");
-            } else {
-                producto.setIdCategoria(idCategoria);
-            }
-
-            if ((String.valueOf(idMarca)).equals("0")) {
-                mapMensaje.put("errorMarca", "**Debe ingresar una marca**");
-            } else {
-                producto.setIdMarca(idMarca);
-            }
-
-            if (!modelo.isEmpty() && !String.valueOf(idMarca).isEmpty()) {
-                ArrayList<ProductoMarcaDTO> lista = servicio.existeProducto(idMarca, modelo);
-
-                if (lista.size() > 0) {
-                    mapMensaje.put("errorExiste", "**El producto ya está registrado**");
+                if (nombre.isEmpty()) {
+                    mapMensaje.put("errorNombre", "**Debe ingresar un nombre**");
+                } else if (!nombre.isEmpty() && nombre.length() > 50) {
+                    mapMensaje.put("errorNombre", "**El valor es demasiado largo**");
+                } else {
+                    producto.setNombre(nombre);
                 }
-            }
- 
-            if (mapMensaje.isEmpty()) {
 
-                servicio.registrarProducto(producto);
-                mapMensajeExito.put("mensajeExito", "Producto registrado con éxito");
-                ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
-                request.setAttribute("mensaje", mapMensajeExito);
-                request.setAttribute("lstProductos", listaProductos);
-                request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
-            } else {
-                request.setAttribute("mapMensaje", mapMensaje);
-                request.setAttribute("lstMarcas", lstMarcas);
-                request.setAttribute("lstCategorias", lstCategorias);
-                request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
+                if (modelo.isEmpty()) {
+                    mapMensaje.put("errorModelo", "**Debe ingresar modelo**");
+                } else if (!modelo.isEmpty() && modelo.length() > 50) {
+                    mapMensaje.put("errorModelo", "**El valor es demasiado largo**");
+                } else {
+                    producto.setModelo(modelo);
+                }
+
+                if (descripcion.isEmpty()) {
+                    mapMensaje.put("errorDescripcion", "**Debe ingresar una descripción**");
+                } else if (!descripcion.isEmpty() && descripcion.length() > 200) {
+                    mapMensaje.put("errorDescripcion", "**Escriba una descripción más corta**");
+                } else {
+                    producto.setDescripcion(descripcion);
+                }
+
+                if (nombreArchivo.isEmpty()) {
+                    producto.setRutaImagen("imgProductos/imagenNoDisponible.png");
+                } else {
+                    producto.setRutaImagen("imgProductos/" + nombreArchivo);
+                }
+
+                if ((String.valueOf(idCategoria)).equals("0")) {
+                    mapMensaje.put("errorCategoria", "**Debe ingresar una categoria**");
+                } else {
+                    producto.setIdCategoria(idCategoria);
+                }
+
+                if ((String.valueOf(idMarca)).equals("0")) {
+                    mapMensaje.put("errorMarca", "**Debe ingresar una marca**");
+                } else {
+                    producto.setIdMarca(idMarca);
+                }
+
+                if (!modelo.isEmpty() && !String.valueOf(idMarca).isEmpty()) {
+                    ArrayList<ProductoMarcaDTO> lista = servicio.existeProducto(idMarca, modelo);
+
+                    if (lista.size() > 0) {
+                        mapMensaje.put("errorExiste", "**El producto ya está registrado**");
+                    }
+                }
+
+                if (mapMensaje.isEmpty()) {
+
+                    servicio.registrarProducto(producto);
+                    mapMensajeExito.put("mensajeExito", "Producto registrado con éxito");
+                    ArrayList<ProductoMarcaDTO> listaProductos = servicio.productosMarcaCursor();
+                    request.setAttribute("mensaje", mapMensajeExito);
+                    request.setAttribute("lstProductos", listaProductos);
+                    request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
+                } else {
+                    request.setAttribute("mapMensaje", mapMensaje);
+                    request.setAttribute("lstMarcas", lstMarcas);
+                    request.setAttribute("lstCategorias", lstCategorias);
+                    request.getRequestDispatcher("/RegistroProducto.jsp").forward(request, response);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd", e);
         }
 
     }

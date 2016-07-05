@@ -210,12 +210,7 @@
                 </c:forEach>
             </c:if>
         </div>
-        <div class="col-md-0">
-            <c:out value="${idItemServlet}"/>
-            <c:out value="${observacion}"/>
-            <c:out value="${largo}"/><br>
-            <c:out value="${lstDetalleDev}"/>
-        </div>
+        <div class="col-md-0"></div>
     </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 </body>
