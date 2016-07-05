@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -49,34 +50,44 @@ public class AceptarSolEspecialServlet extends HttpServlet {
         Usuario us = new Usuario();
         Map<String, String> mapMensaje = new HashMap<>();
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            servicio.activarSolicitudEspecial(Integer.parseInt(idSolicitud));
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            ArrayList<DetalleSolicitudPrUsCaDTO> lista = servicio.buscarSolicitudId(Integer.parseInt(idSolicitud));
+            try (Connection con = ds.getConnection()) {
 
-            for (int i = 0; i == 0; i++) {
+                Servicio servicio = new Servicio(con);
 
-                us = lista.get(i).getUsuario();
-                email = us.getEmail();
+                servicio.activarSolicitudEspecial(Integer.parseInt(idSolicitud));
 
+                ArrayList<DetalleSolicitudPrUsCaDTO> lista = servicio.buscarSolicitudId(Integer.parseInt(idSolicitud));
+
+                for (int i = 0; i == 0; i++) {
+
+                    us = lista.get(i).getUsuario();
+                    email = us.getEmail();
+
+                }
+
+                ArrayList<SolicitudUsuarioDTO> listaSol = servicio.listarSolicitudesEspeciales();
+
+                mapMensaje.put("mensajeAutorizado", "**La solicitud Nº " + idSolicitud + " fue autorizada y un correo se ha "
+                        + "enviado a " + email + "**");
+
+                request.setAttribute("mensajeA", mapMensaje);
+                request.setAttribute("lstSolEspeciales", listaSol);
+                request.getRequestDispatcher("AdminSolicitudesEspeciales.jsp").forward(request, response);
+
+                servicio.avisoAutorizacionSolicitud(Integer.parseInt(idSolicitud), us);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("error en la conexión a bd", e);
             }
-            
-            ArrayList<SolicitudUsuarioDTO> listaSol = servicio.listarSolicitudesEspeciales();
-            
-            mapMensaje.put("mensajeAutorizado", "**La solicitud Nº "+idSolicitud+" fue autorizada y un correo se ha "
-                    + "enviado a "+email+"**");
 
-            request.setAttribute("mensajeA", mapMensaje);
-            request.setAttribute("lstSolEspeciales", listaSol);
-            request.getRequestDispatcher("AdminSolicitudesEspeciales.jsp").forward(request, response);
-
-            servicio.avisoAutorizacionSolicitud(Integer.parseInt(idSolicitud), us);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("error en la conexión a bd", e);
         }
 
     }

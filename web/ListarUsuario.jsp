@@ -72,7 +72,7 @@
                         <li role="presentation"><a href="<c:url value="/RegistroUsuarioServlet"/>">Ingresar usuario</a></li>
                     </ul>
                 </div>
-                    <h3 class="text-center" id="palanquin-font">Administración de Usuarios</h3>
+                    <h3 class="text-center" id="palanquin-font">Listado de Usuarios</h3>
                     <hr>
                     <br>
                 <datatables:table cssClass="table" data="${lstUsuarios}" htmlTableId="tabla-usuarios" dataObjectId="row">

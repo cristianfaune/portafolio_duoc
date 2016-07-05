@@ -157,13 +157,13 @@
                                 </div>                                              
                                 <div class="modal-footer">
                                     <div class="col-xs-10">
-                                        <form action="<c:url value="AceptarSolEspecialServlet"/>" method="post">
+                                        <form action="<c:url value="AceptarSolEspecialServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de autorizar esta solicitud?');">
                                             <button type="submit" class="btn btn-success">Aceptar</button>
                                             <input id="inputAceptar" type="hidden" name="nroSolicitud" value="">
                                         </form>
                                     </div>
                                     <div>
-                                        <form action="<c:url value="NegarSolEspecialServlet"/>" method="post">
+                                        <form action="<c:url value="NegarSolEspecialServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de negar esta solicitud?');">
                                             <button type="submit" class="btn btn-danger">Negar</button>
                                             <input id="inputNegar" type="hidden" name="nroSolicitud" value="">
                                         </form>

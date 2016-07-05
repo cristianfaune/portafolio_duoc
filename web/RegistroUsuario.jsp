@@ -79,9 +79,9 @@
                         <div class="row">
                             <div class="col-md-4 text-left">
                                 <label for="inputRut" class="control-label">Rut:</label>
-                                <input type="text" class="form-control text-center" id="rut" name="rut" 
-                                       value="<c:out value="${param.rut}"/>" 
-                                       placeholder="Ingrese su Rut" autofocus="true" maxlength="9">   
+                                <input type="text" class="form-control text-center" id="rut" name="rut"  
+                                       placeholder="Ingrese su Rut" autofocus="true" 
+                                       value="<c:out value="${param.rut}"/>" maxlength="9">   
                                 <p id="info-form">**Ingrese su rut sin puntos ni guion**</p>
                                 <p id="error-form"><c:out value="${mapMensaje['errorRut']}"/></p>
                             </div>
@@ -113,7 +113,7 @@
                             <div class="col-md-6 text-left">
                                 <label for="inputNombre" class="control-label">Nombres: </label>
                                 <input type="text" class="form-control text-center" id="nombre" name="nombres" 
-                                       value="<c:out value="${param.nombre}"/>" placeholder="Ingrese nombres">
+                                       value="<c:out value="${param.nombres}"/>" placeholder="Ingrese nombres">
                                 <p id="error-form"><c:out value="${mapMensaje['errorNombre']}"/></p>
                             </div>
                             <div class="col-md-6 text-left">
@@ -128,7 +128,7 @@
                             <div class="col-md-12 text-left">
                                 <label for="inputDireccion" class="control-label">Dirección: </label>
                                 <input type="text" class="form-control text-center" id="direccion" name="direccion" 
-                                       value="<c:out value="${param.direccion}"/>" placeholder="Ingrese su dirección">
+                                       placeholder="Ingrese su dirección">
                                 <p id="error-form"><c:out value="${mapMensaje['errorDireccion']}"/></p>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                             <div class="col-md-5 text-left">
                                 <label for="inputPassword" class="control-label">Password: </label>
                                 <input type="password" class="form-control text-center" id="direccion" name="password" 
-                                       value="<c:out value="${param.password}"/>" placeholder="Ingrese contraseña" maxlength="10">
+                                       placeholder="Ingrese contraseña" maxlength="10">
                                 <p id="info-form">**Máximo 10 caractéres**</p>
                                 <p id="error-form"><c:out value="${mapMensaje['errorPassword']}"/></p>
                             </div>

@@ -38,25 +38,20 @@ public class RegistroUsuarioServlet extends HttpServlet {
     @Resource(mappedName = "jdbc/portafolio")
     private DataSource ds;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-    }
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
         try (Connection con = ds.getConnection()) {
-
-            HttpSession session = request.getSession();
-
-            Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
 
             Servicio servicio = new Servicio(con);
 
             ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
-            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuario.getIdPerfil());
+            ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
 
             request.setAttribute("lstCarreras", lstCarreras);
             request.setAttribute("lstPerfiles", lstPerfiles);
@@ -85,7 +80,6 @@ public class RegistroUsuarioServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String perfil = request.getParameter("seleccionPerfil");
-        String carrera = request.getParameter("seleccionCarrera");
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
@@ -94,9 +88,11 @@ public class RegistroUsuarioServlet extends HttpServlet {
             Servicio servicio = new Servicio(con);
             ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
             ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+
             ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
-            Usuario usuarioExiste = null;
             
+            Usuario usuarioExiste = null;
+
             for (Usuario usuario : lista) {
                 usuarioExiste = new Usuario();
                 usuarioExiste.setRut(usuario.getRut());
@@ -178,8 +174,8 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 usuario.setIdPerfil(idPerfil);
             }
 
-            if (!carrera.equals("0")) {
-                int idCarrera = Integer.parseInt(carrera);
+            if (request.getParameter("carrera") != null) {
+                int idCarrera = Integer.parseInt(request.getParameter("carrera"));
                 usuario.setIdCarrera(idCarrera);
             } else {
                 usuario.setIdCarrera(0);

@@ -43,7 +43,9 @@
                                     <li role="presentation"><a href="<c:url value="HomeCoordinador.jsp"/>">Inicio</a></li>
                                     </c:when>
                                 </c:choose>
-                            <li role="presentation"><a href="<c:url value="AdminSolicitudesEspecialesServlet"/>">Administrar Solicitudes Especiales</a></li>
+                                <c:if test="${usuarioSesion.idPerfil == 100}">
+                                <li role="presentation"><a href="<c:url value="AdminSolicitudesEspecialesServlet"/>">Administrar Solicitudes Especiales</a></li>
+                                </c:if>
                         </ul>
                     </div>
                     <br>

@@ -93,8 +93,7 @@ public class ValidarIngreso extends HttpServlet {
 
             if (mapMensajePass.isEmpty() && mapMensajeRut.isEmpty()) {
 
-                session.setAttribute("usuarioSesion", usuarioSesion);
-               
+                session.setAttribute("usuarioSesion", usuarioSesion);               
 
                 if (usuarioSesion.getIdPerfil() == 100 && usuarioSesion.getActivo() == 1) {
                     request.getRequestDispatcher("HomeJefeCarrera.jsp").forward(request, response);

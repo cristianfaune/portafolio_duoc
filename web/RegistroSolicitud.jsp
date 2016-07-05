@@ -44,7 +44,6 @@
                             </c:when>
                         </c:choose>
                     <li role="presentation"><a href="<c:url value="#"/>">Administrar solicitudes</a></li>
-                    <li role="presentation"><a href="<c:url value="#"/>">Reportes</a></li>
                 </ul>
             </div>
             <c:if test="${not empty mensajeError['errorCantidad']}">

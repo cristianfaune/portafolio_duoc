@@ -290,4 +290,12 @@ public class Servicio {
     public void avisoNegacionSolicitud(int idSolicitud, Usuario usuario) {
         solicitudDAO.avisoNegacionSolicitud(idSolicitud, usuario);
     }
+    
+    public ArrayList<Integer> revisarStockPrestamo(ArrayList<Item> lista) {
+        return productoDAO.revisarStockPrestamo(lista);
+    }
+    
+    public void alertaStockPrestamo (ArrayList<Integer> lista){
+        productoDAO.alertaStockPrestamo(lista);
+    }
 }

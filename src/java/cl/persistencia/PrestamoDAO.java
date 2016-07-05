@@ -6,6 +6,7 @@
 package cl.persistencia;
 
 import cl.dominio.DetallePrestamo;
+import cl.dominio.Item;
 import cl.dominio.Prestamo;
 import cl.dominio.Usuario;
 import java.io.ByteArrayOutputStream;

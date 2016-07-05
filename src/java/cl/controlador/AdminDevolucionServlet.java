@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 /**
@@ -46,34 +47,44 @@ public class AdminDevolucionServlet extends HttpServlet {
         ArrayList<DetallePrestamoDTO> lista = new ArrayList();
         ArrayList<UsuarioPrestamoDTO> listaUsuario = new ArrayList();
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            if (idPrestamo.isEmpty()) {
-                mapMensaje.put("errorPrestamo", "**Debe ingresar el número de ticket**");
-            } else {
-                lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
-                listaUsuario = servicio.buscarUsuarioPrestamoPorId(Integer.parseInt(idPrestamo));
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
+
+            try (Connection con = ds.getConnection()) {
+
+                Servicio servicio = new Servicio(con);
+
+                if (idPrestamo.isEmpty()) {
+                    mapMensaje.put("errorPrestamo", "**Debe ingresar el número de ticket**");
+                } else {
+                    lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
+                    listaUsuario = servicio.buscarUsuarioPrestamoPorId(Integer.parseInt(idPrestamo));
+                }
+
+                if (!idPrestamo.isEmpty() && lista.isEmpty()) {
+                    mapMensaje.put("errorPrestamo", "**El número de ticket no es válido**");
+                }
+
+                if (mapMensaje.isEmpty()) {
+
+                    request.setAttribute("lstUsuarioPrestamo", listaUsuario);
+                    request.setAttribute("lstDetallePrestamo", lista);
+                    request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+                } else {
+
+                    request.setAttribute("mensajeError", mapMensaje);
+                    request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
             }
 
-            if (!idPrestamo.isEmpty() && lista.isEmpty()) {
-                mapMensaje.put("errorPrestamo", "**El número de ticket no es válido**");
-            }
-
-            if (mapMensaje.isEmpty()) {
-
-                request.setAttribute("lstUsuarioPrestamo", listaUsuario);
-                request.setAttribute("lstDetallePrestamo", lista);
-                request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
-            } else {
-
-                request.setAttribute("mensajeError", mapMensaje);
-                request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
-            }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd", e);
         }
 
     }
@@ -97,71 +108,81 @@ public class AdminDevolucionServlet extends HttpServlet {
         HistorialClienteDevolucion hcd = new HistorialClienteDevolucion();
         DetalleDevolucion detalleDevolucion = new DetalleDevolucion();
 
-        try (Connection con = ds.getConnection()) {
+        HttpSession session = request.getSession();
 
-            Servicio servicio = new Servicio(con);
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
-            lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
-            listaUsuario = servicio.buscarUsuarioPrestamoPorId(Integer.parseInt(idPrestamo));
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        } else {
 
-            for (int i = 0; i <= 0; i++) {
+            try (Connection con = ds.getConnection()) {
 
-                us = listaUsuario.get(i).getUsuario();
-                usPanolero = lista.get(i).getUsuario();
-            }
+                Servicio servicio = new Servicio(con);
 
-            int idDevolucion = servicio.idDevolucionDisponible();
+                lista = servicio.buscarDetallePrestamoPorId(Integer.parseInt(idPrestamo));
+                listaUsuario = servicio.buscarUsuarioPrestamoPorId(Integer.parseInt(idPrestamo));
 
-            Timestamp fecha = new Timestamp(System.currentTimeMillis());
+                for (int i = 0; i <= 0; i++) {
 
-            hcd.setIdDevolucion(idDevolucion);
-            hcd.setFecha(fecha);
-            hcd.setDescripcion(descripcion);
-            hcd.setNroSerie(idItemSeleccionado);
-            hcd.setObservacion(observacion);
-            hcd.setRut(us.getRut());
-
-            detalleDevolucion.setIdDevolucion(idDevolucion);
-            detalleDevolucion.setNroSerie(idItemSeleccionado);
-            detalleDevolucion.setRut(usPanolero.getRut());
-
-            //registro de devolución items
-            int indice = -1;
-
-            for (int i = 0; i < listaHcd.size(); i++) {
-                HistorialClienteDevolucion hcd1 = listaHcd.get(i);
-                if (hcd1.getNroSerie().equals(hcd.getNroSerie())) {
-
-                    indice = i;
-
-                    break;
+                    us = listaUsuario.get(i).getUsuario();
+                    usPanolero = lista.get(i).getUsuario();
                 }
-            }
 
-            if (indice == -1) {
-                listaHcd.add(hcd);
-                listaDev.add(detalleDevolucion);
-            } else {
+                int idDevolucion = servicio.idDevolucionDisponible();
+
+                Timestamp fecha = new Timestamp(System.currentTimeMillis());
+
+                hcd.setIdDevolucion(idDevolucion);
+                hcd.setFecha(fecha);
                 hcd.setDescripcion(descripcion);
+                hcd.setNroSerie(idItemSeleccionado);
                 hcd.setObservacion(observacion);
+                hcd.setRut(us.getRut());
 
-                listaHcd.set(indice, hcd);
+                detalleDevolucion.setIdDevolucion(idDevolucion);
+                detalleDevolucion.setNroSerie(idItemSeleccionado);
+                detalleDevolucion.setRut(usPanolero.getRut());
+
+                //registro de devolución items
+                int indice = -1;
+
+                for (int i = 0; i < listaHcd.size(); i++) {
+                    HistorialClienteDevolucion hcd1 = listaHcd.get(i);
+                    if (hcd1.getNroSerie().equals(hcd.getNroSerie())) {
+
+                        indice = i;
+
+                        break;
+                    }
+                }
+
+                if (indice == -1) {
+                    listaHcd.add(hcd);
+                    listaDev.add(detalleDevolucion);
+                } else {
+                    hcd.setDescripcion(descripcion);
+                    hcd.setObservacion(observacion);
+
+                    listaHcd.set(indice, hcd);
+                }
+                //fin registro de devolución
+
+                request.setAttribute("idItemServlet", request.getParameter("nroSerieOculto"));
+
+                request.setAttribute("observacion", hcd.getObservacion());
+                request.setAttribute("contadorDetalle", lista.size());
+                request.setAttribute("contadorHcd", listaHcd.size());
+                request.setAttribute("lstHistorial", listaHcd);
+                request.setAttribute("lstDetalleDev", idDevolucion);
+                request.setAttribute("lstUsuarioPrestamo", listaUsuario);
+                request.setAttribute("lstDetallePrestamo", lista);
+                request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Error en la conexión a bd", e);
             }
-            //fin registro de devolución
 
-            request.setAttribute("idItemServlet", request.getParameter("nroSerieOculto"));
-
-            request.setAttribute("observacion", hcd.getObservacion());
-            request.setAttribute("contadorDetalle", lista.size());
-            request.setAttribute("contadorHcd", listaHcd.size());
-            request.setAttribute("lstHistorial", listaHcd);
-            request.setAttribute("lstDetalleDev", idDevolucion);
-            request.setAttribute("lstUsuarioPrestamo", listaUsuario);
-            request.setAttribute("lstDetallePrestamo", lista);
-            request.getRequestDispatcher("AdminDevolucion.jsp").forward(request, response);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la conexión a bd", e);
         }
     }
 

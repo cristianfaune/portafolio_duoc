@@ -64,7 +64,6 @@ public class ModificarUsuarioServlet extends HttpServlet {
         String direccion = request.getParameter("direccion");
         String email = request.getParameter("email");
         String perfil = request.getParameter("seleccionPerfil");
-        String carrera = request.getParameter("seleccionCarrera");
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
@@ -76,8 +75,7 @@ public class ModificarUsuarioServlet extends HttpServlet {
             ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
             ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
 
-                usuarioMod.setRut(rut);
-
+            usuarioMod.setRut(rut);
 
             if (nombres.isEmpty()) {
                 mapMensaje.put("errorNombre", "**Debe ingresar nombre**");
@@ -110,7 +108,7 @@ public class ModificarUsuarioServlet extends HttpServlet {
             } else {
                 usuarioMod.setDireccion(direccion);
             }
-            
+
             if (email.isEmpty()) {
                 mapMensaje.put("errorEmail", "**Debe ingresar un email**");
             } else if (!email.isEmpty() && email.length() > 50) {
@@ -126,8 +124,8 @@ public class ModificarUsuarioServlet extends HttpServlet {
                 usuarioMod.setIdPerfil(idPerfil);
             }
 
-            if (!carrera.equals("0")) {
-                int idCarrera = Integer.parseInt(carrera);
+            if (request.getParameter("carrera") != null) {
+                int idCarrera = Integer.parseInt(request.getParameter("carrera"));
                 usuarioMod.setIdCarrera(idCarrera);
             } else {
                 usuarioMod.setIdCarrera(0);
@@ -151,10 +149,5 @@ public class ModificarUsuarioServlet extends HttpServlet {
         }
 
     }
-
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }
