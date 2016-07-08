@@ -41,6 +41,9 @@ public class RegistroUsuarioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        Map<String, String> mapMensaje = new HashMap<>();
+        mapMensaje.put("errorRut", "**Ingrese solo números**");
 
         HttpSession session = request.getSession();
 
@@ -61,6 +64,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
                 ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
 
+                request.setAttribute("mapMensajeGet", mapMensaje);
                 request.setAttribute("lstCarreras", lstCarreras);
                 request.setAttribute("lstPerfiles", lstPerfiles);
                 request.getRequestDispatcher("RegistroUsuario.jsp").forward(request, response);
@@ -82,6 +86,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
         Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
 
         String rut = request.getParameter("rut");
+        String digito = request.getParameter("digito");
         String nombres = request.getParameter("nombres");
         String apellidos = request.getParameter("apellidos");
         String telefono = request.getParameter("telefono");
@@ -89,6 +94,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String perfil = request.getParameter("seleccionPerfil");
+        String rutCompleto = "";
         Map<String, String> mapMensaje = new HashMap<>();
         Map<String, String> mapMensajeExito = new HashMap<>();
 
@@ -105,8 +111,14 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 Servicio servicio = new Servicio(con);
                 ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
                 ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
+                
+                if (!servicio.verificadorRut(rut, digito)) {
+                   mapMensaje.put("errorRut", "**Ingrese un rut válido**"); 
+                }else{
+                    rutCompleto = rut+digito;
+                }
 
-                ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
+                ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rutCompleto.toUpperCase());
 
                 Usuario usuarioExiste = null;
 
@@ -128,12 +140,12 @@ public class RegistroUsuarioServlet extends HttpServlet {
 
                 if (rut.isEmpty()) {
                     mapMensaje.put("errorRut", "**Debe ingresar rut**");
-                } else if (!rut.isEmpty() && rut.length() > 10) {
+                } else if (!rut.isEmpty() && rut.length() > 8) {
                     mapMensaje.put("errorRut", "**El valor es demasiado largo**");
                 } else if (usuarioExiste != null) {
-                    mapMensaje.put("errorRut", "**El usuario ya está registrado**");
+                    mapMensaje.put("errorRut", "**El rut ya está registrado**");
                 } else {
-                    usuario.setRut(rut);
+                    usuario.setRut(rutCompleto.toUpperCase());
                 }
 
                 if (nombres.isEmpty()) {

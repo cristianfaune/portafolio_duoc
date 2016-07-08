@@ -34,6 +34,14 @@ public class NegarSolEspecialServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        HttpSession session = request.getSession();
+
+        Usuario usuarioS = (Usuario) session.getAttribute("usuarioSesion");
+
+        if (usuarioS == null) {
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+        }
+
     }
 
     @Override

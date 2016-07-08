@@ -142,7 +142,7 @@ public class UsuarioDAO {
         }
         return lista;
     }
-    
+
     public ArrayList<Usuario> buscarUsuarioRutFiltro(String rut, int idPerfil) {
         ArrayList<Usuario> lista = new ArrayList<>();
         Usuario usuario;
@@ -187,7 +187,6 @@ public class UsuarioDAO {
         return lista;
     }
 
-    
     public void ModificarEstadoUsuario(String rut, byte activar) {
 
         String sql = "{call modificar_estado_usuario(?,?)}";
@@ -259,5 +258,49 @@ public class UsuarioDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Error en ingresar un nuevo usuario", e);
         }
+    }
+
+    public boolean verificadorRut(String rut, String digito) {
+
+        boolean flag = false;
+        String rutAlReves = "";
+        int[] resultados = new int[8];
+        int multiplicador = 2;
+        int limite = 1;
+        int total = 0;
+        String digitoV;
+        StringBuilder builder = new StringBuilder(rut);
+
+        rutAlReves = builder.reverse().toString();
+
+        //response.getWriter().print(rut);
+        for (int i = 0; i < rutAlReves.length(); i++) {
+            if (multiplicador == 8) {
+                multiplicador = 2;
+            }
+            int num = Integer.parseInt(rutAlReves.substring(i, limite));
+            resultados[i] = num * multiplicador;
+            multiplicador++;
+            limite++;
+
+            total += resultados[i];
+        }
+
+        total = 11 - (total % 11);
+        digitoV = String.valueOf(total);
+
+        //response.getWriter().print(digitoV);      
+        if (Integer.parseInt(digitoV) == 10) {
+            digitoV = "K";
+        } else if (Integer.parseInt(digitoV) == 11) {
+            digitoV = "0";
+        }
+
+        if (digitoV.equals(digito.toUpperCase())) {
+            flag = true;
+        }
+        
+        return flag;
+        
     }
 }

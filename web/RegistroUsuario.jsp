@@ -39,6 +39,13 @@
             });
         });
     </script>
+
+    <style>
+        #linea{
+            color: white;
+        }
+
+    </style>
     <body>
         <%@include file="header.jsp" %>
         <div class="container">
@@ -77,38 +84,54 @@
                     <p>
                     <form class="form-horizontal" action="<c:url value="/RegistroUsuarioServlet"/>" method="post" onsubmit="return confirm('¿Está seguro de registrar al nuevo usuario?');">
                         <div class="row">
-                            <div class="col-md-4 text-left">
-                                <label for="inputRut" class="control-label">Rut:</label>
-                                <input type="text" class="form-control text-center" id="rut" name="rut"  
-                                       placeholder="Ingrese su Rut" autofocus="true" 
-                                       value="<c:out value="${param.rut}"/>" maxlength="9">   
-                                <p id="info-form">**Ingrese su rut sin puntos ni guion**</p>
-                                <p id="error-form"><c:out value="${mapMensaje['errorRut']}"/></p>
-                            </div>
-                            <div class="col-md-4 text-left">
-                                <label>Perfil:</label>
-                                <select class="form-control" id="seleccionPerfil" name="seleccionPerfil">
-                                    <option value="0">--Seleccione--</option>
-                                    <c:forEach var="dat1" items="${lstPerfiles}">
-                                        <option value="${dat1.idPerfil}">
-                                            <c:out value="${dat1.descripcion}"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
-                                <p id="error-form"><c:out value="${mapMensaje['errorPerfil']}"/></p>
-                            </div>
-                            <div class="col-md-4 text-left">
-                                <label>Carrera:</label>
-                                <select class="form-control" id="seleccionCarrera" name="seleccionCarrera" disabled="true">
-                                    <option value="0">--Seleccione--</option>
-                                    <c:forEach var="dat2" items="${lstCarreras}">
-                                        <option value="${dat2.idCarrera}">
-                                            <c:out value="${dat2.descripcion}"/>
-                                        </option>
-                                    </c:forEach>
-                                </select>
+                            <div class="form-group">
+                                <div class="col-md-3 text-left">
+                                    <label for="inputNombre" class="control-label">Rut: </label>
+                                    <input type="number" class="form-control text-center" name="rut"  
+                                           placeholder="Ingrese su Rut" autofocus="true" 
+                                           value="<c:out value="${param.rut}"/>" maxlength="8"
+                                           id="inputWarning1">
+                                    <c:choose>
+                                        <c:when test="${empty mapMensaje}">
+                                            <p id="info-form"><c:out value="${mapMensajeGet['errorRut']}"/></p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p id="error-form"><c:out value="${mapMensaje['errorRut']}"/></p> 
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+                                <div class="col-md-1">
+                                    <label for="inputNombre" class="control-label" id="linea">____</label>
+                                    <input type="text" class="form-control text-center" name="digito"  
+                                           value="<c:out value="${param.digito}"/>" maxlength="1"
+                                           id="inputWarning1">  
+                                </div>
+                                <div class="col-md-4 text-left">
+                                    <label for="inputNombre" class="control-label">Perfil: </label>
+                                    <select class="form-control" id="seleccionPerfil" name="seleccionPerfil">
+                                        <option value="0">--Seleccione--</option>
+                                        <c:forEach var="dat1" items="${lstPerfiles}">
+                                            <option value="${dat1.idPerfil}">
+                                                <c:out value="${dat1.descripcion}"/>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                    <p id="error-form"><c:out value="${mapMensaje['errorPerfil']}"/></p>
+                                </div>
+                                <div class="col-md-4 text-left">
+                                    <label for="inputNombre" class="control-label">Carrera: </label>
+                                    <select class="form-control" id="seleccionCarrera" name="seleccionCarrera" disabled="true">
+                                        <option value="0">--Seleccione--</option>
+                                        <c:forEach var="dat2" items="${lstCarreras}">
+                                            <option value="${dat2.idCarrera}">
+                                                <c:out value="${dat2.descripcion}"/>
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-6 text-left">
                                 <label for="inputNombre" class="control-label">Nombres: </label>

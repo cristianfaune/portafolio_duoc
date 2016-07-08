@@ -39,7 +39,6 @@
                         registrado con el rut <strong><c:out value="${usuarioCliente.rut}"/>.</strong></p>
                     <p class="text-center" id="info-form">El encargado de pañol responsable fue <c:out value="${usuarioSesion.nombres} ${usuasioSesion.apellidos}"/></p>
                     <br>
-                    <h4 class="text-center" id="palanquin-font">Observaciones:</h4>
                 </div>
             </div>
             <br><br>

@@ -227,8 +227,8 @@ public class Servicio {
         itemDAO.modificarEstadoPrestamoItem(nroSerie, prestamo);
     }
     
-    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc) {
-        solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email, doc);
+    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc, String especial) {
+        solicitudDAO.enviarEmailSolicitud(nombre, idSolicitud, email, doc, especial);
     }
     
     public void enviarEmailPrestamo(String nombre, int idPrestamo, String email, ByteArrayOutputStream doc) {
@@ -297,5 +297,9 @@ public class Servicio {
     
     public void alertaStockPrestamo (ArrayList<Integer> lista){
         productoDAO.alertaStockPrestamo(lista);
+    }
+    
+    public boolean verificadorRut(String rut, String digito) {
+        return usuarioDAO.verificadorRut(rut, digito);
     }
 }

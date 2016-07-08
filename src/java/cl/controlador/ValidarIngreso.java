@@ -60,7 +60,7 @@ public class ValidarIngreso extends HttpServlet {
 
             Servicio servicio = new Servicio(con);
 
-            ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut);
+            ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rut.toUpperCase());
 
             for (Usuario usuario : lista) {
                 usuarioSesion = new Usuario();
@@ -77,16 +77,16 @@ public class ValidarIngreso extends HttpServlet {
             }
 
             if (rut.isEmpty() || rut == null) {
-                mapMensajeRut.put("errorRut", "Ingrese su RUT");
+                mapMensajeRut.put("errorRut", "**Ingrese su rut**");
             } else if (usuarioSesion == null) {
-                mapMensajeRut.put("errorRut", "El usuario rut " + rut + " no existe");
+                mapMensajeRut.put("errorRut", "**Rut " + rut + " no existe**");
             }
 
             if (password.isEmpty() || password == null) {
-                mapMensajePass.put("errorPass", "Ingrese su PASSWORD");
+                mapMensajePass.put("errorPass", "**Ingrese su password**");
             } else if (usuarioSesion != null) {
                 if (!usuarioSesion.getPassword().equals(password)) {
-                    mapMensajePass.put("errorPass", "Su password no coincide con el registro");
+                    mapMensajePass.put("errorPass", "**Su password no coincide**");
                 }
             }
             

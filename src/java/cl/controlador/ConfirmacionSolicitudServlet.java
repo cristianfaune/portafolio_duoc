@@ -332,8 +332,6 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
 
                     document.add(table3);
 
-                    document.add(new Phrase("**Recuerde llevar este documento al momento de hacer efectiva su solicitud en pañol**", FontFactory.getFont("arial", 8, Font.ITALIC)));
-
                     document.close();
 
                 } catch (DocumentException e) {
@@ -345,7 +343,7 @@ public class ConfirmacionSolicitudServlet extends HttpServlet {
 
                 request.setAttribute("ultimoIdSolicitud", idUltimaSolicitud);
                 request.getRequestDispatcher("RegistroSolicitudExitosa.jsp").forward(request, response);
-                servicio.enviarEmailSolicitud(nombre, idUltimaSolicitud, usuarioSlc.getUsuario().getEmail(), doc);
+                servicio.enviarEmailSolicitud(nombre, idUltimaSolicitud, usuarioSlc.getUsuario().getEmail(), doc, especial);
 
             } catch (SQLException e) {
                 throw new RuntimeException("Error en la conexion a bd", e);

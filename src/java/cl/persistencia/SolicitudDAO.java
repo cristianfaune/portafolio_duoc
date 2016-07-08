@@ -185,14 +185,20 @@ public class SolicitudDAO {
         }
     }
 
-    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc) {
+    public void enviarEmailSolicitud(String nombre, int idSolicitud, String email, ByteArrayOutputStream doc, String especial) {
 
         final String username = "sistemapanol@gmail.com";
         final String password = "panolsis";
-        String texto = "Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
+        String texto1 = "Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
                 + "Su pedido se realizó de forma exitosa, ahora debes pasar por pañol"
                 + " y hacer efectivo tu préstamo con el número " + idSolicitud + ". "
                 + " Una vez validado el stock de tu solicitud podrás retirar tus productos.";
+
+        String texto2 = "Hola " + nombre + ", gracias por utilizar nuestro sistema de solicitudes. "
+                + "Su pedido se realizó de forma exitosa con el ID " + idSolicitud + ", ahora debes"
+                + " esperar la autorización y activación por parte"
+                + " de tu jefe de carrera debido a que se trata de una SOLICITUD ESPECIAL."
+                + " Una vez validado te llegará un correo con los pasos a seguir para finalizar el proceso.";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -217,7 +223,13 @@ public class SolicitudDAO {
             message.setSubject("Solicitud Pañol Nº " + idSolicitud);
             MimeBodyPart textBodyPart = new MimeBodyPart();
             BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText(texto);
+            
+            if (especial.equals("0")) {
+                messageBodyPart.setText(texto1);
+            } else {
+                messageBodyPart.setText(texto2);
+            }
+
             Multipart multipart = new MimeMultipart();
 
             String applicationType = "application/pdf";
@@ -237,12 +249,12 @@ public class SolicitudDAO {
             throw new RuntimeException(e);
         }
     }
-    
+
     public void avisoAutorizacionSolicitud(int idSolicitud, Usuario usuario) {
 
         final String username = "sistemapanol@gmail.com";
         final String password = "panolsis";
-         String texto = "Hola " + usuario.getNombres()+" "+usuario.getApellidos()+ ", "
+        String texto = "Hola " + usuario.getNombres() + " " + usuario.getApellidos() + ", "
                 + "Su solicitud fue AUTORIZADA, ahora debes pasar por pañol"
                 + " y hacer efectivo tu préstamo con el número " + idSolicitud + ". "
                 + " Una vez validado el stock de tu solicitud podrás retirar tus productos.";
@@ -255,10 +267,10 @@ public class SolicitudDAO {
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
 
         try {
 
@@ -267,8 +279,8 @@ public class SolicitudDAO {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(usuario.getEmail()));
 
-                message.setSubject("Solicitud especial Nº "+idSolicitud+" aprobada");
-                message.setText(texto);
+            message.setSubject("Solicitud especial Nº " + idSolicitud + " aprobada");
+            message.setText(texto);
 
             Transport.send(message);
 
@@ -278,13 +290,13 @@ public class SolicitudDAO {
         }
 
     }
-    
+
     public void avisoNegacionSolicitud(int idSolicitud, Usuario usuario) {
 
         final String username = "sistemapanol@gmail.com";
         final String password = "panolsis";
-         String texto = "Hola " + usuario.getNombres()+" "+usuario.getApellidos()+ ", "
-                + "Su solicitud nº " + idSolicitud+ " fue NEGADA."
+        String texto = "Hola " + usuario.getNombres() + " " + usuario.getApellidos() + ", "
+                + "Su solicitud nº " + idSolicitud + " fue NEGADA."
                 + "Para mayor información dirigirse a dirección de su carrera, "
                 + " o puede contactarse vía telefónica al 800 215001 "
                 + "- desde Celulares : 229153439";
@@ -297,10 +309,10 @@ public class SolicitudDAO {
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
 
         try {
 
@@ -309,8 +321,8 @@ public class SolicitudDAO {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(usuario.getEmail()));
 
-                message.setSubject("Solicitud especial Nº "+idSolicitud+" negada");
-                message.setText(texto);
+            message.setSubject("Solicitud especial Nº " + idSolicitud + " negada");
+            message.setText(texto);
 
             Transport.send(message);
 
@@ -349,7 +361,7 @@ public class SolicitudDAO {
                 solicitud.setActiva(rs.getByte(3));
                 solicitud.setSolicitudEspecial(rs.getByte(4));
                 solicitud.setDiasPrestamo(rs.getInt(5));
-                
+
                 usuario = new Usuario();
 
                 usuario.setRut(rs.getString(6));
@@ -363,7 +375,7 @@ public class SolicitudDAO {
                 usuario.setIdPerfil(rs.getInt(14));
                 usuario.setIdCarrera(rs.getInt(15));
 
-                lista.add(new SolicitudUsuarioDTO(usuario,solicitud));
+                lista.add(new SolicitudUsuarioDTO(usuario, solicitud));
             }
 
         } catch (SQLException e) {
@@ -390,7 +402,7 @@ public class SolicitudDAO {
             throw new RuntimeException("Error en activar solicitud especial", e);
         }
     }
-    
+
     public void NegarSolicitudEspecial(int idSolicitud) {
 
         String sql = "{call negar_solicitud_especial(?)}";
