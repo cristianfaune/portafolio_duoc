@@ -162,16 +162,16 @@ public class ProductoDAO {
                 productosSinStock.add(idProducto);
             }
         }
-        
+
         for (int i = 0; i < productosSinStock.size(); i++) {
-            for (int j = i+1; j < productosSinStock.size(); j++) {
+            for (int j = i + 1; j < productosSinStock.size(); j++) {
                 if (productosSinStock.get(i) == productosSinStock.get(j)) {
                     productosSinStock.remove(j);
                     j--;
                 }
             }
         }
-        
+
         return productosSinStock;
     }
 
@@ -220,4 +220,185 @@ public class ProductoDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public ArrayList<Producto> menosSolicitado() {
+        Producto producto;
+        ArrayList<Producto> lista = new ArrayList<>();
+
+        String sql = "{call producto_menos_solicitado(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.executeQuery();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setModelo(rs.getString(3));
+                producto.setDescripcion(rs.getString(4));
+                producto.setStock(rs.getInt(5));
+                producto.setRutaImagen(rs.getString(6));
+                producto.setIdCategoria(rs.getInt(7));
+                producto.setIdMarca(rs.getInt(8));
+
+                lista.add(producto);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento menos solicitado", e);
+        }
+        return lista;
+    }
+
+    public ArrayList<Producto> masSolicitado() {
+        Producto producto;
+        ArrayList<Producto> lista = new ArrayList<>();
+
+        String sql = "{call producto_mas_solicitado(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.executeQuery();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setModelo(rs.getString(3));
+                producto.setDescripcion(rs.getString(4));
+                producto.setStock(rs.getInt(5));
+                producto.setRutaImagen(rs.getString(6));
+                producto.setIdCategoria(rs.getInt(7));
+                producto.setIdMarca(rs.getInt(8));
+
+                lista.add(producto);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento mas solicitado", e);
+        }
+        return lista;
+    }
+
+    public ArrayList<Producto> ReporteDeBaja() {
+        Producto producto;
+
+        ArrayList<Producto> lista = new ArrayList<>();
+
+        String sql = "";
+
+        CallableStatement cs = null;
+
+        try {
+            cs = con.prepareCall(sql);
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.executeQuery();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setModelo(rs.getString(3));
+                producto.setDescripcion(rs.getString(4));
+                producto.setStock(rs.getInt(5));
+                producto.setRutaImagen(rs.getString(6));
+                producto.setIdCategoria(rs.getInt(7));
+                producto.setIdMarca(rs.getInt(8));
+
+                lista.add(producto);
+
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error Generando el reporte", e);
+        }
+        return lista;
+    }
+
+    public ArrayList<Producto> stockDisponible() {
+        Producto producto;
+        ArrayList<Producto> lista = new ArrayList<>();
+
+        String sql = "{call producto_stock_disponible(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+            cs = con.prepareCall(sql);
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.executeQuery();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setModelo(rs.getString(3));
+                producto.setDescripcion(rs.getString(4));
+                producto.setStock(rs.getInt(5));
+                producto.setRutaImagen(rs.getString(6));
+                producto.setIdCategoria(rs.getInt(7));
+                producto.setIdMarca(rs.getInt(8));
+
+                lista.add(producto);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento", e);
+        }
+        return lista;
+    }
+
+    public ArrayList<Producto> sinStockDisponible() {
+        Producto producto;
+        ArrayList<Producto> lista = new ArrayList<>();
+
+        String sql = "{call producto_stock_no_disponible(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+            cs = con.prepareCall(sql);
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.executeQuery();
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+                producto = new Producto();
+
+                producto.setIdProducto(rs.getInt(1));
+                producto.setNombre(rs.getString(2));
+                producto.setModelo(rs.getString(3));
+                producto.setDescripcion(rs.getString(4));
+                producto.setStock(rs.getInt(5));
+                producto.setRutaImagen(rs.getString(6));
+                producto.setIdCategoria(rs.getInt(7));
+                producto.setIdMarca(rs.getInt(8));
+
+                lista.add(producto);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en el procedimiento", e);
+        }
+        return lista;
+    }
+
 }

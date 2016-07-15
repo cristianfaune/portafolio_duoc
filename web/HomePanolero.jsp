@@ -38,7 +38,7 @@
                         <li role="presentation"><a href="AdminSolicitudes.jsp">Administrar Solicitudes</a></li>
                         <li role="presentation"><a href="<c:url value="AdminPrestamos.jsp"/>">Préstamos</a></li>
                         <li role="presentation"><a href="<c:url value="AdminDevolucion.jsp"/>">Devoluciones</a></li>
-                        <li role="presentation"><a href="#">Reportes</a></li>
+                        <li role="presentation"><a href="<c:url value="Reportes.jsp"/>">Reportes</a></li>
                     </ul>
                     <br>
                     <section>

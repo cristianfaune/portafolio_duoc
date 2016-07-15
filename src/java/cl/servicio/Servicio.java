@@ -21,6 +21,7 @@ import cl.dominio.Solicitud;
 import cl.dominio.Usuario;
 import cl.dto.DetallePrestamoDTO;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
+import cl.dto.DevolucionPrestamoSolicitudDetalleSolicitudUsuarioDTO;
 import cl.dto.ProductoMarcaDTO;
 import cl.dto.SolicitudUsuarioDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
@@ -301,5 +302,31 @@ public class Servicio {
     
     public boolean verificadorRut(String rut, String digito) {
         return usuarioDAO.verificadorRut(rut, digito);
+    }
+        public ArrayList<Prestamo> ReportesInactivos(){
+        return prestamoDAO.PrestamosReportesInactivos();
+    }
+    public ArrayList<Prestamo> ReportesActivos(){
+        return prestamoDAO.PrestamosReportesActivos();
+    }
+    
+    public ArrayList<Producto> ConStock(){
+        return productoDAO.stockDisponible();
+    }
+    public ArrayList<Producto> SinStock(){
+        return productoDAO.sinStockDisponible();
+    }
+    
+    public ArrayList<Producto> productoMasSolicitado(){
+        return productoDAO.masSolicitado();
+    }
+    public ArrayList<Producto> productoMenosSolicitado(){
+        return productoDAO.menosSolicitado();
+    }
+    public ArrayList<DevolucionPrestamoSolicitudDetalleSolicitudUsuarioDTO> ReporteDevoluciones(){
+        return consultaDAO.ReporteDevoluciones();
+    }
+    public ArrayList<Producto> ReporteDeBaja(){
+        return productoDAO.ReporteDeBaja();
     }
 }

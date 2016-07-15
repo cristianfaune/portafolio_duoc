@@ -130,6 +130,14 @@ public class ModificarUsuarioServlet extends HttpServlet {
                     usuarioMod.setIdPerfil(idPerfil);
                 }
 
+                if (Integer.parseInt(perfil) == 130) {
+                    int idCarrera = Integer.parseInt(request.getParameter("seleccionCarrera"));
+                    usuarioMod.setIdCarrera(idCarrera);
+                } else {
+                    usuarioMod.setIdCarrera(0);
+                }
+
+                /*
                 if (request.getParameter("carrera") != null) {
                     int idCarrera = Integer.parseInt(request.getParameter("carrera"));
                     usuarioMod.setIdCarrera(idCarrera);
@@ -137,6 +145,7 @@ public class ModificarUsuarioServlet extends HttpServlet {
                     usuarioMod.setIdCarrera(0);
                 }
 
+                 */
                 if (mapMensaje.isEmpty()) {
 
                     servicio.modificarUsuario(usuarioMod);

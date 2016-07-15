@@ -8,6 +8,7 @@ package cl.persistencia;
 import cl.dominio.DetalleSolicitud;
 import cl.dominio.Carrera;
 import cl.dominio.DetallePrestamo;
+import cl.dominio.Devolucion;
 import cl.dominio.Item;
 import cl.dominio.Marca;
 import cl.dominio.Perfil;
@@ -17,6 +18,7 @@ import cl.dominio.Solicitud;
 import cl.dominio.Usuario;
 import cl.dto.DetallePrestamoDTO;
 import cl.dto.DetalleSolicitudPrUsCaDTO;
+import cl.dto.DevolucionPrestamoSolicitudDetalleSolicitudUsuarioDTO;
 import cl.dto.ProductoMarcaDTO;
 import cl.dto.UsuarioPerfilCarreraDTO;
 import cl.dto.UsuarioPrestamoDTO;
@@ -636,6 +638,85 @@ public class ConsultaDAO {
         } catch (SQLException e) {
             throw new RuntimeException("Error en el procedimiento usuario prestamo por id", e);
         }
+        return lista;
+    }
+    public ArrayList<DevolucionPrestamoSolicitudDetalleSolicitudUsuarioDTO> ReporteDevoluciones() {
+        ArrayList<DevolucionPrestamoSolicitudDetalleSolicitudUsuarioDTO> lista = new ArrayList<>();
+
+        Devolucion devolucion;
+        Prestamo prestamo;
+        Solicitud solicitud;
+        DetalleSolicitud detalleSolicitud;
+        Usuario usuario;
+        
+        
+        String sql = "{call reporteDevoluciones (?)}";
+        String sql2 = "{call usuario_idSolicitud(?,?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+
+                devolucion = new Devolucion();
+
+                devolucion.setIdDevolucion(rs.getInt(1));
+                devolucion.setFechaDevolucion(rs.getTimestamp(2));
+                devolucion.setAtraso(rs.getByte(3));
+                devolucion.setIdPrestamo(rs.getInt(4));
+
+                prestamo = new Prestamo();
+
+                prestamo.setIdPrestamo(rs.getInt(5));
+                prestamo.setActiva(rs.getByte(6));
+                prestamo.setFechaRetiro(rs.getTimestamp(7));
+                prestamo.setFechaEstimadaEntrega(rs.getTimestamp(8));
+                prestamo.setIdSolicitud(rs.getInt(9));
+                prestamo.setPrestamoEspecial(rs.getByte(10));
+
+                solicitud = new Solicitud();
+
+                solicitud.setIdSolicitud(rs.getInt(11));
+                solicitud.setFechaSolicitud(rs.getTimestamp(12));
+                solicitud.setActiva(rs.getByte(13));
+                solicitud.setSolicitudEspecial(rs.getByte(14));
+                solicitud.setDiasPrestamo(rs.getInt(15));
+                
+                detalleSolicitud = new DetalleSolicitud();
+                
+                detalleSolicitud.setRut(rs.getString(16));
+                detalleSolicitud.setIdSolicitud(rs.getInt(17));
+                detalleSolicitud.setIdProducto(rs.getInt(18));
+                detalleSolicitud.setCantidad(rs.getInt(19));
+
+                usuario = new Usuario();
+                
+                usuario.setRut(rs.getString(20));
+                usuario.setNombres(rs.getString(21));
+                usuario.setApellidos(rs.getString(22));
+                usuario.setTelefono(rs.getString(23));
+                usuario.setDireccion(rs.getString(24));
+                usuario.setEmail(rs.getString(25));
+                usuario.setPassword(rs.getString(26));
+                usuario.setActivo(rs.getByte(27));
+                usuario.setIdCarrera(rs.getInt(28));
+                usuario.setIdPerfil(rs.getInt(29));
+                
+                lista.add(new DevolucionPrestamoSolicitudDetalleSolicitudUsuarioDTO(devolucion, prestamo, solicitud,detalleSolicitud, usuario));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error en las Devoluciones", e);
+        }
+
         return lista;
     }
 

@@ -32,6 +32,7 @@
     <title>Administración Devolución</title>
 </head>
 <body>
+    <c:set var="now" value="<%=new java.util.Date()%>" />
     <script>
         $(document).ready(function () {
 
@@ -105,7 +106,14 @@
                                     <br>
                                     <label id="info-form">Nombre: <c:out value="${dato.usuario.nombres} ${dato.usuario.apellidos}"/></label>
                                     <br>
-                                    <label id="info-form">Carrera: ${dato.carrera.descripcion}</label>
+                                    <c:choose>
+                                        <c:when test="${empty dato.carrera.descripcion}">
+                                            <label id="info-form">Carrera: No aplica</label>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <label id="info-form">Carrera: ${dato.carrera.descripcion}</label>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="col-md-6">
                                     <h3>Datos Préstamo:</h3>
@@ -113,6 +121,14 @@
                                     <c:set var="idPres" value="${dato.prestamo.idPrestamo}"></c:set>
                                     <label id="info-form">Fecha préstamo: <fmt:formatDate value="${dato.prestamo.fechaRetiro}" type="date"/></label><br>
                                     <label id="info-form">Fecha estimada entrega: <fmt:formatDate value="${dato.prestamo.fechaEstimadaEntrega}" type="date"/></label>
+                                    <c:choose>
+                                        <c:when test="${now > dato.prestamo.fechaEstimadaEntrega}">
+                                            <p class="text-danger">Estado: <strong>ATRASADO</strong></p>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p class="text-success">Estado: <strong>SIN ATRASO</strong></p>
+                                        </c:otherwise>
+                                    </c:choose>
                                     <c:forEach end="0" var="datoPanolero" items="${lstDetallePrestamo}">
                                         <p id="info-form">Pañolero asociado: <c:out value="${datoPanolero.usuario.nombres} ${datoPanolero.usuario.apellidos}"></c:out></p>
                                     </c:forEach>

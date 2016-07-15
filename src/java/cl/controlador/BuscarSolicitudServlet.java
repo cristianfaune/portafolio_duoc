@@ -158,7 +158,11 @@ public class BuscarSolicitudServlet extends HttpServlet {
                 prestamo.setFechaRetiro(new Timestamp(System.currentTimeMillis()));
                 prestamo.setFechaEstimadaEntrega(new Timestamp(System.currentTimeMillis()));
                 prestamo.setIdSolicitud(Integer.parseInt(idSolicitud));
-                prestamo.setPrestamoEspecial((byte) 0);
+                if (cantidadDias > 1) {
+                    prestamo.setPrestamoEspecial((byte) 1);
+                } else {
+                    prestamo.setPrestamoEspecial((byte) 0);
+                }
 
                 servicio.registroPrestamo(prestamo, cantidadDias);
 
@@ -378,8 +382,6 @@ public class BuscarSolicitudServlet extends HttpServlet {
                     document.add(new Paragraph("  "));
 
                     document.add(table3);
-
-                    document.add(new Phrase("**Recuerde llevar este documento al momento de hacer efectiva su solicitud en pañol**", FontFactory.getFont("arial", 8, Font.ITALIC)));
 
                     document.close();
 

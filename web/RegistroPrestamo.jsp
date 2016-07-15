@@ -73,7 +73,14 @@
                                     <br>
                                     <label id="info-form">Nombre: <c:out value="${dato.usuario.nombres} ${dato.usuario.apellidos}"/></label>
                                     <br>
-                                    <label id="info-form">Carrera: ${dato.carrera.descripcion}</label>
+                                    <c:choose>
+                                        <c:when test="${empty dato.carrera.descripcion}">
+                                            <label id="info-form">Carrera: No aplica</label>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <label id="info-form">Carrera: ${dato.carrera.descripcion}</label>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </div>
                                 <div class="col-md-4 col-lg-offset-1">
                                     <c:forEach var="datoPrestamo" items="${lstPrestamo}">

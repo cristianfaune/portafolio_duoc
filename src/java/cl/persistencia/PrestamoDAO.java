@@ -36,13 +36,13 @@ import oracle.jdbc.OracleTypes;
  * @author cristian
  */
 public class PrestamoDAO {
-    
+
     Connection con;
 
     public PrestamoDAO(Connection con) {
         this.con = con;
     }
-    
+
     public void registroPrestamo(Prestamo prestamo, int cantidadDias) {
 
         String sql = "{call registrar_prestamo(?,?,?,?,?,?)}";
@@ -66,7 +66,7 @@ public class PrestamoDAO {
             throw new RuntimeException("Error al registrar prestamo", e);
         }
     }
-    
+
     public ArrayList<Prestamo> prestamoPorIdSolicitud(int idSolicitud) {
         Prestamo prestamo;
         ArrayList<Prestamo> lista = new ArrayList<>();
@@ -105,7 +105,7 @@ public class PrestamoDAO {
         }
         return lista;
     }
-    
+
     public void registroDetallePrestamo(DetallePrestamo detallePrestamo) {
 
         String sql = "{call registrar_detalle_prestamo(?,?,?)}";
@@ -126,7 +126,7 @@ public class PrestamoDAO {
             throw new RuntimeException("Error al registrar detalle prestamo", e);
         }
     }
-    
+
     public int idUltimoPrestamo() {
 
         String sql = "{? = call id_ultimo_prestamo()}";
@@ -137,21 +137,21 @@ public class PrestamoDAO {
         try {
 
             cs = con.prepareCall(sql);
-            
+
             cs.registerOutParameter(1, OracleTypes.NUMBER);
 
             cs.executeQuery();
 
             idPrestamo = cs.getInt(1);
-            
+
         } catch (SQLException e) {
             throw new RuntimeException("Error en la funcion id ultimo prestamo", e);
         }
         return idPrestamo;
     }
-    
+
     public Prestamo buscarPrestamoPorId(int idPrestamo) {
-        Prestamo prestamo=null;
+        Prestamo prestamo = null;
 
         String sql = "{call buscar_prestamo_por_id(?,?)}";
 
@@ -185,7 +185,7 @@ public class PrestamoDAO {
         }
         return prestamo;
     }
-    
+
     public void ModificarEstadoPrestamo(int idPrestamo, byte activa) {
 
         String sql = "{call modificar_estado_prestamo(?,?)}";
@@ -206,15 +206,14 @@ public class PrestamoDAO {
         }
     }
 
-    
-    public void enviarEmailPrestamo (String nombre, int idPrestamo, String email, ByteArrayOutputStream doc){
-        
+    public void enviarEmailPrestamo(String nombre, int idPrestamo, String email, ByteArrayOutputStream doc) {
+
         final String username = "sistemapanol@gmail.com";
         final String password = "panolsis";
-        String texto ="Hola " + nombre + ", tu préstamo ha sido confirmado con el número "+idPrestamo+". "
-                        + "El detalle de tu pedido está adjunto a este correo. "
-                        + "Porfavor conserva tu ticket de préstamo, te lo solicitarán en el "
-                        + "proceso de devolución. Atte. Encargado de Pañol.";
+        String texto = "Hola " + nombre + ", tu préstamo ha sido confirmado con el número " + idPrestamo + ". "
+                + "El detalle de tu pedido está adjunto a este correo. "
+                + "Porfavor conserva tu ticket de préstamo, te lo solicitarán en el "
+                + "proceso de devolución. Atte. Encargado de Pañol.";
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -224,10 +223,10 @@ public class PrestamoDAO {
 
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
 
         try {
 
@@ -236,24 +235,22 @@ public class PrestamoDAO {
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(email));
 
-           
-                message.setSubject("Ticket de préstamo Nº "+idPrestamo);
-                MimeBodyPart textBodyPart = new MimeBodyPart();
-                BodyPart messageBodyPart = new MimeBodyPart(); 
-                messageBodyPart.setText(texto);
-                Multipart multipart = new MimeMultipart();
-                
-                String applicationType = "application/pdf";
-                String fileName = "Detalle préstamo pañol";
-                textBodyPart = new MimeBodyPart();
-                textBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(doc.toByteArray(), applicationType)));
-                textBodyPart.setFileName(fileName);
-                multipart.addBodyPart(messageBodyPart);
-                multipart.addBodyPart(textBodyPart);
-                
-                
-                message.setContent(multipart);
-            
+            message.setSubject("Ticket de préstamo Nº " + idPrestamo);
+            MimeBodyPart textBodyPart = new MimeBodyPart();
+            BodyPart messageBodyPart = new MimeBodyPart();
+            messageBodyPart.setText(texto);
+            Multipart multipart = new MimeMultipart();
+
+            String applicationType = "application/pdf";
+            String fileName = "Detalle préstamo pañol";
+            textBodyPart = new MimeBodyPart();
+            textBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(doc.toByteArray(), applicationType)));
+            textBodyPart.setFileName(fileName);
+            multipart.addBodyPart(messageBodyPart);
+            multipart.addBodyPart(textBodyPart);
+
+            message.setContent(multipart);
+
             Transport.send(message);
 
             //System.out.println("Done");
@@ -261,5 +258,77 @@ public class PrestamoDAO {
             throw new RuntimeException(e);
         }
     }
-    
+
+    public ArrayList<Prestamo> PrestamosReportesActivos() {
+        Prestamo prestamo;
+        ArrayList<Prestamo> activos = new ArrayList<>();
+        String sql = "{call prestamo_por_fecha_activos(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+                prestamo = new Prestamo();
+
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setActiva(rs.getByte(2));
+                prestamo.setFechaRetiro(rs.getTimestamp(3));
+                prestamo.setFechaEstimadaEntrega(rs.getTimestamp(4));
+                prestamo.setIdSolicitud(rs.getInt(5));
+                prestamo.setPrestamoEspecial(rs.getByte(6));
+
+                activos.add(prestamo);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("No se encuentran Prestamos", e);
+        }
+        return activos;
+    }
+
+    public ArrayList<Prestamo> PrestamosReportesInactivos() {
+        Prestamo prestamo;
+        ArrayList<Prestamo> Inactivos = new ArrayList<>();
+        String sql = "{call prestamo_por_fecha_inactivo(?)}";
+
+        CallableStatement cs = null;
+
+        try {
+
+            cs = con.prepareCall(sql);
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.executeQuery();
+
+            ResultSet rs = (ResultSet) cs.getObject(1);
+
+            while (rs.next()) {
+                prestamo = new Prestamo();
+
+                prestamo.setIdPrestamo(rs.getInt(1));
+                prestamo.setActiva(rs.getByte(2));
+                prestamo.setFechaRetiro(rs.getTimestamp(3));
+                prestamo.setFechaEstimadaEntrega(rs.getTimestamp(4));
+                prestamo.setIdSolicitud(rs.getInt(5));
+                prestamo.setPrestamoEspecial(rs.getByte(6));
+
+                Inactivos.add(prestamo);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("No se encuentran Prestamos", e);
+        }
+        return Inactivos;
+    }
+
 }

@@ -39,7 +39,7 @@
                         <li role="presentation"><a href="<c:url value="/MostrarUsuarioServlet"/>">Administrar Usuarios</a></li>
                         <li role="presentation"><a href="<c:url value="/AdminProductosServlet"/>">Administrar Inventario</a></li>
                         <li role="presentation"><a href="<c:url value="AdminSolicitudes.jsp"/>">Administrar Solicitudes</a></li>
-                        <li role="presentation"><a href="#">Reportes</a></li>
+                        <li role="presentation"><a href="<c:url value="Reportes.jsp"/>">Reportes</a></li>
                     </ul>
                     <br>
                     <h3 class="text-center" id="palanquin-font">Bienvenido al escritorio de Jefe de Carrera</h3>

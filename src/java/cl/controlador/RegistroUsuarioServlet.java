@@ -41,7 +41,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         Map<String, String> mapMensaje = new HashMap<>();
         mapMensaje.put("errorRut", "**Ingrese solo números**");
 
@@ -53,9 +53,7 @@ public class RegistroUsuarioServlet extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else if (usuarioS.getIdPerfil() == 120) {
             request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
-        } else if (usuarioS.getIdPerfil() == 110) {
-            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
-        } else{
+        } else {
 
             try (Connection con = ds.getConnection()) {
 
@@ -102,8 +100,6 @@ public class RegistroUsuarioServlet extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else if (usuarioS.getIdPerfil() == 120) {
             request.getRequestDispatcher("HomePanolero.jsp").forward(request, response);
-        } else if (usuarioS.getIdPerfil() == 110) {
-            request.getRequestDispatcher("HomeCoordinador.jsp").forward(request, response);
         } else {
 
             try (Connection con = ds.getConnection()) {
@@ -111,11 +107,11 @@ public class RegistroUsuarioServlet extends HttpServlet {
                 Servicio servicio = new Servicio(con);
                 ArrayList<Perfil> lstPerfiles = servicio.listarPerfilesFiltro(usuarioS.getIdPerfil());
                 ArrayList<Carrera> lstCarreras = servicio.listarCarreras();
-                
+
                 if (!servicio.verificadorRut(rut, digito)) {
-                   mapMensaje.put("errorRut", "**Ingrese un rut válido**"); 
-                }else{
-                    rutCompleto = rut+digito;
+                    mapMensaje.put("errorRut", "**Ingrese un rut válido**");
+                } else {
+                    rutCompleto = rut + digito;
                 }
 
                 ArrayList<Usuario> lista = servicio.buscarUsuarioRut(rutCompleto.toUpperCase());
@@ -203,13 +199,21 @@ public class RegistroUsuarioServlet extends HttpServlet {
                     usuario.setIdPerfil(idPerfil);
                 }
 
+                if (Integer.parseInt(perfil) == 130) {
+                    int idCarrera = Integer.parseInt(request.getParameter("seleccionCarrera"));
+                    usuario.setIdCarrera(idCarrera);
+                } else {
+                    usuario.setIdCarrera(0);
+                }
+
+                /*
                 if (request.getParameter("carrera") != null) {
                     int idCarrera = Integer.parseInt(request.getParameter("carrera"));
                     usuario.setIdCarrera(idCarrera);
                 } else {
                     usuario.setIdCarrera(0);
                 }
-
+                 */
                 usuario.setActivo((byte) 1);
 
                 if (mapMensaje.isEmpty()) {
